@@ -159,19 +159,18 @@ function Component$$(props) {
     };
     const { initialState, loading, setInitialState } = initialInfo;
     const userConfig = {
-        "locale": true,
+        "locale": false,
         "navTheme": "light",
-        "colorPrimary": "#1890ff",
-        "layout": "mix",
+        "colorPrimary": "#11B5D2",
+        "layout": "side",
         "contentWidth": "Fluid",
         "fixedHeader": false,
-        "fixSiderbar": true,
-        "colorWeak": false,
-        "title": "Ant Design Pro",
+        "fixSiderbar": false,
         "pwa": true,
-        "logo": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
-        "iconfontUrl": "",
-        "token": {}
+        "logo": "/logo.png",
+        "token": {},
+        "splitMenus": false,
+        "footerRender": false
     };
     const { formatMessage } = (0, _pluginlocale.useIntl)();
     const runtimeConfig = pluginManager.applyPlugins({
@@ -261,21 +260,21 @@ function Component$$(props) {
             noAccessible: runtimeConfig === null || runtimeConfig === void 0 ? void 0 : runtimeConfig.noAccessible,
             children: runtimeConfig.childrenRender ? runtimeConfig.childrenRender(/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_max.Outlet, {}, void 0, false, {
                 fileName: "src/.umi/plugin-layout/Layout.tsx",
-                lineNumber: 190,
+                lineNumber: 189,
                 columnNumber: 42
             }, this), props) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_max.Outlet, {}, void 0, false, {
                 fileName: "src/.umi/plugin-layout/Layout.tsx",
-                lineNumber: 191,
+                lineNumber: 190,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "src/.umi/plugin-layout/Layout.tsx",
-            lineNumber: 182,
+            lineNumber: 181,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/.umi/plugin-layout/Layout.tsx",
-        lineNumber: 116,
+        lineNumber: 115,
         columnNumber: 5
     }, this);
 }

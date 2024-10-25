@@ -1,18 +1,18 @@
 // https://umijs.org/config/
-import { defineConfig } from '@umijs/max';
-import { join } from 'path';
-import defaultSettings from './defaultSettings';
-import proxy from './proxy';
-import routes from './routes';
+import { defineConfig } from "@umijs/max";
+import { join } from "path";
+import defaultSettings from "./defaultSettings";
+import proxy from "./proxy";
+import routes from "./routes";
 
-const { REACT_APP_ENV = 'dev' } = process.env;
+const { REACT_APP_ENV = "dev" } = process.env;
 
 /**
  * @name 使用公共路径
  * @description 部署时的路径，如果部署在非根目录下，需要配置这个变量
  * @doc https://umijs.org/docs/api/config#publicpath
  */
-const PUBLIC_PATH: string = '/';
+const PUBLIC_PATH: string = "/";
 
 export default defineConfig({
   /**
@@ -48,7 +48,7 @@ export default defineConfig({
   theme: {
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
-    'root-entry-name': 'variable',
+    "root-entry-name": "variable",
   },
   /**
    * @name moment 的国际化配置
@@ -75,6 +75,7 @@ export default defineConfig({
    * @@doc https://umijs.org/docs/max/data-flow
    */
   model: {},
+
   /**
    * 一个全局的初始数据流，可以用它在插件之间共享数据
    * @description 可以用来存放一些全局的数据，比如用户信息，或者一些全局的状态，全局初始状态在整个 Umi 项目的最开始创建。
@@ -85,9 +86,9 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: 'Ant Design Pro',
+  title: "Ant Design Pro",
   layout: {
-    locale: true,
+    locale: false,
     ...defaultSettings,
   },
   /**
@@ -96,8 +97,8 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/moment2dayjs
    */
   moment2dayjs: {
-    preset: 'antd',
-    plugins: ['duration'],
+    preset: "antd",
+    plugins: ["duration"],
   },
   /**
    * @name 国际化插件
@@ -105,8 +106,8 @@ export default defineConfig({
    */
   locale: {
     // default zh-CN
-    default: 'zh-CN',
-    antd: true,
+    default: "en-US",
+    antd: false,
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
   },
@@ -134,35 +135,39 @@ export default defineConfig({
    */
   headScripts: [
     // 解决首次加载时白屏的问题
-    { src: join(PUBLIC_PATH, 'scripts/loading.js'), async: true },
+    { src: join(PUBLIC_PATH, "scripts/loading.js"), async: true },
   ],
+
   //================ pro 插件配置 =================
-  presets: ['umi-presets-pro'],
+  presets: ["umi-presets-pro"],
   /**
    * @name openAPI 插件的配置
    * @description 基于 openapi 的规范生成serve 和mock，能减少很多样板代码
    * @doc https://pro.ant.design/zh-cn/docs/openapi/
    */
-  openAPI: [
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      // 或者使用在线的版本
-      // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: join(__dirname, 'oneapi.json'),
-      mock: false,
-    },
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-      projectName: 'swagger',
-    },
-  ],
+  // openAPI: [
+  //   {
+  //     requestLibPath: "import { request } from '@umijs/max'",
+  //     // 或者使用在线的版本
+  //     // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
+  //     schemaPath: join(__dirname, "oneapi.json"),
+  //     mock: false,
+  //   },
+  //   {
+  //     requestLibPath: "import { request } from '@umijs/max'",
+  //     schemaPath:
+  //       "https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json",
+  //     projectName: "swagger",
+  //   },
+  // ],
+
   /**
    * @name 是否开启 mako
    * @description 使用 mako 极速研发
    * @doc https://umijs.org/docs/api/config#mako
    */
   mako: {},
-  esbuildMinifyIIFE: true,
+  esbuildMinifyIIFE: false,
   requestRecord: {},
+  tailwindcss: {},
 });

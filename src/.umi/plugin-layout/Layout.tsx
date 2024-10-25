@@ -80,19 +80,18 @@ export default (props: any) => {
   };
   const { initialState, loading, setInitialState } = initialInfo;
   const userConfig = {
-  "locale": true,
+  "locale": false,
   "navTheme": "light",
-  "colorPrimary": "#1890ff",
-  "layout": "mix",
+  "colorPrimary": "#11B5D2",
+  "layout": "side",
   "contentWidth": "Fluid",
   "fixedHeader": false,
-  "fixSiderbar": true,
-  "colorWeak": false,
-  "title": "Ant Design Pro",
+  "fixSiderbar": false,
   "pwa": true,
-  "logo": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
-  "iconfontUrl": "",
-  "token": {}
+  "logo": "/logo.png",
+  "token": {},
+  "splitMenus": false,
+  "footerRender": false
 };
 const { formatMessage } = useIntl();
   const runtimeConfig = pluginManager.applyPlugins({

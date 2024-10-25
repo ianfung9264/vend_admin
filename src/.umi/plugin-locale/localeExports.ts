@@ -87,9 +87,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_bnBD0),
     },
     locale: 'bn-BD',
-    antd: {
-      ...bnBD0,
-    },
+    
     momentLocale: 'bn-bd',
   },
   'en-US': {
@@ -97,9 +95,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_enUS0),
     },
     locale: 'en-US',
-    antd: {
-      ...enUS0,
-    },
+    
     momentLocale: 'en',
   },
   'fa-IR': {
@@ -107,9 +103,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_faIR0),
     },
     locale: 'fa-IR',
-    antd: {
-      ...faIR0,
-    },
+    
     momentLocale: 'fa',
   },
   'id-ID': {
@@ -117,9 +111,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_idID0),
     },
     locale: 'id-ID',
-    antd: {
-      ...idID0,
-    },
+    
     momentLocale: 'id',
   },
   'ja-JP': {
@@ -127,9 +119,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_jaJP0),
     },
     locale: 'ja-JP',
-    antd: {
-      ...jaJP0,
-    },
+    
     momentLocale: 'ja',
   },
   'pt-BR': {
@@ -137,9 +127,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_ptBR0),
     },
     locale: 'pt-BR',
-    antd: {
-      ...ptBR0,
-    },
+    
     momentLocale: 'pt-br',
   },
   'zh-CN': {
@@ -147,9 +135,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_zhCN0),
     },
     locale: 'zh-CN',
-    antd: {
-      ...zhCN0,
-    },
+    
     momentLocale: 'zh-cn',
   },
   'zh-TW': {
@@ -157,9 +143,7 @@ export const localeInfo: {[key: string]: any} = {
       ...flattenMessages(lang_zhTW0),
     },
     locale: 'zh-TW',
-    antd: {
-      ...zhTW0,
-    },
+    
     momentLocale: 'zh-tw',
   },
 };
@@ -193,7 +177,7 @@ export const addLocale = (
     messages: mergeMessages,
     locale,
     momentLocale: momentLocale,
-    antd,
+    
   };
    // 如果这是的 name 和当前的locale 相同需要重新设置一下，不然更新不了
   if (locale === getLocale()) {
@@ -238,13 +222,13 @@ export const getIntl = (locale?: string, changeIntl?: boolean) => {
     `The current popular language does not exist, please check the locales folder!`,
   );
   // 使用 zh-CN
-  if (localeInfo["zh-CN"]) {
-    return _createIntl("zh-CN");
+  if (localeInfo["en-US"]) {
+    return _createIntl("en-US");
   }
 
   // 如果还没有，返回一个空的
   return createIntl({
-    locale: "zh-CN",
+    locale: "en-US",
     messages: {}
   });
 };
@@ -280,7 +264,7 @@ export const getLocale = () => {
   browserLang = isNavigatorLanguageValid
     ? navigator.language.split('-').join('-')
     : '';
-  return lang || browserLang || "zh-CN";
+  return lang || browserLang || "en-US";
 };
 
 

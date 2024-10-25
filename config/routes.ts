@@ -1,4 +1,6 @@
-﻿/**
+﻿import { layout } from "@/app";
+
+/**
  * @name umi 的路由配置
  * @description 只支持 path,component,routes,redirect,wrappers,name,icon 的配置
  * @param path  path 只支持两种占位符配置，第一种是动态参数 :id 的形式，第二种是 * 通配符，通配符只能出现路由字符串的最后。
@@ -12,52 +14,119 @@
  */
 export default [
   {
-    path: '/user',
+    path: "/user",
     layout: false,
     routes: [
       {
-        name: 'login',
-        path: '/user/login',
-        component: './User/Login',
+        name: "login",
+        path: "/user/login",
+        component: "./User/Login",
       },
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
+    path: "/welcome",
+    icon: "smile",
+    component: "./Org",
   },
   {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
+    path: "/org",
+    icon: "team",
+    name: "Org",
+    component: "./Org",
+  },
+  {
+    path: "/tenant",
+    icon: "userAdd",
+    name: "Tenant",
+    component: "./Tenant",
+  },
+  {
+    path: "/event",
+    icon: "sound",
+    name: "Event",
+    component: "./Event",
+  },
+  {
+    path: "/transaction",
+    icon: "dollar",
+    name: "Transaction History",
     routes: [
       {
-        path: '/admin',
-        redirect: '/admin/sub-page',
+        path: "/transaction/withdraw",
+        name: "Withdraw",
+        component: "./Transaction/withdraw",
       },
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
+        path: "/transaction/fee",
+        name: "Fee",
+        component: "./Transaction/fee",
+      },
+      {
+        path: "/transaction/refund",
+        name: "Refund",
+        component: "./Transaction/refund",
       },
     ],
   },
   {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+    path: "/approve",
+    icon: "checkSquare",
+    name: "Approve",
+    routes: [
+      {
+        path: "/approve/advanced",
+        name: "Advanced",
+        component: "./Approve/advanced",
+      },
+
+      {
+        path: "/approve/withdraw",
+        name: "Withdraw",
+        component: "./Approve/withdraw",
+      },
+    ],
+  },
+
+  {
+    path: "/setting",
+    icon: "setting",
+    name: "Setting",
+    routes: [
+      {
+        path: "/setting/termersCondition",
+        name: "TermersCondition",
+        component: "./Setting/termersCondition",
+      },
+      {
+        path: "/setting/privacy",
+        name: "Privacy",
+        component: "./Setting/privacy",
+      },
+      {
+        path: "/setting/faq",
+        name: "FAQ",
+        component: "./Setting/faq",
+      },
+      {
+        path: "/setting/fee",
+        name: "Fee",
+        component: "./Setting/fee",
+      },
+      {
+        path: "/setting/others",
+        name: "Others",
+        component: "./Setting/others",
+      },
+    ],
   },
   {
-    path: '/',
-    redirect: '/welcome',
+    path: "/",
+    redirect: "/org",
   },
   {
-    path: '*',
+    path: "*",
     layout: false,
-    component: './404',
+    component: "./404",
   },
 ];

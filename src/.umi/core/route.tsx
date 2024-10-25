@@ -4,21 +4,32 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/user","layout":false,"id":"1"},"2":{"name":"login","path":"/user/login","parentId":"1","id":"2"},"3":{"path":"/welcome","name":"welcome","icon":"smile","parentId":"ant-design-pro-layout","id":"3"},"4":{"path":"/admin","name":"admin","icon":"crown","access":"canAdmin","parentId":"ant-design-pro-layout","id":"4"},"5":{"path":"/admin","redirect":"/admin/sub-page","parentId":"4","id":"5"},"6":{"path":"/admin/sub-page","name":"sub-page","parentId":"4","id":"6"},"7":{"name":"list.table-list","icon":"table","path":"/list","parentId":"ant-design-pro-layout","id":"7"},"8":{"path":"/","redirect":"/welcome","parentId":"ant-design-pro-layout","id":"8"},"9":{"path":"*","layout":false,"id":"9"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true},"umi/plugin/openapi":{"path":"/umi/plugin/openapi","id":"umi/plugin/openapi"}} as const;
+  const routes = {"1":{"path":"/user","layout":false,"id":"1"},"2":{"name":"login","path":"/user/login","parentId":"1","id":"2"},"3":{"path":"/welcome","icon":"smile","parentId":"ant-design-pro-layout","id":"3"},"4":{"path":"/org","icon":"team","name":"Org","parentId":"ant-design-pro-layout","id":"4"},"5":{"path":"/tenant","icon":"userAdd","name":"Tenant","parentId":"ant-design-pro-layout","id":"5"},"6":{"path":"/event","icon":"sound","name":"Event","parentId":"ant-design-pro-layout","id":"6"},"7":{"path":"/transaction","icon":"dollar","name":"Transaction History","parentId":"ant-design-pro-layout","id":"7"},"8":{"path":"/transaction/withdraw","name":"Withdraw","parentId":"7","id":"8"},"9":{"path":"/transaction/fee","name":"Fee","parentId":"7","id":"9"},"10":{"path":"/transaction/refund","name":"Refund","parentId":"7","id":"10"},"11":{"path":"/approve","icon":"checkSquare","name":"Approve","parentId":"ant-design-pro-layout","id":"11"},"12":{"path":"/approve/advanced","name":"Advanced","parentId":"11","id":"12"},"13":{"path":"/approve/withdraw","name":"Withdraw","parentId":"11","id":"13"},"14":{"path":"/setting","icon":"setting","name":"Setting","parentId":"ant-design-pro-layout","id":"14"},"15":{"path":"/setting/termersCondition","name":"TermersCondition","parentId":"14","id":"15"},"16":{"path":"/setting/privacy","name":"Privacy","parentId":"14","id":"16"},"17":{"path":"/setting/faq","name":"FAQ","parentId":"14","id":"17"},"18":{"path":"/setting/fee","name":"Fee","parentId":"14","id":"18"},"19":{"path":"/setting/others","name":"Others","parentId":"14","id":"19"},"20":{"path":"/","redirect":"/org","parentId":"ant-design-pro-layout","id":"20"},"21":{"path":"*","layout":false,"id":"21"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true}} as const;
   return {
     routes,
     routeComponents: {
 '1': React.lazy(() => import('./EmptyRoute')),
 '2': React.lazy(() => import(/* webpackChunkName: "p__User__Login__index" */'@/pages/User/Login/index.tsx')),
-'3': React.lazy(() => import(/* webpackChunkName: "p__Welcome" */'@/pages/Welcome.tsx')),
-'4': React.lazy(() => import('./EmptyRoute')),
-'5': React.lazy(() => import('./EmptyRoute')),
-'6': React.lazy(() => import(/* webpackChunkName: "p__Admin" */'@/pages/Admin.tsx')),
-'7': React.lazy(() => import(/* webpackChunkName: "p__TableList__index" */'@/pages/TableList/index.tsx')),
-'8': React.lazy(() => import('./EmptyRoute')),
-'9': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.tsx')),
+'3': React.lazy(() => import(/* webpackChunkName: "p__Org__index" */'@/pages/Org/index.tsx')),
+'4': React.lazy(() => import(/* webpackChunkName: "p__Org__index" */'@/pages/Org/index.tsx')),
+'5': React.lazy(() => import(/* webpackChunkName: "p__Tenant__index" */'@/pages/Tenant/index.tsx')),
+'6': React.lazy(() => import(/* webpackChunkName: "p__Event__index" */'@/pages/Event/index.tsx')),
+'7': React.lazy(() => import('./EmptyRoute')),
+'8': React.lazy(() => import(/* webpackChunkName: "p__Transaction__withdraw__index" */'@/pages/Transaction/withdraw/index.tsx')),
+'9': React.lazy(() => import(/* webpackChunkName: "p__Transaction__fee__index" */'@/pages/Transaction/fee/index.tsx')),
+'10': React.lazy(() => import(/* webpackChunkName: "p__Transaction__refund__index" */'@/pages/Transaction/refund/index.tsx')),
+'11': React.lazy(() => import('./EmptyRoute')),
+'12': React.lazy(() => import(/* webpackChunkName: "p__Approve__advanced__index" */'@/pages/Approve/advanced/index.tsx')),
+'13': React.lazy(() => import(/* webpackChunkName: "p__Approve__withdraw__index" */'@/pages/Approve/withdraw/index.tsx')),
+'14': React.lazy(() => import('./EmptyRoute')),
+'15': React.lazy(() => import(/* webpackChunkName: "p__Setting__termersCondition__index" */'@/pages/Setting/termersCondition/index.tsx')),
+'16': React.lazy(() => import(/* webpackChunkName: "p__Setting__privacy__index" */'@/pages/Setting/privacy/index.tsx')),
+'17': React.lazy(() => import(/* webpackChunkName: "p__Setting__faq__index" */'@/pages/Setting/faq/index.tsx')),
+'18': React.lazy(() => import(/* webpackChunkName: "p__Setting__fee__index" */'@/pages/Setting/fee/index.tsx')),
+'19': React.lazy(() => import(/* webpackChunkName: "p__Setting__others__index" */'@/pages/Setting/others/index.tsx')),
+'20': React.lazy(() => import('./EmptyRoute')),
+'21': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.tsx')),
 'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'/Users/mgt-it/Desktop/project/vend_admin/src/.umi/plugin-layout/Layout.tsx')),
-'umi/plugin/openapi': React.lazy(() => import(/* webpackChunkName: "umi__plugin-openapi__openapi" */'/Users/mgt-it/Desktop/project/vend_admin/src/.umi/plugin-openapi/openapi.tsx')),
 },
   };
 }

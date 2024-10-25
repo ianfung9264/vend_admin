@@ -1,30 +1,19 @@
-import { GithubOutlined } from '@ant-design/icons';
-import { DefaultFooter } from '@ant-design/pro-components';
-import React from 'react';
+import { GithubOutlined } from "@ant-design/icons";
+import { DefaultFooter } from "@ant-design/pro-components";
+import React from "react";
 
 const Footer: React.FC = () => {
   return (
     <DefaultFooter
+      className="fixed bottom-0 z-50  w-full"
       style={{
-        background: 'none',
+        background: "none",
       }}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
-          blankTarget: true,
-        },
-        {
-          key: 'github',
-          title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
-          blankTarget: true,
-        },
-        {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: "Ant Design",
+          title: "Vend popups",
+          href: "https://ant.design",
           blankTarget: true,
         },
       ]}

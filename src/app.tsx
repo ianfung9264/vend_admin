@@ -1,55 +1,52 @@
-import {
-  AvatarDropdown,
-  AvatarName,
-  Footer,
-  Question,
-  SelectLang,
-} from "@/components";
-import { currentUser as queryCurrentUser } from "@/services/ant-design-pro/api";
+import { Footer } from "@/components";
 import { LinkOutlined } from "@ant-design/icons";
 import type { Settings as LayoutSettings } from "@ant-design/pro-components";
 import { SettingDrawer } from "@ant-design/pro-components";
 import type { RequestConfig, RunTimeLayoutConfig } from "@umijs/max";
-import { history, Link } from "@umijs/max";
+import { history, Link, useModel } from "@umijs/max";
 import React from "react";
 import defaultSettings from "../config/defaultSettings";
 import { errorConfig } from "./requestErrorConfig";
+import { sign_in } from "./services/sign-in";
 
 const isDev = process.env.NODE_ENV === "development";
 const loginPath = "/user/login";
+// const { initialState, setInitialState } = useModel("@@initialState");
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
+  currentUser?: API.Staff | void;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
-  const fetchUserInfo = async () => {
+  const account = localStorage.getItem("account") ?? "";
+  const password = localStorage.getItem("password") ?? "";
+  const signInAccount: API.SignInData = { account, password };
+
+  // // 如果不是登录页面，执行
+  const { location } = history;
+  if (location.pathname !== loginPath) {
+    console.log("signInAccount", signInAccount);
     try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
-      return msg.data;
+      const { data, status } = await sign_in(signInAccount);
+      if (status) {
+        localStorage.setItem("token", data.token);
+        history.push("/");
+
+        return {
+          currentUser: data,
+          settings: defaultSettings as Partial<LayoutSettings>,
+        };
+      } else {
+        history.push(loginPath);
+      }
     } catch (error) {
       history.push(loginPath);
     }
-    return undefined;
-  };
-  // 如果不是登录页面，执行
-  const { location } = history;
-  if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings as Partial<LayoutSettings>,
-    };
   }
   return {
-    fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
@@ -61,27 +58,29 @@ export const layout: RunTimeLayoutConfig = ({
 }) => {
   return {
     actionsRender: () => [
-      <Question key="doc" />,
-      <SelectLang key="SelectLang" />,
+      // <Question key="doc" />,
+      // <SelectLang key="SelectLang" />,
     ],
-    avatarProps: {
-      src: initialState?.currentUser?.avatar,
-      title: <AvatarName />,
-      render: (_, avatarChildren) => {
-        return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
-      },
-    },
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
-    },
+    // avatarProps: {
+    //   src: initialState?.currentUser?.avatar,
+    //   title: <AvatarName />,
+    //   render: (_, avatarChildren) => {
+    //     return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
+    //   },
+    // },
+    // waterMarkProps: {
+    //   content: initialState?.currentUser?.name,
+    // },
     footerRender: () => <Footer />,
-    onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
-    },
+    // onPageChange: () => {
+    //   const { location } = history;
+    //   // 如果没有登录，重定向到 login
+    //   console.log("initialState", initialState?.currentUser);
+    //   if (!initialState?.currentUser && location.pathname !== loginPath) {
+    //     console.log("first", initialState?.currentUser);
+    //     history.push(loginPath);
+    //   }
+    // },
     bgLayoutImgList: [
       {
         src: "https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr",
@@ -102,14 +101,7 @@ export const layout: RunTimeLayoutConfig = ({
         width: "331px",
       },
     ],
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
+
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
@@ -147,10 +139,13 @@ export const layout: RunTimeLayoutConfig = ({
 export const request: RequestConfig = {
   ...errorConfig,
   requestInterceptors: [
-    (url, options) => {
+    async (url, options) => {
       // options.headers && options.headers={}
+      const token = localStorage.getItem("token") ?? "";
       if (options.headers) {
-        options.headers.Author = "";
+        // const { currentUser } = await getInitialState();
+        // console.log("first", currentUser);
+        options.headers.Authorization = `Bearer ${token}`;
       }
       return {
         url,

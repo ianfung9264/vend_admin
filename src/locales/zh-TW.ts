@@ -1,22 +1,25 @@
-import component from './zh-TW/component';
-import globalHeader from './zh-TW/globalHeader';
-import menu from './zh-TW/menu';
-import pages from './zh-TW/pages';
-import pwa from './zh-TW/pwa';
-import settingDrawer from './zh-TW/settingDrawer';
-import settings from './zh-TW/settings';
+import component from "./en-US/component";
+import globalHeader from "./en-US/globalHeader";
+import menu from "./en-US/menu";
+import pages from "./en-US/pages";
+import pwa from "./en-US/pwa";
+import settingDrawer from "./en-US/settingDrawer";
+import settings from "./en-US/settings";
 
 export default {
-  'navBar.lang': '語言',
-  'layout.user.link.help': '幫助',
-  'layout.user.link.privacy': '隱私',
-  'layout.user.link.terms': '條款',
-  'app.preview.down.block': '下載此頁面到本地項目',
-  ...pages,
+  "navBar.lang": "Languages",
+  "layout.user.link.help": "Help",
+  "layout.user.link.privacy": "Privacy",
+  "layout.user.link.terms": "Terms",
+  "app.preview.down.block": "Download this page to your local project",
+  "app.welcome.link.fetch-blocks": "Get all block",
+  "app.welcome.link.block-list":
+    "Quickly build standard, pages based on `block` development",
   ...globalHeader,
   ...menu,
   ...settingDrawer,
   ...settings,
   ...pwa,
   ...component,
+  ...pages,
 };
