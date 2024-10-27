@@ -4,7 +4,7 @@ declare namespace API {
     status: boolean;
     code: number;
   }
-  interface DefaultListResponse<T> {
+  interface DefaultListResponse<T = any> {
     data: T[];
     status: boolean;
     code: number;

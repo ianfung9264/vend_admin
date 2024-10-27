@@ -12,14 +12,14 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _fee = __mako_require__("src/services/setting/fee.ts");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _max = __mako_require__("src/.umi/exports.ts");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -31,7 +31,7 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function Index() {
     _s();
-    const [stripeFee, setStripeFee] = (0, _react.useState)();
+    /**********************************狀態管理**********************************/ const [stripeFee, setStripeFee] = (0, _react.useState)();
     const formRef = (0, _react.useRef)();
     const [readOnly, setReadOnly] = (0, _react.useState)(true);
     const [loading, setLoading] = (0, _react.useState)(false);
@@ -43,30 +43,30 @@ function Index() {
             (_formRef_current = formRef.current) === null || _formRef_current === void 0 || _formRef_current.setFieldsValue(res.vendpopups);
         }
     });
-    return (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
         title: "Fee setting",
         className: "min-h-[90vh]",
         children: [
             contextHolder,
-            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
-                title: (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
                     children: [
                         "Stripe Fee",
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                             title: "Stripe Fee can not be changed",
-                            children: (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
                                 className: "ml-2 opacity-50"
                             }, void 0, false, void 0, void 0)
                         }, void 0, false, void 0, void 0)
                     ]
                 }, void 0, true),
                 colSpan: "50%",
-                children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions, {
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions, {
                     dataSource: stripeFee,
                     column: 1,
                     layout: "horizontal",
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions.Item, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions.Item, {
                             label: "Fee Percentage",
                             children: stripeFee === null || stripeFee === void 0 ? void 0 : stripeFee.percentage
                         }, void 0, false, {
@@ -74,7 +74,7 @@ function Index() {
                             lineNumber: 50,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions.Item, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions.Item, {
                             label: "Fee Fixed dollar",
                             children: stripeFee === null || stripeFee === void 0 ? void 0 : stripeFee.fixed_dollar
                         }, void 0, false, {
@@ -82,7 +82,7 @@ function Index() {
                             lineNumber: 53,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions.Item, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProDescriptions.Item, {
                             label: "Billing Percentage",
                             children: stripeFee === null || stripeFee === void 0 ? void 0 : stripeFee.billing_percentage
                         }, void 0, false, {
@@ -101,7 +101,7 @@ function Index() {
                 lineNumber: 38,
                 columnNumber: 7
             }, this),
-            (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {
                 type: "vertical",
                 className: "min-h-[90vh]"
             }, void 0, false, {
@@ -109,12 +109,12 @@ function Index() {
                 lineNumber: 62,
                 columnNumber: 7
             }, this),
-            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
                 title: "Vend Popups Fee",
-                extra: (0, _jsxdevruntime.jsxDEV)("div", {
+                extra: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     className: "flex gap-2",
                     children: [
-                        !readOnly && (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        !readOnly && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "primary",
                             htmlType: "submit",
                             loading: loading,
@@ -126,7 +126,7 @@ function Index() {
                             },
                             children: "Save"
                         }, void 0, false, void 0, void 0),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "primary",
                             disabled: loading,
                             onClick: ()=>setReadOnly(!readOnly),
@@ -134,7 +134,7 @@ function Index() {
                         }, void 0, false, void 0, void 0)
                     ]
                 }, void 0, true, void 0, void 0),
-                children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm, {
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm, {
                     formRef: formRef,
                     disabled: readOnly,
                     readonly: readOnly,
@@ -158,7 +158,7 @@ function Index() {
                             refresh();
                         });
                     },
-                    children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                         colProps: {
                             span: 8
                         },
@@ -238,7 +238,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var prevRefreshReg;
 var prevRefreshSig;

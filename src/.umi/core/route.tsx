@@ -29,7 +29,7 @@ export async function getRoutes() {
 '19': React.lazy(() => import(/* webpackChunkName: "p__Setting__others__index" */'@/pages/Setting/others/index.tsx')),
 '20': React.lazy(() => import('./EmptyRoute')),
 '21': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.tsx')),
-'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'/Users/mgt-it/Desktop/project/vend_admin/src/.umi/plugin-layout/Layout.tsx')),
+'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'/Users/kun_mac/Desktop/Project/vend_admin/src/.umi/plugin-layout/Layout.tsx')),
 },
   };
 }

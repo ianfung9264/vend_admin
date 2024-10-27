@@ -89,6 +89,7 @@ export default function BaseModel<
         bodyStyle: {
           maxHeight: "55vh",
           overflow: "scroll",
+          overflowX: "hidden",
         },
         onCancel: () => {
           setReadonly(true);
@@ -97,8 +98,8 @@ export default function BaseModel<
       }}
       grid={true}
       readonly={readOnly ?? readonly}
-      submitter={false}
       {...modalFormProps}
+      submitter={false}
     >
       {children}
     </ModalForm>

@@ -79,3 +79,14 @@ export enum ERateStatus {
   COMMENTED = "COMMENTED",
   NOT_READY = "NOT_READY",
 }
+export enum WithdrawalProgress {
+  WAITING_FOR_APPROVE = "WAITING_FOR_APPROVE",
+  APPROVED_PROGRESSING = "APPROVED_PROGRESSING", // Deduct wallet amount here
+  APPROVED_COMPLETED = "APPROVED_COMPLETED",
+  REJECTED = "REJECTED",
+}
+export enum WithdrawalProgressNoRejected {
+  WAITING_FOR_APPROVE = "WAITING_FOR_APPROVE",
+  APPROVED_PROGRESSING = "APPROVED_PROGRESSING", // Deduct wallet amount here
+  APPROVED_COMPLETED = "APPROVED_COMPLETED",
+}

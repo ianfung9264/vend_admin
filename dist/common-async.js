@@ -152,7 +152,8 @@ function BaseModel({ children, modalFormProps, title, initData, readOnly, modalP
             centered: true,
             bodyStyle: {
                 maxHeight: "55vh",
-                overflow: "scroll"
+                overflow: "scroll",
+                overflowX: "hidden"
             },
             onCancel: ()=>{
                 setReadonly(true);
@@ -161,8 +162,8 @@ function BaseModel({ children, modalFormProps, title, initData, readOnly, modalP
         },
         grid: true,
         readonly: readOnly ?? readonly,
-        submitter: false,
         ...modalFormProps,
+        submitter: false,
         children: children
     }, void 0, false, {
         fileName: "src/components/Base/BaseModel.tsx",
@@ -448,10 +449,16 @@ __mako_require__.e(exports, {
     },
     Role: function() {
         return Role;
+    },
+    WithdrawalProgress: function() {
+        return WithdrawalProgress;
+    },
+    WithdrawalProgressNoRejected: function() {
+        return WithdrawalProgressNoRejected;
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -545,6 +552,19 @@ var ERateStatus;
     ERateStatus["COMMENTED"] = "COMMENTED";
     ERateStatus["NOT_READY"] = "NOT_READY";
 })(ERateStatus || (ERateStatus = {}));
+var WithdrawalProgress;
+(function(WithdrawalProgress) {
+    WithdrawalProgress["WAITING_FOR_APPROVE"] = "WAITING_FOR_APPROVE";
+    WithdrawalProgress["APPROVED_PROGRESSING"] = "APPROVED_PROGRESSING";
+    WithdrawalProgress["APPROVED_COMPLETED"] = "APPROVED_COMPLETED";
+    WithdrawalProgress["REJECTED"] = "REJECTED";
+})(WithdrawalProgress || (WithdrawalProgress = {}));
+var WithdrawalProgressNoRejected;
+(function(WithdrawalProgressNoRejected) {
+    WithdrawalProgressNoRejected["WAITING_FOR_APPROVE"] = "WAITING_FOR_APPROVE";
+    WithdrawalProgressNoRejected["APPROVED_PROGRESSING"] = "APPROVED_PROGRESSING";
+    WithdrawalProgressNoRejected["APPROVED_COMPLETED"] = "APPROVED_COMPLETED";
+})(WithdrawalProgressNoRejected || (WithdrawalProgressNoRejected = {}));
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {
