@@ -11,7 +11,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from "@ant-design/pro-components";
-import { Divider, Image, message, Popconfirm, Progress } from "antd";
+import { Button, Divider, Image, message, Popconfirm, Progress } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { Line } from "@ant-design/charts";
 import { useModel } from "@umijs/max";
@@ -41,6 +41,7 @@ export default function DetailModal({
 
   const leftFile = { span: 8, offset: 0 };
   const rightFile = { span: 8, offset: 6 };
+  const [statusSelection, setStatusSelection] = useState<any[]>([]);
   /**********************************狀態管理**********************************/
   /**********************************組件初始化**********************************/
   const groupStyle: React.CSSProperties = {
@@ -73,10 +74,12 @@ export default function DetailModal({
             submitText: "Confirm",
           },
           resetButtonProps: {
-            preventDefault: true,
+            preventDefault: false,
           },
+
           render: (_, dom) => {
             const restButton = dom[0];
+
             const newRestButton = (
               <>
                 <BaseModel
@@ -95,6 +98,8 @@ export default function DetailModal({
                       } catch (error) {
                         message.error("Reject failed" + error);
                       } finally {
+                        console.log("formRef.current", formRef.current);
+                        formRef.current?.submit();
                         await mainTableReload?.();
                         return true;
                       }
@@ -106,7 +111,7 @@ export default function DetailModal({
                         resetText: "No",
                       },
                     },
-                    trigger: restButton,
+                    trigger: <Button>Reject</Button>,
                   }}
                 >
                   <Divider
@@ -136,6 +141,33 @@ export default function DetailModal({
         },
         formRef: { ...formRef },
         clearOnDestroy: true,
+        onInit(values, form) {
+          formRef.current = form;
+          switch (initData.progress) {
+            case WithdrawalProgress.WAITING_FOR_APPROVE:
+              setStatusSelection([
+                {
+                  label: "Progressing",
+                  value: WithdrawalProgress.APPROVED_PROGRESSING,
+                },
+              ]);
+              break;
+            case WithdrawalProgress.APPROVED_PROGRESSING:
+              setStatusSelection([
+                {
+                  label: "Approve",
+                  value: WithdrawalProgress.APPROVED_COMPLETED,
+                },
+              ]);
+              break;
+            case WithdrawalProgress.APPROVED_COMPLETED:
+              setStatusSelection([]);
+              break;
+            case WithdrawalProgress.REJECTED:
+              setStatusSelection([]);
+              break;
+          }
+        },
         onFinish: async (values) => {
           console.log("values", values);
           if (!values.progress) {
@@ -168,20 +200,7 @@ export default function DetailModal({
           label="Chose withdrawal status"
           name="progress"
           colProps={leftFile}
-          options={[
-            {
-              label: "Progressing",
-              value: WithdrawalProgress.APPROVED_PROGRESSING,
-            },
-            {
-              label: "Waiting",
-              value: WithdrawalProgress.WAITING_FOR_APPROVE,
-            },
-            {
-              label: "Approve",
-              value: WithdrawalProgress.APPROVED_COMPLETED,
-            },
-          ]}
+          options={statusSelection}
         />
       </ProForm.Group>
     </BaseModel>

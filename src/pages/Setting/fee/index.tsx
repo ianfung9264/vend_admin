@@ -22,7 +22,7 @@ export default function Index() {
   const [loading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const { data, refresh } = useRequest(_getAllFee, {
-    onSuccess: (res) => {
+    onSuccess: (res: any) => {
       setStripeFee(res.stripe);
       formRef.current?.setFieldsValue(res.vendpopups);
     },

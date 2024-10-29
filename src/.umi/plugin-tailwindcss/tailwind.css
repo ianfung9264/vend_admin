@@ -588,6 +588,10 @@ video {
   }
 }
 
+.visible {
+  visibility: visible;
+}
+
 .fixed {
   position: fixed;
 }
@@ -624,6 +628,10 @@ video {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
 .grid {
   display: grid;
 }
@@ -638,6 +646,10 @@ video {
 
 .h-\[80px\] {
   height: 80px;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .min-h-\[90vh\] {
@@ -761,8 +773,16 @@ video {
   font-size: 18px;
 }
 
+.text-\[24px\] {
+  font-size: 24px;
+}
+
 .font-\[400\] {
   font-weight: 400;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .opacity-50 {

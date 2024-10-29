@@ -98,8 +98,8 @@ export default function BaseModel<
       }}
       grid={true}
       readonly={readOnly ?? readonly}
-      {...modalFormProps}
       submitter={false}
+      {...modalFormProps}
     >
       {children}
     </ModalForm>

@@ -12,4 +12,18 @@ declare namespace API_Setting {
   interface HiddenFaq {
     id: string;
   }
+  interface CreatePrivacyPolicy {
+    context: string;
+  }
+  interface UpdatePrivacyPolicy {
+    context: string;
+    part: number;
+  }
+  interface UpdateTermsCondition {
+    context: string;
+    part: number;
+  }
+  interface CreateTermsCondition {
+    context: string;
+  }
 }

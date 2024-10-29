@@ -1,7 +1,12 @@
 import { request } from "@umijs/max";
 import { WithdrawalProgress } from "../commonType";
 export const _getAlWithdrawal = async (): Promise<any[]> => {
-  return request(" /api/v1/admin/private/withdrawal/all", {
+  return request("/api/v1/admin/private/withdrawal/all", {
+    method: "get",
+  });
+};
+export const _getAllRefund = async (): Promise<any[]> => {
+  return request("/api/v1/admin/private/refund/all", {
     method: "get",
   });
 };

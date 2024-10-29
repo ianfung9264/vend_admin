@@ -5,6 +5,12 @@ export const _getAllFee = async (): Promise<API.DefaultObjectResponse> => {
     method: "get",
   });
 };
+export const _getAllTransactionFee =
+  async (): Promise<API.DefaultObjectResponse> => {
+    return request("/api/v1/admin/private/application/all", {
+      method: "get",
+    });
+  };
 
 export const _updateVendPopupsFee = async (values: {
   percentage: number;

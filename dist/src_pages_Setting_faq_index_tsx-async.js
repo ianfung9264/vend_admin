@@ -13,9 +13,9 @@ __mako_require__.d(exports, "QuestionTableColumns", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _detailModal = _interop_require_default._(__mako_require__("src/pages/Setting/faq/detailModal.tsx"));
+var _detailModal = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/Setting/faq/detailModal.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -25,6 +25,11 @@ self.$RefreshReg$ = (type, id)=>{
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 function QuestionTableColumns({ mainTableReload }) {
+    // console.log("mainTableReload", mainTableReload);
+    // const [tableReload, setTableReload] = useState(() => mainTableReload);
+    // useEffect(() => {
+    //   setTableReload(() => mainTableReload);
+    // }, [mainTableReload]);
     return [
         {
             title: "Question",
@@ -65,8 +70,8 @@ function QuestionTableColumns({ mainTableReload }) {
             title: "Actions",
             dataIndex: "action",
             key: "action",
-            render: (_, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
-                    children: (0, _jsxdevruntime.jsxDEV)(_detailModal.default, {
+            render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_detailModal.default, {
                         initData: record,
                         mainTableReload: mainTableReload
                     }, void 0, false, {
@@ -122,9 +127,9 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseModel = _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
+var _BaseModel = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _react = __mako_require__("node_modules/react/index.js");
@@ -140,13 +145,14 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function DetailModal({ initData, mainTableReload }) {
     _s();
+    /**********************************狀態管理**********************************/ // const formRef = useRef<ProFormInstance>();
     const [formRef, setFormRef] = (0, _react.useState)();
     (0, _react.useEffect)(()=>{
         console.log("formRef", formRef);
     }, [
         initData
     ]);
-    const groupStyle = {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ const groupStyle = {
         backgroundColor: "white",
         paddingLeft: "24px",
         paddingRight: "24px",
@@ -154,7 +160,17 @@ function DetailModal({ initData, mainTableReload }) {
         borderBottom: 3,
         borderColor: "black"
     };
-    return (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+    /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ // const fetchOrgData = async (id: string) => {
+    //   try {
+    //     const res = await _getOrgById(id);
+    //     console.log("res.data", res.data);
+    //     setOrg(res.data);
+    //     formRef.current?.setFieldsValue(res.data);
+    //   } catch (error) {
+    //     console.error("获取组织数据失败:", error);
+    //   }
+    // };
+    /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
         submit: formRef === null || formRef === void 0 ? void 0 : formRef.submit,
         allowUpdate: true,
         title: "Faq Details",
@@ -188,12 +204,12 @@ function DetailModal({ initData, mainTableReload }) {
                 }
             }
         },
-        children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
             style: {
                 ...groupStyle
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                     label: "Question",
                     name: "question",
                     colProps: {
@@ -205,7 +221,7 @@ function DetailModal({ initData, mainTableReload }) {
                     lineNumber: 93,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormSelect, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormSelect, {
                     label: "IsDisplay",
                     name: "isDisplay",
                     fieldProps: {
@@ -230,7 +246,7 @@ function DetailModal({ initData, mainTableReload }) {
                     lineNumber: 99,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                     label: "Answer",
                     name: "answer",
                     colProps: {
@@ -294,18 +310,18 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseIndex = _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
-var _BaseSearch = _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
-var _BaseTable = _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
+var _BaseIndex = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
+var _BaseSearch = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
+var _BaseTable = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
-var _searchHelper = _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _searchHelper = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _columns = __mako_require__("src/pages/Setting/faq/columns.tsx");
 var _faq = __mako_require__("src/services/setting/faq.ts");
-var _BaseModel = _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
+var _BaseModel = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var prevRefreshReg;
 var prevRefreshSig;
@@ -319,7 +335,7 @@ var _s = $RefreshSig$();
 function Index() {
     var _actionRef_current;
     _s();
-    const actionRef = (0, _react.useRef)();
+    /**********************************狀態管理**********************************/ const actionRef = (0, _react.useRef)();
     const [searchKey, setSearchKey] = (0, _react.useState)("");
     const [reload, setReload] = (0, _react.useState)(()=>{
         var _actionRef_current;
@@ -332,11 +348,11 @@ function Index() {
             return (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload;
         });
     }, []);
-    return (0, _jsxdevruntime.jsxDEV)("div", {
-        children: (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
             title: "FAQ page",
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload,
                     inputProps: {
@@ -348,13 +364,13 @@ function Index() {
                     lineNumber: 37,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: searchKey,
                     props: {
                         headerTitle: "Withdrawal approval List",
                         actionRef: actionRef,
                         optionsRender (props, defaultDom) {
-                            const createFaq = (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                            const createFaq = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                 allowUpdate: false,
                                 readOnly: false,
                                 modalFormProps: {
@@ -371,8 +387,8 @@ function Index() {
                                         }
                                     },
                                     grid: true,
-                                    trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
+                                    trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
                                         type: "text"
                                     }, void 0, false, void 0, void 0),
                                     submitter: {
@@ -384,14 +400,14 @@ function Index() {
                                 },
                                 title: "New faq",
                                 children: [
-                                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                         colProps: {
                                             span: 18
                                         },
                                         label: "Question",
                                         name: "question"
                                     }, void 0, false, void 0, void 0),
-                                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                         colProps: {
                                             span: 18
                                         },
@@ -491,7 +507,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var prevRefreshReg;
 var prevRefreshSig;

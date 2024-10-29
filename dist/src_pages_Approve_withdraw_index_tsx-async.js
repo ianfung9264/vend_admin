@@ -15,7 +15,10 @@ var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
 var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
+var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _detailModal = _interop_require_default._(__mako_require__("src/pages/Approve/withdraw/detailModal.tsx"));
+var _commonType = __mako_require__("src/services/commonType.ts");
+var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -69,6 +72,13 @@ function WithdrawalTableColumns({ mainTableReload }) {
             align: "center"
         },
         {
+            title: "Date",
+            dataIndex: "createdAt",
+            key: "created_at",
+            align: "center",
+            valueType: "dateTime"
+        },
+        {
             title: "_id",
             dataIndex: "event_idCount",
             key: "_id",
@@ -80,17 +90,25 @@ function WithdrawalTableColumns({ mainTableReload }) {
             dataIndex: "action",
             key: "action",
             render: (_, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
-                    children: (0, _jsxdevruntime.jsxDEV)(_detailModal.default, {
+                    children: record.progress === _commonType.WithdrawalProgress.WAITING_FOR_APPROVE || record.progress === _commonType.WithdrawalProgress.APPROVED_PROGRESSING ? (0, _jsxdevruntime.jsxDEV)(_detailModal.default, {
                         initData: record,
                         mainTableReload: mainTableReload
                     }, void 0, false, {
                         fileName: "src/pages/Approve/withdraw/columns.tsx",
-                        lineNumber: 74,
-                        columnNumber: 11
+                        lineNumber: 87,
+                        columnNumber: 13
+                    }, this) : (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        type: "text",
+                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.InfoCircleOutlined, {}, void 0, false, void 0, void 0),
+                        disabled: true
+                    }, void 0, false, {
+                        fileName: "src/pages/Approve/withdraw/columns.tsx",
+                        lineNumber: 89,
+                        columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/Approve/withdraw/columns.tsx",
-                    lineNumber: 73,
+                    lineNumber: 84,
                     columnNumber: 9
                 }, this),
             align: "center"
@@ -164,6 +182,7 @@ function DetailModal({ initData, mainTableReload }) {
         span: 8,
         offset: 6
     };
+    const [statusSelection, setStatusSelection] = (0, _react.useState)([]);
     const groupStyle = {
         backgroundColor: "white",
         paddingLeft: "24px",
@@ -180,7 +199,7 @@ function DetailModal({ initData, mainTableReload }) {
                     submitText: "Confirm"
                 },
                 resetButtonProps: {
-                    preventDefault: true
+                    preventDefault: false
                 },
                 render: (_, dom)=>{
                     const restButton = dom[0];
@@ -200,6 +219,9 @@ function DetailModal({ initData, mainTableReload }) {
                                     } catch (error) {
                                         _antd.message.error("Reject failed" + error);
                                     } finally{
+                                        var _formRef_current;
+                                        console.log("formRef.current", formRef.current);
+                                        (_formRef_current = formRef.current) === null || _formRef_current === void 0 || _formRef_current.submit();
                                         await (mainTableReload === null || mainTableReload === void 0 ? void 0 : mainTableReload());
                                         return true;
                                     }
@@ -211,7 +233,9 @@ function DetailModal({ initData, mainTableReload }) {
                                         resetText: "No"
                                     }
                                 },
-                                trigger: restButton
+                                trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    children: "Reject"
+                                }, void 0, false, void 0, void 0)
                             },
                             children: [
                                 (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {
@@ -248,6 +272,33 @@ function DetailModal({ initData, mainTableReload }) {
                 ...formRef
             },
             clearOnDestroy: true,
+            onInit (values, form) {
+                formRef.current = form;
+                switch(initData.progress){
+                    case _commonType.WithdrawalProgress.WAITING_FOR_APPROVE:
+                        setStatusSelection([
+                            {
+                                label: "Progressing",
+                                value: _commonType.WithdrawalProgress.APPROVED_PROGRESSING
+                            }
+                        ]);
+                        break;
+                    case _commonType.WithdrawalProgress.APPROVED_PROGRESSING:
+                        setStatusSelection([
+                            {
+                                label: "Approve",
+                                value: _commonType.WithdrawalProgress.APPROVED_COMPLETED
+                            }
+                        ]);
+                        break;
+                    case _commonType.WithdrawalProgress.APPROVED_COMPLETED:
+                        setStatusSelection([]);
+                        break;
+                    case _commonType.WithdrawalProgress.REJECTED:
+                        setStatusSelection([]);
+                        break;
+                }
+            },
             onFinish: async (values)=>{
                 console.log("values", values);
                 if (!values.progress) return true;
@@ -274,37 +325,24 @@ function DetailModal({ initData, mainTableReload }) {
                 label: "Chose withdrawal status",
                 name: "progress",
                 colProps: leftFile,
-                options: [
-                    {
-                        label: "Progressing",
-                        value: _commonType.WithdrawalProgress.APPROVED_PROGRESSING
-                    },
-                    {
-                        label: "Waiting",
-                        value: _commonType.WithdrawalProgress.WAITING_FOR_APPROVE
-                    },
-                    {
-                        label: "Approve",
-                        value: _commonType.WithdrawalProgress.APPROVED_COMPLETED
-                    }
-                ]
+                options: statusSelection
             }, void 0, false, {
                 fileName: "src/pages/Approve/withdraw/detailModal.tsx",
-                lineNumber: 167,
+                lineNumber: 199,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "src/pages/Approve/withdraw/detailModal.tsx",
-            lineNumber: 166,
+            lineNumber: 198,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/pages/Approve/withdraw/detailModal.tsx",
-        lineNumber: 68,
+        lineNumber: 69,
         columnNumber: 5
     }, this);
 }
-_s(DetailModal, "43yiYcpPc7V7EqBzAhVF/lXnrEM=");
+_s(DetailModal, "DmYGWn2nTQ5Thj7/tnal7N68Byc=");
 _c = DetailModal;
 var _c;
 $RefreshReg$(_c, "DetailModal");
@@ -397,6 +435,15 @@ function Index() {
                 (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: searchKey,
                     props: {
+                        tooltip: (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                            children: [
+                                "- When this application is Waiting, you can only change to Progressing or Rejected.",
+                                (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0),
+                                "- When this application is Progressing, you can only change to Approved or Rejected.",
+                                (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0),
+                                "- When this application is Approved or Rejected, you can't change anything."
+                            ]
+                        }, void 0, true),
                         headerTitle: "Withdrawal approval List",
                         actionRef: actionRef,
                         columns: (0, _columns.WithdrawalTableColumns)({
@@ -440,86 +487,6 @@ _s(Index, "xZLVRbXBouwaYIFeFEB0d/mnvTs=");
 _c = Index;
 var _c;
 $RefreshReg$(_c, "Index");
-if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
-if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
-function registerClassComponent(filename, moduleExports) {
-    for(const key in moduleExports)try {
-        if (key === "__esModule") continue;
-        const exportValue = moduleExports[key];
-        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
-    } catch (e) {}
-}
-function $RefreshIsReactComponentLike$(moduleExports) {
-    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
-    for(var key in moduleExports)try {
-        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
-    } catch (e) {}
-    return false;
-}
-registerClassComponent(module.id, module.exports);
-if ($RefreshIsReactComponentLike$(module.exports)) {
-    module.meta.hot.accept();
-    _reactrefresh.performReactRefresh();
-}
-
-},
-"src/services/withdrawal/info.ts": function (module, exports, __mako_require__){
-"use strict";
-__mako_require__.d(exports, "__esModule", {
-    value: true
-});
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: all[name]
-    });
-}
-__mako_require__.e(exports, {
-    _getAlWithdrawal: function() {
-        return _getAlWithdrawal;
-    },
-    _rejectWithdrawal: function() {
-        return _rejectWithdrawal;
-    },
-    _updateWithdrawalProgress: function() {
-        return _updateWithdrawalProgress;
-    }
-});
-var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
-var _max = __mako_require__("src/.umi/exports.ts");
-var _commonType = __mako_require__("src/services/commonType.ts");
-var prevRefreshReg;
-var prevRefreshSig;
-prevRefreshReg = self.$RefreshReg$;
-prevRefreshSig = self.$RefreshSig$;
-self.$RefreshReg$ = (type, id)=>{
-    _reactrefresh.register(type, module.id + id);
-};
-self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
-const _getAlWithdrawal = async ()=>{
-    return (0, _max.request)(" /api/v1/admin/private/withdrawal/all", {
-        method: "get"
-    });
-};
-const _rejectWithdrawal = async (data)=>{
-    return (0, _max.request)(`/api/v1/admin/private/withdrawal/${data.withdrawalId}`, {
-        method: "put",
-        data: {
-            rejected_reason: data.reason,
-            progress: _commonType.WithdrawalProgress.REJECTED
-        }
-    });
-};
-const _updateWithdrawalProgress = async (data)=>{
-    console.log("data", data);
-    return (0, _max.request)(`/api/v1/admin/private/withdrawal/${data.withdrawalId}`, {
-        method: "put",
-        data: {
-            progress: data.progress
-        }
-    });
-};
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {

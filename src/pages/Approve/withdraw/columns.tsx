@@ -1,7 +1,11 @@
 import { ProColumns } from "@ant-design/pro-components";
 import { Button, Divider, Tooltip } from "antd";
 import DetailModal from "./detailModal";
-import { LandownerAdvancedStatus, OtpStatusType } from "@/services/commonType";
+import {
+  LandownerAdvancedStatus,
+  OtpStatusType,
+  WithdrawalProgress,
+} from "@/services/commonType";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
 export function WithdrawalTableColumns({
@@ -59,6 +63,13 @@ export function WithdrawalTableColumns({
       align: "center",
     },
     {
+      title: "Date",
+      dataIndex: "createdAt",
+      key: "created_at",
+      align: "center",
+      valueType: "dateTime",
+    },
+    {
       title: "_id",
       dataIndex: "event_idCount",
       key: "_id",
@@ -71,7 +82,12 @@ export function WithdrawalTableColumns({
       key: "action",
       render: (_, record) => (
         <span>
-          <DetailModal initData={record} mainTableReload={mainTableReload} />
+          {record.progress === WithdrawalProgress.WAITING_FOR_APPROVE ||
+          record.progress === WithdrawalProgress.APPROVED_PROGRESSING ? (
+            <DetailModal initData={record} mainTableReload={mainTableReload} />
+          ) : (
+            <Button type="text" icon={<InfoCircleOutlined />} disabled></Button>
+          )}
         </span>
       ),
       align: "center",

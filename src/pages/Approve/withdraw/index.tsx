@@ -42,6 +42,17 @@ export default function Index() {
         <BaseTable<Page_org.mainTable>
           searchKey={searchKey}
           props={{
+            tooltip: (
+              <>
+                - When this application is Waiting, you can only change to
+                Progressing or Rejected.
+                <br />
+                - When this application is Progressing, you can only change to
+                Approved or Rejected.
+                <br />- When this application is Approved or Rejected, you can't
+                change anything.
+              </>
+            ),
             headerTitle: "Withdrawal approval List",
             actionRef: actionRef,
 

@@ -162,8 +162,8 @@ function BaseModel({ children, modalFormProps, title, initData, readOnly, modalP
         },
         grid: true,
         readonly: readOnly ?? readonly,
-        ...modalFormProps,
         submitter: false,
+        ...modalFormProps,
         children: children
     }, void 0, false, {
         fileName: "src/components/Base/BaseModel.tsx",
@@ -458,7 +458,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -637,6 +637,170 @@ const _getOrgById = async (id)=>{
         method: "get",
         params: {
             id
+        }
+    });
+};
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/services/setting/fee.ts": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    _getAllFee: function() {
+        return _getAllFee;
+    },
+    _getAllTransactionFee: function() {
+        return _getAllTransactionFee;
+    },
+    _updateVendPopupsFee: function() {
+        return _updateVendPopupsFee;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _max = __mako_require__("src/.umi/exports.ts");
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+const _getAllFee = async ()=>{
+    return (0, _max.request)("/api/v1/admin/private/fee/info", {
+        method: "get"
+    });
+};
+const _getAllTransactionFee = async ()=>{
+    return (0, _max.request)("/api/v1/admin/private/application/all", {
+        method: "get"
+    });
+};
+const _updateVendPopupsFee = async (values)=>{
+    return (0, _max.request)("/api/v1/admin/private/fee/info", {
+        method: "put",
+        data: {
+            vendpopups: {
+                ...values
+            }
+        }
+    });
+};
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/services/withdrawal/info.ts": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    _getAlWithdrawal: function() {
+        return _getAlWithdrawal;
+    },
+    _getAllRefund: function() {
+        return _getAllRefund;
+    },
+    _rejectWithdrawal: function() {
+        return _rejectWithdrawal;
+    },
+    _updateWithdrawalProgress: function() {
+        return _updateWithdrawalProgress;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _max = __mako_require__("src/.umi/exports.ts");
+var _commonType = __mako_require__("src/services/commonType.ts");
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+const _getAlWithdrawal = async ()=>{
+    return (0, _max.request)("/api/v1/admin/private/withdrawal/all", {
+        method: "get"
+    });
+};
+const _getAllRefund = async ()=>{
+    return (0, _max.request)("/api/v1/admin/private/refund/all", {
+        method: "get"
+    });
+};
+const _rejectWithdrawal = async (data)=>{
+    return (0, _max.request)(`/api/v1/admin/private/withdrawal/${data.withdrawalId}`, {
+        method: "put",
+        data: {
+            rejected_reason: data.reason,
+            progress: _commonType.WithdrawalProgress.REJECTED
+        }
+    });
+};
+const _updateWithdrawalProgress = async (data)=>{
+    console.log("data", data);
+    return (0, _max.request)(`/api/v1/admin/private/withdrawal/${data.withdrawalId}`, {
+        method: "put",
+        data: {
+            progress: data.progress
         }
     });
 };

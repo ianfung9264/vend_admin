@@ -93,16 +93,16 @@ export default [
     icon: "setting",
     name: "Setting",
     routes: [
-      {
-        path: "/setting/termersCondition",
-        name: "TermersCondition",
-        component: "./Setting/termersCondition",
-      },
-      {
-        path: "/setting/privacy",
-        name: "Privacy",
-        component: "./Setting/privacy",
-      },
+      // {
+      //   path: "/setting/termersCondition",
+      //   name: "TermersCondition",
+      //   component: "./Setting/termersCondition",
+      // },
+      // {
+      //   path: "/setting/privacy",
+      //   name: "Privacy",
+      //   component: "./Setting/privacy",
+      // },
       {
         path: "/setting/faq",
         name: "FAQ",
