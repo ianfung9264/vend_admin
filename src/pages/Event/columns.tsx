@@ -1,5 +1,6 @@
 import { StrictVerifyButton } from "@/components/Base/StrictVerifyButton";
 import { EventStatus, EventType } from "@/services/commonType";
+import { _stopEvent, _restartEvent, _cancelEvent } from "@/services/event/info";
 import {
   PauseOutlined,
   PlayCircleOutlined,
@@ -152,8 +153,14 @@ export function EventTableColumns({
                 ></Button>
               }
               initData={{
-                actionFuncParams: { id: record._id },
-                actionFunc: async () => {},
+                mainTableReload,
+                actionFuncParams: {
+                  event_id: record._id,
+                },
+                actionFunc:
+                  record.status == EventStatus.NORMAL
+                    ? _stopEvent
+                    : _restartEvent,
               }}
             />
             <StrictVerifyButton
@@ -169,8 +176,9 @@ export function EventTableColumns({
                 />
               }
               initData={{
-                actionFuncParams: { id: record._id },
-                actionFunc: async () => {},
+                mainTableReload,
+                actionFuncParams: { event_id: record._id },
+                actionFunc: _cancelEvent,
               }}
             />
 

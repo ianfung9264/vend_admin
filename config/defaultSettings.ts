@@ -16,6 +16,7 @@ const Settings: ProLayoutProps & {
   pwa: true,
   logo: "/logo.png",
   token: {},
+  title: "Vendpopups Admin",
   splitMenus: false,
   footerRender: false,
 };

@@ -13,10 +13,10 @@ __mako_require__.d(exports, "WithdrawalTableColumns", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
-var _detailModal = _interop_require_default._(__mako_require__("src/pages/Approve/withdraw/detailModal.tsx"));
+var _detailModal = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/Approve/withdraw/detailModal.tsx"));
 var _commonType = __mako_require__("src/services/commonType.ts");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var prevRefreshReg;
@@ -28,6 +28,11 @@ self.$RefreshReg$ = (type, id)=>{
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 function WithdrawalTableColumns({ mainTableReload }) {
+    // console.log("mainTableReload", mainTableReload);
+    // const [tableReload, setTableReload] = useState(() => mainTableReload);
+    // useEffect(() => {
+    //   setTableReload(() => mainTableReload);
+    // }, [mainTableReload]);
     return [
         {
             title: "Landowner email",
@@ -89,17 +94,17 @@ function WithdrawalTableColumns({ mainTableReload }) {
             title: "Actions",
             dataIndex: "action",
             key: "action",
-            render: (_, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
-                    children: record.progress === _commonType.WithdrawalProgress.WAITING_FOR_APPROVE || record.progress === _commonType.WithdrawalProgress.APPROVED_PROGRESSING ? (0, _jsxdevruntime.jsxDEV)(_detailModal.default, {
+            render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                    children: record.progress === _commonType.WithdrawalProgress.WAITING_FOR_APPROVE || record.progress === _commonType.WithdrawalProgress.APPROVED_PROGRESSING ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_detailModal.default, {
                         initData: record,
                         mainTableReload: mainTableReload
                     }, void 0, false, {
                         fileName: "src/pages/Approve/withdraw/columns.tsx",
                         lineNumber: 87,
                         columnNumber: 13
-                    }, this) : (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                    }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                         type: "text",
-                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.InfoCircleOutlined, {}, void 0, false, void 0, void 0),
+                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.InfoCircleOutlined, {}, void 0, false, void 0, void 0),
                         disabled: true
                     }, void 0, false, {
                         fileName: "src/pages/Approve/withdraw/columns.tsx",
@@ -154,9 +159,9 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseModel = _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
+var _BaseModel = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _react = __mako_require__("node_modules/react/index.js");
@@ -173,7 +178,7 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function DetailModal({ initData, mainTableReload }) {
     _s();
-    const formRef = (0, _react.useRef)();
+    /**********************************狀態管理**********************************/ const formRef = (0, _react.useRef)();
     const leftFile = {
         span: 8,
         offset: 0
@@ -183,7 +188,7 @@ function DetailModal({ initData, mainTableReload }) {
         offset: 6
     };
     const [statusSelection, setStatusSelection] = (0, _react.useState)([]);
-    const groupStyle = {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ const groupStyle = {
         backgroundColor: "white",
         paddingLeft: "24px",
         paddingRight: "24px",
@@ -191,7 +196,17 @@ function DetailModal({ initData, mainTableReload }) {
         borderBottom: 3,
         borderColor: "black"
     };
-    return (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+    /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ // const fetchOrgData = async (id: string) => {
+    //   try {
+    //     const res = await _getOrgById(id);
+    //     console.log("res.data", res.data);
+    //     setOrg(res.data);
+    //     formRef.current?.setFieldsValue(res.data);
+    //   } catch (error) {
+    //     console.error("获取组织数据失败:", error);
+    //   }
+    // };
+    /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
         modalFormProps: {
             submitter: {
                 searchConfig: {
@@ -203,13 +218,14 @@ function DetailModal({ initData, mainTableReload }) {
                 },
                 render: (_, dom)=>{
                     const restButton = dom[0];
-                    const newRestButton = (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
-                        children: (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                    const newRestButton = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                             allowUpdate: false,
                             readOnly: false,
                             title: "Confirmation reject",
                             modalFormProps: {
                                 onFinish: async (values)=>{
+                                    // console.log("values", values);
                                     try {
                                         await (0, _info._rejectWithdrawal)({
                                             withdrawalId: initData._id,
@@ -233,17 +249,17 @@ function DetailModal({ initData, mainTableReload }) {
                                         resetText: "No"
                                     }
                                 },
-                                trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     children: "Reject"
                                 }, void 0, false, void 0, void 0)
                             },
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {
                                     children: "Reason",
                                     orientation: "left",
                                     orientationMargin: 20
                                 }, void 0, false, void 0, void 0),
-                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                     required: true,
                                     rules: [
                                         {
@@ -318,10 +334,11 @@ function DetailModal({ initData, mainTableReload }) {
         },
         allowUpdate: false,
         readOnly: false,
+        // initData={org}
         title: "Approve withdrawal",
-        children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
             style: groupStyle,
-            children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormSelect, {
+            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormSelect, {
                 label: "Chose withdrawal status",
                 name: "progress",
                 colProps: leftFile,
@@ -382,14 +399,14 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseIndex = _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
-var _BaseSearch = _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
-var _BaseTable = _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _BaseIndex = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
+var _BaseSearch = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
+var _BaseTable = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _columns = __mako_require__("src/pages/Approve/withdraw/columns.tsx");
-var _searchHelper = _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
+var _searchHelper = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
 var _info = __mako_require__("src/services/withdrawal/info.ts");
 var prevRefreshReg;
 var prevRefreshSig;
@@ -403,7 +420,7 @@ var _s = $RefreshSig$();
 function Index() {
     var _actionRef_current;
     _s();
-    const actionRef = (0, _react.useRef)();
+    /**********************************狀態管理**********************************/ const actionRef = (0, _react.useRef)();
     const [searchKey, setSearchKey] = (0, _react.useState)("");
     const [reload, setReload] = (0, _react.useState)(()=>{
         var _actionRef_current;
@@ -416,11 +433,11 @@ function Index() {
             return (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload;
         });
     }, []);
-    return (0, _jsxdevruntime.jsxDEV)("div", {
-        children: (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
             title: "Org withdrawal approval page",
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload,
                     inputProps: {
@@ -432,15 +449,15 @@ function Index() {
                     lineNumber: 34,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: searchKey,
                     props: {
-                        tooltip: (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                        tooltip: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
                             children: [
                                 "- When this application is Waiting, you can only change to Progressing or Rejected.",
-                                (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0),
                                 "- When this application is Progressing, you can only change to Approved or Rejected.",
-                                (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0),
                                 "- When this application is Approved or Rejected, you can't change anything."
                             ]
                         }, void 0, true),

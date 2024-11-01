@@ -90,6 +90,7 @@ export default (props: any) => {
   "pwa": true,
   "logo": "/logo.png",
   "token": {},
+  "title": "Vendpopups Admin",
   "splitMenus": false,
   "footerRender": false
 };

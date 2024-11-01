@@ -16,14 +16,17 @@ export const _getCategory = async (): Promise<API.DefaultObjectResponse> => {
   });
 };
 
-export const _updateBannerVideo = async (values: {
+export const _updateBannerVideo = async (data: {
   youtube_url: string;
+  children: {
+    title: string;
+    subtitle: string;
+    body: string;
+  }[];
 }): Promise<API.DefaultObjectResponse> => {
   const result = await request(`/api/v1/admin/private/cms/banner`, {
     method: "put",
-    params: {
-      url: values.youtube_url,
-    },
+    data: data,
   });
   return {
     data: result,

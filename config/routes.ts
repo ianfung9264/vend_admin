@@ -85,6 +85,11 @@ export default [
         name: "Withdraw",
         component: "./Approve/withdraw",
       },
+      {
+        path: "/approve/urgent",
+        name: "Urgent",
+        component: "./Approve/urgent",
+      },
     ],
   },
 

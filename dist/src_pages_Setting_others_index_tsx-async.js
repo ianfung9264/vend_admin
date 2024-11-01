@@ -5,7 +5,8 @@
 __mako_require__.d(exports, "__esModule", {
     value: true
 });
-__mako_require__.d(exports, "default", {
+__mako_require__.d(exports, "default" //
+, {
     enumerable: true,
     get: function() {
         return Index;
@@ -13,19 +14,19 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseIndex = _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
-var _BaseModel = _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
-var _BaseSearch = _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
-var _BaseTable = _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
+var _BaseIndex = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
+var _BaseModel = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
+var _BaseSearch = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
+var _BaseTable = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
 var _others = __mako_require__("src/services/setting/others.ts");
-var _searchHelper = _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
+var _searchHelper = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _max = __mako_require__("src/.umi/exports.ts");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -37,15 +38,41 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function Index() {
     _s();
-    const [tab, setTab] = (0, _react.useState)("tab1");
+    /**********************************狀態管理**********************************/ const [tab, setTab] = (0, _react.useState)("tab1");
     const [bannerFormReadOnly, setBannerFormReadOnly] = (0, _react.useState)(true);
     const bannerFormRef = (0, _react.useRef)();
     const { refresh: BannerFormDataRefresh } = (0, _max.useRequest)(_others._getBannerVideo, {
         onSuccess: (res)=>{
-            var _bannerFormRef_current;
-            console.log("res", res);
+            var _data_children, _data_children1, _data_children2, _data_children_, _data_children3, _data_children_1, _data_children4, _data_children_2, _data_children5, _data_children_3, _data_children6, _data_children_4, _data_children7, _data_children_5, _data_children8, _data_children_6, _data_children9, _data_children_7, _data_children10, _data_children_8, _data_children11, _bannerFormRef_current;
+            console.log("获取到的原始数据:", res); // 调试用
+            if (!res || !res[0]) {
+                console.warn("没有获取到数据");
+                return;
+            }
+            const data = res[0];
+            console.log("要设置的数据:", {
+                url: Array.isArray(data.youtube_url) ? data.youtube_url[0] : data.youtube_url,
+                description1: (_data_children = data.children) === null || _data_children === void 0 ? void 0 : _data_children[0],
+                description2: (_data_children1 = data.children) === null || _data_children1 === void 0 ? void 0 : _data_children1[1],
+                description3: (_data_children2 = data.children) === null || _data_children2 === void 0 ? void 0 : _data_children2[2]
+            });
             (_bannerFormRef_current = bannerFormRef.current) === null || _bannerFormRef_current === void 0 || _bannerFormRef_current.setFieldsValue({
-                url: res[0].youtube_url[0]
+                url: data.youtube_url[0],
+                description1: {
+                    title: ((_data_children3 = data.children) === null || _data_children3 === void 0 ? void 0 : (_data_children_ = _data_children3[0]) === null || _data_children_ === void 0 ? void 0 : _data_children_.title) ?? "",
+                    subtitle: ((_data_children4 = data.children) === null || _data_children4 === void 0 ? void 0 : (_data_children_1 = _data_children4[0]) === null || _data_children_1 === void 0 ? void 0 : _data_children_1.subtitle) ?? "",
+                    body: ((_data_children5 = data.children) === null || _data_children5 === void 0 ? void 0 : (_data_children_2 = _data_children5[0]) === null || _data_children_2 === void 0 ? void 0 : _data_children_2.body) ?? ""
+                },
+                description2: {
+                    title: ((_data_children6 = data.children) === null || _data_children6 === void 0 ? void 0 : (_data_children_3 = _data_children6[1]) === null || _data_children_3 === void 0 ? void 0 : _data_children_3.title) ?? "",
+                    subtitle: ((_data_children7 = data.children) === null || _data_children7 === void 0 ? void 0 : (_data_children_4 = _data_children7[1]) === null || _data_children_4 === void 0 ? void 0 : _data_children_4.subtitle) ?? "",
+                    body: ((_data_children8 = data.children) === null || _data_children8 === void 0 ? void 0 : (_data_children_5 = _data_children8[1]) === null || _data_children_5 === void 0 ? void 0 : _data_children_5.body) ?? ""
+                },
+                description3: {
+                    title: ((_data_children9 = data.children) === null || _data_children9 === void 0 ? void 0 : (_data_children_6 = _data_children9[2]) === null || _data_children_6 === void 0 ? void 0 : _data_children_6.title) ?? "",
+                    subtitle: ((_data_children10 = data.children) === null || _data_children10 === void 0 ? void 0 : (_data_children_7 = _data_children10[2]) === null || _data_children_7 === void 0 ? void 0 : _data_children_7.subtitle) ?? "",
+                    body: ((_data_children11 = data.children) === null || _data_children11 === void 0 ? void 0 : (_data_children_8 = _data_children11[2]) === null || _data_children_8 === void 0 ? void 0 : _data_children_8.body) ?? ""
+                }
             });
         }
     });
@@ -67,17 +94,39 @@ function Index() {
             return (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload;
         });
     }, []);
-    const BannerVideoElement = ()=>{
-        return (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm, {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ const BannerVideoElement = ()=>{
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm, {
             formRef: bannerFormRef,
             onFinish: async (values)=>{
                 try {
-                    await (0, _others._updateBannerVideo)({
-                        youtube_url: values.url
-                    });
-                    _antd.message.success("Create faq success");
+                    var _values_description1, _values_description11, _values_description12, _values_description2, _values_description21, _values_description22, _values_description3, _values_description31, _values_description32;
+                    // 过滤空的描述对象
+                    const children = [
+                        {
+                            title: (_values_description1 = values.description1) === null || _values_description1 === void 0 ? void 0 : _values_description1.title,
+                            subtitle: (_values_description11 = values.description1) === null || _values_description11 === void 0 ? void 0 : _values_description11.subtitle,
+                            body: (_values_description12 = values.description1) === null || _values_description12 === void 0 ? void 0 : _values_description12.body
+                        },
+                        {
+                            title: (_values_description2 = values.description2) === null || _values_description2 === void 0 ? void 0 : _values_description2.title,
+                            subtitle: (_values_description21 = values.description2) === null || _values_description21 === void 0 ? void 0 : _values_description21.subtitle,
+                            body: (_values_description22 = values.description2) === null || _values_description22 === void 0 ? void 0 : _values_description22.body
+                        },
+                        {
+                            title: (_values_description3 = values.description3) === null || _values_description3 === void 0 ? void 0 : _values_description3.title,
+                            subtitle: (_values_description31 = values.description3) === null || _values_description31 === void 0 ? void 0 : _values_description31.subtitle,
+                            body: (_values_description32 = values.description3) === null || _values_description32 === void 0 ? void 0 : _values_description32.body
+                        }
+                    ].filter((item)=>item.title || item.subtitle || item.body);
+                    const formData = {
+                        youtube_url: values.url || "",
+                        children: children
+                    };
+                    await (0, _others._updateBannerVideo)(formData);
+                    _antd.message.success("Update banner success");
                 } catch (error) {
-                    _antd.message.error("Create faq failed");
+                    console.log("error", error);
+                    _antd.message.error("Update banner failed");
                 } finally{
                     BannerFormDataRefresh();
                     setBannerFormReadOnly(true);
@@ -93,7 +142,7 @@ function Index() {
                     setBannerFormReadOnly(true);
                 },
                 render (props, dom) {
-                    const editButton = (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                    const editButton = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                         type: "primary",
                         onClick: ()=>setBannerFormReadOnly(false),
                         children: "Edit"
@@ -104,25 +153,180 @@ function Index() {
             },
             grid: true,
             readonly: bannerFormReadOnly,
-            children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
-                colProps: {
-                    span: 12
-                },
-                label: "Youtube url",
-                name: "url"
-            }, void 0, false, {
-                fileName: "src/pages/Setting/others/index.tsx",
-                lineNumber: 105,
-                columnNumber: 9
-            }, this)
-        }, void 0, false, {
+            children: [
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                    colProps: {
+                        span: 12
+                    },
+                    label: "Youtube url",
+                    name: "url"
+                }, void 0, false, {
+                    fileName: "src/pages/Setting/others/index.tsx",
+                    lineNumber: 163,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+                    title: "Description one",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "Title",
+                            name: [
+                                "description1",
+                                "title"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 166,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "Subtitle",
+                            name: [
+                                "description1",
+                                "subtitle"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 171,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "body",
+                            name: [
+                                "description1",
+                                "body"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 176,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/pages/Setting/others/index.tsx",
+                    lineNumber: 165,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+                    title: "Description two",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "Title",
+                            name: [
+                                "description2",
+                                "title"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 184,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "Subtitle",
+                            name: [
+                                "description2",
+                                "subtitle"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 189,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "body",
+                            name: [
+                                "description2",
+                                "body"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 194,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/pages/Setting/others/index.tsx",
+                    lineNumber: 183,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+                    title: "Description three",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "Title",
+                            name: [
+                                "description3",
+                                "title"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 202,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "Subtitle",
+                            name: [
+                                "description3",
+                                "subtitle"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 207,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                            colProps: {
+                                span: 12
+                            },
+                            label: "body",
+                            name: [
+                                "description3",
+                                "body"
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/pages/Setting/others/index.tsx",
+                            lineNumber: 212,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/pages/Setting/others/index.tsx",
+                    lineNumber: 201,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
             fileName: "src/pages/Setting/others/index.tsx",
-            lineNumber: 64,
+            lineNumber: 97,
             columnNumber: 7
         }, this);
     };
     const CategoryElement = ()=>{
-        return (0, _jsxdevruntime.jsxDEV)(_procomponents.EditableProTable, {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.EditableProTable, {
             rowKey: "_id",
             editable: {
                 type: "single",
@@ -173,7 +377,7 @@ function Index() {
                     valueType: "option",
                     width: 200,
                     render: (text, record, _, action)=>[
-                            (0, _jsxdevruntime.jsxDEV)("a", {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("a", {
                                 onClick: ()=>{
                                     var _action_startEditable;
                                     action === null || action === void 0 || (_action_startEditable = action.startEditable) === null || _action_startEditable === void 0 || _action_startEditable.call(action, record._id, record);
@@ -185,15 +389,15 @@ function Index() {
             ]
         }, void 0, false, {
             fileName: "src/pages/Setting/others/index.tsx",
-            lineNumber: 111,
+            lineNumber: 223,
             columnNumber: 7
         }, this);
     };
     const PrivacyPolicyElement = ()=>{
         var _actionRef_current;
-        return (0, _jsxdevruntime.jsxDEV)("div", {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload,
                     inputProps: {
@@ -202,16 +406,16 @@ function Index() {
                     }
                 }, void 0, false, {
                     fileName: "src/pages/Setting/others/index.tsx",
-                    lineNumber: 179,
+                    lineNumber: 291,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: searchKey,
                     props: {
                         headerTitle: "Privacy policy List",
                         actionRef: actionRef,
                         optionsRender (props, defaultDom) {
-                            const createFaq = (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                            const createFaq = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                 allowUpdate: false,
                                 readOnly: false,
                                 modalFormProps: {
@@ -230,8 +434,8 @@ function Index() {
                                         }
                                     },
                                     grid: true,
-                                    trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
+                                    trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
                                         type: "text"
                                     }, void 0, false, void 0, void 0),
                                     submitter: {
@@ -242,7 +446,7 @@ function Index() {
                                     }
                                 },
                                 title: "New Part",
-                                children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                     colProps: {
                                         span: 18
                                     },
@@ -278,8 +482,8 @@ function Index() {
                                 title: "Actions",
                                 dataIndex: "action",
                                 key: "action",
-                                render: (_, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
-                                        children: (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                                render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                             allowUpdate: false,
                                             readOnly: false,
                                             modalFormProps: {
@@ -308,7 +512,7 @@ function Index() {
                                             },
                                             title: "New Part",
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -317,7 +521,7 @@ function Index() {
                                                     readonly: true,
                                                     initialValue: record.part
                                                 }, void 0, false, void 0, void 0),
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -349,21 +553,21 @@ function Index() {
                     }
                 }, void 0, false, {
                     fileName: "src/pages/Setting/others/index.tsx",
-                    lineNumber: 187,
+                    lineNumber: 299,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/Setting/others/index.tsx",
-            lineNumber: 178,
+            lineNumber: 290,
             columnNumber: 7
         }, this);
     };
     const TermsConditionElement = ()=>{
         var _termsConditionActionRef_current;
-        return (0, _jsxdevruntime.jsxDEV)("div", {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_termsConditionActionRef_current = termsConditionActionRef.current) === null || _termsConditionActionRef_current === void 0 ? void 0 : _termsConditionActionRef_current.reload,
                     inputProps: {
@@ -372,16 +576,16 @@ function Index() {
                     }
                 }, void 0, false, {
                     fileName: "src/pages/Setting/others/index.tsx",
-                    lineNumber: 330,
+                    lineNumber: 442,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: termsConditionSearchKey,
                     props: {
                         headerTitle: "Terms & Conditions List",
                         actionRef: termsConditionActionRef,
                         optionsRender (props, defaultDom) {
-                            const createTermsCondition = (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                            const createTermsCondition = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                 allowUpdate: false,
                                 readOnly: false,
                                 modalFormProps: {
@@ -400,8 +604,8 @@ function Index() {
                                         }
                                     },
                                     grid: true,
-                                    trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
+                                    trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
                                         type: "text"
                                     }, void 0, false, void 0, void 0),
                                     submitter: {
@@ -412,7 +616,7 @@ function Index() {
                                     }
                                 },
                                 title: "New Part",
-                                children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                     colProps: {
                                         span: 18
                                     },
@@ -448,8 +652,8 @@ function Index() {
                                 title: "Actions",
                                 dataIndex: "action",
                                 key: "action",
-                                render: (_, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
-                                        children: (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                                render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                             allowUpdate: false,
                                             readOnly: false,
                                             modalFormProps: {
@@ -478,7 +682,7 @@ function Index() {
                                             },
                                             title: "New Part",
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -487,7 +691,7 @@ function Index() {
                                                     readonly: true,
                                                     initialValue: record.part
                                                 }, void 0, false, void 0, void 0),
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -519,19 +723,19 @@ function Index() {
                     }
                 }, void 0, false, {
                     fileName: "src/pages/Setting/others/index.tsx",
-                    lineNumber: 339,
+                    lineNumber: 451,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/Setting/others/index.tsx",
-            lineNumber: 329,
+            lineNumber: 441,
             columnNumber: 7
         }, this);
     };
-    return (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
+    /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
         title: "Other settings",
-        children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
             title: "Settings card",
             headStyle: {
                 paddingBottom: 24
@@ -570,12 +774,12 @@ function Index() {
             }
         }, void 0, false, {
             fileName: "src/pages/Setting/others/index.tsx",
-            lineNumber: 484,
+            lineNumber: 596,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/pages/Setting/others/index.tsx",
-        lineNumber: 483,
+        lineNumber: 595,
         columnNumber: 5
     }, this);
 }
@@ -657,7 +861,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var prevRefreshReg;
 var prevRefreshSig;
@@ -682,12 +886,10 @@ const _getCategory = async ()=>{
         method: "get"
     });
 };
-const _updateBannerVideo = async (values)=>{
+const _updateBannerVideo = async (data)=>{
     const result = await (0, _max.request)(`/api/v1/admin/private/cms/banner`, {
         method: "put",
-        params: {
-            url: values.youtube_url
-        }
+        data: data
     });
     return {
         data: result,

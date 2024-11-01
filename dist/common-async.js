@@ -87,7 +87,7 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
@@ -104,25 +104,28 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function BaseModel({ children, modalFormProps, title, initData, readOnly, modalProps, loading = false, allowUpdate = true, submit }) {
     _s();
-    const [readonly, setReadonly] = (0, _react.useState)(true);
+    /**********************************狀態管理**********************************/ const [readonly, setReadonly] = (0, _react.useState)(true);
     const formRef = (0, _react.useRef)();
-    return (0, _jsxdevruntime.jsxDEV)(_procomponents.ModalForm, {
+    //   useEffect(() => {
+    //     formRef.current?.setFieldsValue(initData);
+    //   }, [initData]);
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ModalForm, {
         autoComplete: "nope",
-        trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+        trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
             type: "text",
-            icon: (0, _jsxdevruntime.jsxDEV)(_icons.InfoCircleOutlined, {}, void 0, false, void 0, void 0)
+            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.InfoCircleOutlined, {}, void 0, false, void 0, void 0)
         }, void 0, false, void 0, void 0),
-        title: (0, _jsxdevruntime.jsxDEV)("div", {
+        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             className: "w-[auto] pl-[0px] pr-[68px] pb-4 flex justify-between",
             children: [
-                (0, _jsxdevruntime.jsxDEV)("div", {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     className: "py-[4px]",
                     children: title
                 }, void 0, false, void 0, void 0),
-                allowUpdate && (0, _jsxdevruntime.jsxDEV)("div", {
+                allowUpdate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     className: "flex gap-[8px]",
                     children: [
-                        readonly ? (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {}, void 0, false) : (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        readonly ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {}, void 0, false) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "primary",
                             onClick: ()=>{
                                 if (submit) submit();
@@ -130,7 +133,7 @@ function BaseModel({ children, modalFormProps, title, initData, readOnly, modalP
                             },
                             children: "提交"
                         }, void 0, false, void 0, void 0),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "text",
                             style: {
                                 display: "flex",
@@ -450,6 +453,12 @@ __mako_require__.e(exports, {
     Role: function() {
         return Role;
     },
+    UrgentActionStatus: function() {
+        return UrgentActionStatus;
+    },
+    UrgentActionType: function() {
+        return UrgentActionType;
+    },
     WithdrawalProgress: function() {
         return WithdrawalProgress;
     },
@@ -565,6 +574,18 @@ var WithdrawalProgressNoRejected;
     WithdrawalProgressNoRejected["APPROVED_PROGRESSING"] = "APPROVED_PROGRESSING";
     WithdrawalProgressNoRejected["APPROVED_COMPLETED"] = "APPROVED_COMPLETED";
 })(WithdrawalProgressNoRejected || (WithdrawalProgressNoRejected = {}));
+var UrgentActionType;
+(function(UrgentActionType) {
+    UrgentActionType[UrgentActionType["StopEvent"] = 0] = "StopEvent";
+    UrgentActionType[UrgentActionType["CancelEvent"] = 1] = "CancelEvent";
+    UrgentActionType[UrgentActionType["Withdrawal"] = 2] = "Withdrawal";
+    UrgentActionType[UrgentActionType["Other"] = 3] = "Other";
+})(UrgentActionType || (UrgentActionType = {}));
+var UrgentActionStatus;
+(function(UrgentActionStatus) {
+    UrgentActionStatus[UrgentActionStatus["Waiting"] = 0] = "Waiting";
+    UrgentActionStatus[UrgentActionStatus["Handled"] = 1] = "Handled";
+})(UrgentActionStatus || (UrgentActionStatus = {}));
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {
@@ -686,7 +707,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var prevRefreshReg;
 var prevRefreshSig;
@@ -765,7 +786,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var _commonType = __mako_require__("src/services/commonType.ts");
 var prevRefreshReg;

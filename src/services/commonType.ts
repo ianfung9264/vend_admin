@@ -90,3 +90,13 @@ export enum WithdrawalProgressNoRejected {
   APPROVED_PROGRESSING = "APPROVED_PROGRESSING", // Deduct wallet amount here
   APPROVED_COMPLETED = "APPROVED_COMPLETED",
 }
+export enum UrgentActionType {
+  StopEvent,
+  CancelEvent,
+  Withdrawal,
+  Other,
+}
+export enum UrgentActionStatus {
+  Waiting,
+  Handled,
+}

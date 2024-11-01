@@ -4,7 +4,7 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/user","layout":false,"id":"1"},"2":{"name":"login","path":"/user/login","parentId":"1","id":"2"},"3":{"path":"/welcome","icon":"smile","parentId":"ant-design-pro-layout","id":"3"},"4":{"path":"/org","icon":"team","name":"Org","parentId":"ant-design-pro-layout","id":"4"},"5":{"path":"/tenant","icon":"userAdd","name":"Tenant","parentId":"ant-design-pro-layout","id":"5"},"6":{"path":"/event","icon":"sound","name":"Event","parentId":"ant-design-pro-layout","id":"6"},"7":{"path":"/transaction","icon":"dollar","name":"Transaction History","parentId":"ant-design-pro-layout","id":"7"},"8":{"path":"/transaction/withdraw","name":"Withdraw","parentId":"7","id":"8"},"9":{"path":"/transaction/fee","name":"Fee","parentId":"7","id":"9"},"10":{"path":"/transaction/refund","name":"Refund","parentId":"7","id":"10"},"11":{"path":"/approve","icon":"checkSquare","name":"Approve","parentId":"ant-design-pro-layout","id":"11"},"12":{"path":"/approve/advanced","name":"Advanced","parentId":"11","id":"12"},"13":{"path":"/approve/withdraw","name":"Withdraw","parentId":"11","id":"13"},"14":{"path":"/setting","icon":"setting","name":"Setting","parentId":"ant-design-pro-layout","id":"14"},"15":{"path":"/setting/faq","name":"FAQ","parentId":"14","id":"15"},"16":{"path":"/setting/fee","name":"Fee","parentId":"14","id":"16"},"17":{"path":"/setting/others","name":"Others","parentId":"14","id":"17"},"18":{"path":"/","redirect":"/org","parentId":"ant-design-pro-layout","id":"18"},"19":{"path":"*","layout":false,"id":"19"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true}} as const;
+  const routes = {"1":{"path":"/user","layout":false,"id":"1"},"2":{"name":"login","path":"/user/login","parentId":"1","id":"2"},"3":{"path":"/welcome","icon":"smile","parentId":"ant-design-pro-layout","id":"3"},"4":{"path":"/org","icon":"team","name":"Org","parentId":"ant-design-pro-layout","id":"4"},"5":{"path":"/tenant","icon":"userAdd","name":"Tenant","parentId":"ant-design-pro-layout","id":"5"},"6":{"path":"/event","icon":"sound","name":"Event","parentId":"ant-design-pro-layout","id":"6"},"7":{"path":"/transaction","icon":"dollar","name":"Transaction History","parentId":"ant-design-pro-layout","id":"7"},"8":{"path":"/transaction/withdraw","name":"Withdraw","parentId":"7","id":"8"},"9":{"path":"/transaction/fee","name":"Fee","parentId":"7","id":"9"},"10":{"path":"/transaction/refund","name":"Refund","parentId":"7","id":"10"},"11":{"path":"/approve","icon":"checkSquare","name":"Approve","parentId":"ant-design-pro-layout","id":"11"},"12":{"path":"/approve/advanced","name":"Advanced","parentId":"11","id":"12"},"13":{"path":"/approve/withdraw","name":"Withdraw","parentId":"11","id":"13"},"14":{"path":"/approve/urgent","name":"Urgent","parentId":"11","id":"14"},"15":{"path":"/setting","icon":"setting","name":"Setting","parentId":"ant-design-pro-layout","id":"15"},"16":{"path":"/setting/faq","name":"FAQ","parentId":"15","id":"16"},"17":{"path":"/setting/fee","name":"Fee","parentId":"15","id":"17"},"18":{"path":"/setting/others","name":"Others","parentId":"15","id":"18"},"19":{"path":"/","redirect":"/org","parentId":"ant-design-pro-layout","id":"19"},"20":{"path":"*","layout":false,"id":"20"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true}} as const;
   return {
     routes,
     routeComponents: {
@@ -21,12 +21,13 @@ export async function getRoutes() {
 '11': React.lazy(() => import('./EmptyRoute')),
 '12': React.lazy(() => import(/* webpackChunkName: "p__Approve__advanced__index" */'@/pages/Approve/advanced/index.tsx')),
 '13': React.lazy(() => import(/* webpackChunkName: "p__Approve__withdraw__index" */'@/pages/Approve/withdraw/index.tsx')),
-'14': React.lazy(() => import('./EmptyRoute')),
-'15': React.lazy(() => import(/* webpackChunkName: "p__Setting__faq__index" */'@/pages/Setting/faq/index.tsx')),
-'16': React.lazy(() => import(/* webpackChunkName: "p__Setting__fee__index" */'@/pages/Setting/fee/index.tsx')),
-'17': React.lazy(() => import(/* webpackChunkName: "p__Setting__others__index" */'@/pages/Setting/others/index.tsx')),
-'18': React.lazy(() => import('./EmptyRoute')),
-'19': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.tsx')),
+'14': React.lazy(() => import(/* webpackChunkName: "p__Approve__urgent__index" */'@/pages/Approve/urgent/index.tsx')),
+'15': React.lazy(() => import('./EmptyRoute')),
+'16': React.lazy(() => import(/* webpackChunkName: "p__Setting__faq__index" */'@/pages/Setting/faq/index.tsx')),
+'17': React.lazy(() => import(/* webpackChunkName: "p__Setting__fee__index" */'@/pages/Setting/fee/index.tsx')),
+'18': React.lazy(() => import(/* webpackChunkName: "p__Setting__others__index" */'@/pages/Setting/others/index.tsx')),
+'19': React.lazy(() => import('./EmptyRoute')),
+'20': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.tsx')),
 'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'/Users/mgt-it/Desktop/project/vend_admin/src/.umi/plugin-layout/Layout.tsx')),
 },
   };

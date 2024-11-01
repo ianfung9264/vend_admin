@@ -12,6 +12,7 @@ export const StrictVerifyButton = ({
   initData?: {
     actionFuncParams: any;
     actionFunc: (params: any) => Promise<any>;
+    mainTableReload: (() => void) | undefined;
   };
   trigger: JSX.Element;
   title?: string;
@@ -32,30 +33,30 @@ export const StrictVerifyButton = ({
         }}
         grid={true}
         onFinish={async (values: API.SignInData) => {
-          // await actionFunc?.(values);
-          // try {
-          //   const isPass = await sign_in(values).then((res) => {
-          //     if (res.code == 200) {
-          //       return true;
-          //     } else {
-          //       return false;
-          //     }
-          //   });
-          //   if (isPass) {
-          //     await actionFunc?.(actionFuncParams).then((res) => {
-          //       if (res.code == 200) {
-          //         message.success("Executed successfully");
-          //       } else {
-          //         message.error("Execution failed , please try again");
-          //       }
-          //     });
-          //   } else {
-          //     message.error("Execution failed: wrong account info");
-          //   }
-          // } catch (error) {
-          //   message.error("Execution failed: wrong account info");
-          // }
-          message.info("The module is under development", 10);
+          try {
+            const isPass = await sign_in(values).then((res) => {
+              if (res.code == 200) {
+                return true;
+              } else {
+                return false;
+              }
+            });
+            if (isPass) {
+              console.log("actionFuncParams", actionFuncParams);
+              await actionFunc?.(actionFuncParams).then((res) => {
+                if (res.code == 200) {
+                  message.success("Executed successfully");
+                } else {
+                  message.error("Execution failed , please try again");
+                }
+              });
+            } else {
+              message.error("Execution failed: wrong account info");
+            }
+          } catch (error) {
+            message.error("Execution failed: wrong account info");
+          }
+          initData?.mainTableReload?.();
           return true; //在此返回true是为了关闭modal
         }}
       >

@@ -23,6 +23,7 @@ import {
   EditableProTable,
   ProCard,
   ProForm,
+  ProFormField,
   ProFormInstance,
   ProFormSelect,
   ProFormText,
@@ -41,8 +42,40 @@ export default function Index() {
   const bannerFormRef = useRef<FormInstance>();
   const { refresh: BannerFormDataRefresh } = useRequest(_getBannerVideo, {
     onSuccess: (res) => {
-      console.log("res", res);
-      bannerFormRef.current?.setFieldsValue({ url: res[0].youtube_url[0] });
+      console.log("获取到的原始数据:", res); // 调试用
+
+      if (!res || !res[0]) {
+        console.warn("没有获取到数据");
+        return;
+      }
+
+      const data = res[0];
+      console.log("要设置的数据:", {
+        url: Array.isArray(data.youtube_url)
+          ? data.youtube_url[0]
+          : data.youtube_url,
+        description1: data.children?.[0],
+        description2: data.children?.[1],
+        description3: data.children?.[2],
+      });
+      bannerFormRef.current?.setFieldsValue({
+        url: data.youtube_url[0],
+        description1: {
+          title: data.children?.[0]?.title ?? "",
+          subtitle: data.children?.[0]?.subtitle ?? "",
+          body: data.children?.[0]?.body ?? "",
+        },
+        description2: {
+          title: data.children?.[1]?.title ?? "",
+          subtitle: data.children?.[1]?.subtitle ?? "",
+          body: data.children?.[1]?.body ?? "",
+        },
+        description3: {
+          title: data.children?.[2]?.title ?? "",
+          subtitle: data.children?.[2]?.subtitle ?? "",
+          body: data.children?.[2]?.body ?? "",
+        },
+      });
     },
   });
   const actionRef = useRef<ActionType>();
@@ -65,10 +98,35 @@ export default function Index() {
         formRef={bannerFormRef}
         onFinish={async (values) => {
           try {
-            await _updateBannerVideo({ youtube_url: values.url });
-            message.success("Create faq success");
+            // 过滤空的描述对象
+            const children = [
+              {
+                title: values.description1?.title,
+                subtitle: values.description1?.subtitle,
+                body: values.description1?.body,
+              },
+              {
+                title: values.description2?.title,
+                subtitle: values.description2?.subtitle,
+                body: values.description2?.body,
+              },
+              {
+                title: values.description3?.title,
+                subtitle: values.description3?.subtitle,
+                body: values.description3?.body,
+              },
+            ].filter((item) => item.title || item.subtitle || item.body);
+
+            const formData = {
+              youtube_url: values.url || "",
+              children: children,
+            };
+
+            await _updateBannerVideo(formData);
+            message.success("Update banner success");
           } catch (error) {
-            message.error("Create faq failed");
+            console.log("error", error);
+            message.error("Update banner failed");
           } finally {
             BannerFormDataRefresh();
             setBannerFormReadOnly(true);
@@ -103,6 +161,60 @@ export default function Index() {
         readonly={bannerFormReadOnly}
       >
         <ProFormText colProps={{ span: 12 }} label={"Youtube url"} name="url" />
+
+        <ProForm.Group title="Description one">
+          <ProFormText
+            colProps={{ span: 12 }}
+            label={"Title"}
+            name={["description1", "title"]}
+          />
+          <ProFormText
+            colProps={{ span: 12 }}
+            label={"Subtitle"}
+            name={["description1", "subtitle"]}
+          />
+          <ProFormTextArea
+            colProps={{ span: 12 }}
+            label={"body"}
+            name={["description1", "body"]}
+          />
+        </ProForm.Group>
+
+        <ProForm.Group title="Description two">
+          <ProFormText
+            colProps={{ span: 12 }}
+            label={"Title"}
+            name={["description2", "title"]}
+          />
+          <ProFormText
+            colProps={{ span: 12 }}
+            label={"Subtitle"}
+            name={["description2", "subtitle"]}
+          />
+          <ProFormTextArea
+            colProps={{ span: 12 }}
+            label={"body"}
+            name={["description2", "body"]}
+          />
+        </ProForm.Group>
+
+        <ProForm.Group title="Description three">
+          <ProFormText
+            colProps={{ span: 12 }}
+            label={"Title"}
+            name={["description3", "title"]}
+          />
+          <ProFormText
+            colProps={{ span: 12 }}
+            label={"Subtitle"}
+            name={["description3", "subtitle"]}
+          />
+          <ProFormTextArea
+            colProps={{ span: 12 }}
+            label={"body"}
+            name={["description3", "body"]}
+          />
+        </ProForm.Group>
       </ProForm>
     );
   };

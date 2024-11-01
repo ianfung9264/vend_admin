@@ -5,7 +5,8 @@
 __mako_require__.d(exports, "__esModule", {
     value: true
 });
-__mako_require__.d(exports, "default", {
+__mako_require__.d(exports, "default" //
+, {
     enumerable: true,
     get: function() {
         return Index;
@@ -13,18 +14,18 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseIndex = _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
-var _BaseSearch = _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
-var _BaseTable = _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
+var _BaseIndex = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
+var _BaseSearch = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
+var _BaseTable = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
 var _fee = __mako_require__("src/services/setting/fee.ts");
-var _searchHelper = _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
+var _searchHelper = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
 var _charts = __mako_require__("node_modules/@ant-design/charts/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _max = __mako_require__("src/.umi/exports.ts");
-var _dayjs = _interop_require_default._(__mako_require__("node_modules/dayjs/dayjs.min.js"));
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _dayjs = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/dayjs/dayjs.min.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -36,7 +37,7 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function Index() {
     _s();
-    const [tab, setTab] = (0, _react.useState)("tab1");
+    /**********************************狀態管理**********************************/ const [tab, setTab] = (0, _react.useState)("tab1");
     const { refresh: TransactionFeeDataRefresh } = (0, _max.useRequest)(_fee._getAllTransactionFee, {
         onSuccess: (res)=>{
             console.log("res", res);
@@ -53,11 +54,11 @@ function Index() {
     (0, _react.useEffect)(()=>{
         TransactionFeeDataRefresh();
     }, []);
-    const CommissionElement = ()=>{
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ const CommissionElement = ()=>{
         var _actionRef_current;
-        return (0, _jsxdevruntime.jsxDEV)("div", {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload,
                     inputProps: {
@@ -69,7 +70,7 @@ function Index() {
                     lineNumber: 71,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: commissionSearchKey,
                     props: {
                         headerTitle: "Commission List",
@@ -109,21 +110,22 @@ function Index() {
                                             end_time: "2024-10-28T12:55:00.000Z"
                                         }
                                     ];
+                                    // 检查 schedule 是否存在并且是数组
                                     if (Array.isArray(record.schedule)) return record.schedule.map((item, Index)=>{
-                                        const startTime = new Date(item.start_time).toLocaleString();
-                                        const endTime = new Date(item.end_time).toLocaleString();
-                                        return (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                                        const startTime = new Date(item.start_time).toLocaleString(); // 格式化开始时间
+                                        const endTime = new Date(item.end_time).toLocaleString(); // 格式化结束时间
+                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
                                             children: [
                                                 Index + 1,
                                                 " : ",
                                                 startTime.toString(),
                                                 " -",
                                                 endTime.toString(),
-                                                (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0)
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, void 0, void 0)
                                             ]
-                                        }, void 0, true);
+                                        }, void 0, true); // 返回格式化的字符串
                                     });
-                                    return "";
+                                    return ""; // 如果没有 schedule，返回空字符串
                                 }
                             },
                             {
@@ -183,9 +185,9 @@ function Index() {
     };
     const TransactionFeeElement = ()=>{
         var _feeActionRef_current;
-        return (0, _jsxdevruntime.jsxDEV)("div", {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_feeActionRef_current = feeActionRef.current) === null || _feeActionRef_current === void 0 ? void 0 : _feeActionRef_current.reload,
                     inputProps: {
@@ -197,7 +199,7 @@ function Index() {
                     lineNumber: 197,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: transactionFeeSearchKey,
                     props: {
                         headerTitle: "Transaction fee List",
@@ -281,26 +283,28 @@ function Index() {
             value: 5639
         };
         const totalVendpopupsCommission = commission.reduce((total, item)=>{
+            // 确保 vendpopups_commission 存在并且有 total_amount 属性
             if (item.stall_payment_summary && item.stall_payment_summary.vendpopups_commission) return total + item.stall_payment_summary.vendpopups_commission.total_amount;
-            return total;
+            return total; // 如果没有，返回当前总和
         }, 0);
         const applicationFeeTotalAmount = applicationFee.length * 2;
         const totalAmount = applicationFeeTotalAmount + totalVendpopupsCommission;
-        return (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
             title: "Dashboard",
             extra: (0, _dayjs.default)().format("YYYY-MM-DD HH:mm"),
             split: "horizontal",
+            // headerBordered
             bordered: true,
-            children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
                 split: "horizontal",
                 children: [
-                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
                         split: "horizontal",
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
                                 split: "vertical",
                                 children: [
-                                    (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
                                         statistic: {
                                             title: "Application total quantity",
                                             value: applicationFee.length
@@ -310,7 +314,7 @@ function Index() {
                                         lineNumber: 314,
                                         columnNumber: 15
                                     }, this),
-                                    (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
                                         statistic: {
                                             title: "Commission total quantity",
                                             value: commission.length
@@ -326,10 +330,10 @@ function Index() {
                                 lineNumber: 313,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
                                 split: "vertical",
                                 children: [
-                                    (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
                                         statistic: {
                                             title: "Application total amount",
                                             value: applicationFeeTotalAmount,
@@ -340,7 +344,7 @@ function Index() {
                                         lineNumber: 328,
                                         columnNumber: 15
                                     }, this),
-                                    (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
                                         statistic: {
                                             title: "Commission total amount",
                                             value: totalVendpopupsCommission,
@@ -363,12 +367,12 @@ function Index() {
                         lineNumber: 312,
                         columnNumber: 11
                     }, this),
-                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
                         split: "vertical",
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
                                 title: "Application fee percentage",
-                                chart: (0, _jsxdevruntime.jsxDEV)(_charts.Liquid, {
+                                chart: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_charts.Liquid, {
                                     height: 400,
                                     width: 400,
                                     label: {
@@ -384,9 +388,9 @@ function Index() {
                                 lineNumber: 345,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.StatisticCard, {
                                 title: "Percentage summary",
-                                chart: (0, _jsxdevruntime.jsxDEV)(_charts.Pie, {
+                                chart: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_charts.Pie, {
                                     forceFit: true,
                                     radius: 0.8,
                                     angleField: "value",
@@ -430,9 +434,9 @@ function Index() {
             columnNumber: 7
         }, this);
     };
-    return (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
+    /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
         title: "Commission & fee page",
-        children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
             title: "",
             headStyle: {
                 paddingBottom: 24

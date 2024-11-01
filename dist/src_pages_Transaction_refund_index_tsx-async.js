@@ -12,7 +12,7 @@ __mako_require__.d(exports, "RefundTableColumns", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -22,6 +22,11 @@ self.$RefreshReg$ = (type, id)=>{
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 function RefundTableColumns({ mainTableReload }) {
+    // console.log("mainTableReload", mainTableReload);
+    // const [tableReload, setTableReload] = useState(() => mainTableReload);
+    // useEffect(() => {
+    //   setTableReload(() => mainTableReload);
+    // }, [mainTableReload]);
     return [
         {
             title: "Event id",
@@ -117,14 +122,14 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseIndex = _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
-var _BaseSearch = _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
-var _BaseTable = _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _BaseIndex = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
+var _BaseSearch = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
+var _BaseTable = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _columns = __mako_require__("src/pages/Transaction/refund/columns.tsx");
-var _searchHelper = _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
+var _searchHelper = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
 var _info = __mako_require__("src/services/withdrawal/info.ts");
 var prevRefreshReg;
 var prevRefreshSig;
@@ -138,7 +143,7 @@ var _s = $RefreshSig$();
 function Index() {
     var _actionRef_current;
     _s();
-    const actionRef = (0, _react.useRef)();
+    /**********************************狀態管理**********************************/ const actionRef = (0, _react.useRef)();
     const [searchKey, setSearchKey] = (0, _react.useState)("");
     const [reload, setReload] = (0, _react.useState)(()=>{
         var _actionRef_current;
@@ -151,11 +156,11 @@ function Index() {
             return (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload;
         });
     }, []);
-    return (0, _jsxdevruntime.jsxDEV)("div", {
-        children: (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
             title: "Org refund history page",
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload,
                     inputProps: {
@@ -167,7 +172,7 @@ function Index() {
                     lineNumber: 37,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: searchKey,
                     props: {
                         headerTitle: "Refund record List",
