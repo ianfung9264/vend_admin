@@ -5,7 +5,7 @@ import BaseTable from "@/components/Base/BaseTable";
 import { _getAllTransactionFee } from "@/services/setting/fee";
 import {
   _createCategory,
-  _getBannerVideo,
+  _getBannerContext,
   _getCategory,
   _getPrivacyPolicy,
   _getTermsCondition,
@@ -13,7 +13,7 @@ import {
   _postTermsCondition,
   _putPrivacyPolicy,
   _putTermsCondition,
-  _updateBannerVideo,
+  _updateBannerContext,
   _updateCategory,
 } from "@/services/setting/others";
 import Helper from "@/util/searchHelper";

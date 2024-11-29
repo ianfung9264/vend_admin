@@ -12,7 +12,7 @@ __mako_require__.d(exports, "StrictVerifyButton", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _signin = __mako_require__("src/services/sign-in.ts");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
@@ -27,8 +27,8 @@ self.$RefreshReg$ = (type, id)=>{
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 const StrictVerifyButton = ({ initData, trigger, title })=>{
     const { actionFunc, actionFuncParams } = initData || {};
-    return (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
-        children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ModalForm, {
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ModalForm, {
             title: title || "Are you sure you want to block this organizer?",
             trigger: trigger,
             modalProps: {
@@ -58,10 +58,10 @@ const StrictVerifyButton = ({ initData, trigger, title })=>{
                     _antd.message.error("Execution failed: wrong account info");
                 }
                 initData === null || initData === void 0 || (_initData_mainTableReload = initData.mainTableReload) === null || _initData_mainTableReload === void 0 || _initData_mainTableReload.call(initData);
-                return true;
+                return true; //在此返回true是为了关闭modal
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                     name: "account",
                     colProps: {
                         span: 8
@@ -73,7 +73,7 @@ const StrictVerifyButton = ({ initData, trigger, title })=>{
                     lineNumber: 63,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText.Password, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText.Password, {
                     colProps: {
                         span: 8,
                         offset: 5
@@ -140,7 +140,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _StrictVerifyButton = __mako_require__("src/components/Base/StrictVerifyButton.tsx");
 var _commonType = __mako_require__("src/services/commonType.ts");
@@ -270,6 +270,17 @@ function EventTableColumns({ mainTableReload }) {
             },
             align: "center"
         },
+        // {
+        //   title: "schedule",
+        //   dataIndex: "schedule",
+        //   key: "schedule",
+        //   align: "center",
+        //   render: (_, record) => {
+        //     console.log("record.schedule", record.schedule);
+        //     return <ProFormList name="schedule" dataSource={record.schedule} />;
+        //   },
+        //   // `${record.schedule.start_date} - ${record.schedule.end_date}`,
+        // },
         {
             title: "Actions",
             dataIndex: "action",
@@ -279,23 +290,25 @@ function EventTableColumns({ mainTableReload }) {
                 const latestScheduleItem = schedule.reduce((latest, current)=>{
                     return new Date(current.start_time) > new Date(latest.end_time) ? current : latest;
                 });
+                // 获取当前时间
                 const now = new Date();
+                // 比较最晚的时间与当前时间
                 const canCancelOrStop = latestScheduleItem && new Date(latestScheduleItem.start_time) > now;
-                return (0, _jsxdevruntime.jsxDEV)("span", {
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                     className: "flex flex-row gap-2 justify-center",
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_StrictVerifyButton.StrictVerifyButton, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_StrictVerifyButton.StrictVerifyButton, {
                             title: record.status == _commonType.EventStatus.NORMAL ? "Are you sure you want to stop the event?" : "Are you sure you want to start the event?",
-                            trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                 disabled: !canCancelOrStop,
                                 type: "primary",
                                 size: "small",
-                                icon: record.status == _commonType.EventStatus.NORMAL ? (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                                icon: record.status == _commonType.EventStatus.NORMAL ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                                     title: "Click to stop the event",
-                                    children: (0, _jsxdevruntime.jsxDEV)(_icons.PauseOutlined, {}, void 0, false, void 0, void 0)
-                                }, void 0, false, void 0, void 0) : (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PauseOutlined, {}, void 0, false, void 0, void 0)
+                                }, void 0, false, void 0, void 0) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                                     title: "Click to stop the event",
-                                    children: (0, _jsxdevruntime.jsxDEV)(_icons.PlayCircleOutlined, {}, void 0, false, void 0, void 0)
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlayCircleOutlined, {}, void 0, false, void 0, void 0)
                                 }, void 0, false, void 0, void 0)
                             }, void 0, false, void 0, void 0),
                             initData: {
@@ -310,12 +323,12 @@ function EventTableColumns({ mainTableReload }) {
                             lineNumber: 131,
                             columnNumber: 13
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_StrictVerifyButton.StrictVerifyButton, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_StrictVerifyButton.StrictVerifyButton, {
                             title: "Are you sure you want to cancel the event?",
-                            trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                 size: "small",
                                 type: "primary",
-                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.StopOutlined, {}, void 0, false, void 0, void 0),
+                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.StopOutlined, {}, void 0, false, void 0, void 0),
                                 disabled: record.status == _commonType.EventStatus.CANCEL || !canCancelOrStop
                             }, void 0, false, void 0, void 0),
                             initData: {
@@ -657,7 +670,7 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var _commonType = __mako_require__("src/services/commonType.ts");
 var prevRefreshReg;
