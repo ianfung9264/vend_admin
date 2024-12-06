@@ -196,10 +196,8 @@ export const _putTermsCondition = async (values: {
   });
 };
 
-export const _getCMSImage = async (
-  session_id: number
-): Promise<API.DefaultObjectResponse> => {
-  return await request(`/api/v1/admin/private/cms/${session_id}`, {
+export const _getCMSImage = async (session_id: number): Promise<any> => {
+  return await request(`/api/v1/global/public/cms/${session_id}`, {
     method: "get",
   });
 };

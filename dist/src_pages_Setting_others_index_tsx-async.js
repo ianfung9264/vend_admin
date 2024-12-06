@@ -1,6 +1,72 @@
 ((typeof globalThis !== 'undefined' ? globalThis : self)["makoChunk_ant-design-pro"] = (typeof globalThis !== 'undefined' ? globalThis : self)["makoChunk_ant-design-pro"] || []).push([
         ['src/pages/Setting/others/index.tsx'],
-{ "src/pages/Setting/others/cms/HomeFooterImage.tsx": function (module, exports, __mako_require__){
+{ "config/cmsId.ts": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    BANNER_VIDEO_ID: function() {
+        return BANNER_VIDEO_ID;
+    },
+    HOME_FOOTER_IMAGE_ID: function() {
+        return HOME_FOOTER_IMAGE_ID;
+    },
+    HOME_TITLE_IMAGE_ID: function() {
+        return HOME_TITLE_IMAGE_ID;
+    },
+    LOGIN_IMAGE_ID: function() {
+        return LOGIN_IMAGE_ID;
+    },
+    SIGNUP_IMAGE_ID: function() {
+        return SIGNUP_IMAGE_ID;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+const HOME_TITLE_IMAGE_ID = 1;
+const HOME_FOOTER_IMAGE_ID = 2;
+const LOGIN_IMAGE_ID = 678;
+const SIGNUP_IMAGE_ID = 595;
+const BANNER_VIDEO_ID = 9527;
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/pages/Setting/others/cms/HomeFooterImage.tsx": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
     value: true
@@ -18,6 +84,7 @@ var _others = __mako_require__("src/services/setting/others.ts");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
+var _cmsId = __mako_require__("config/cmsId.ts");
 var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var prevRefreshReg;
 var prevRefreshSig;
@@ -30,10 +97,10 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function HomeFooterImage() {
     _s();
-    const [signUpImage, setSignUpImage] = (0, _react.useState)("");
+    const [homeFooterImage, setHomeFooterImage] = (0, _react.useState)("");
     const [loading, setLoading] = (0, _react.useState)(false);
     (0, _react.useEffect)(()=>{
-        getSignUpImage();
+        getHomeFooterImage();
     }, []);
     const props = {
         name: "file",
@@ -49,12 +116,13 @@ function HomeFooterImage() {
                 }
                 try {
                     setLoading(true);
-                    const response = await (0, _others._updateSignupImage)({
-                        file: file
+                    const response = await (0, _others._updateCMSImage)({
+                        file: file,
+                        session: _cmsId.HOME_FOOTER_IMAGE_ID
                     });
                     if (response.status) {
                         _antd.message.success("上传成功");
-                        getSignUpImage();
+                        getHomeFooterImage();
                     } else _antd.message.error("上传失败");
                 } catch (error) {
                     _antd.message.error("上传失败");
@@ -82,7 +150,7 @@ function HomeFooterImage() {
             defaultCollapsed: true,
             children: (0, _jsxdevruntime.jsxDEV)(_antd.Image, {
                 height: "100%",
-                src: signUpImage,
+                src: homeFooterImage,
                 width: "100%",
                 fallback: "data:image/png;base64,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",
                 style: {
@@ -91,27 +159,27 @@ function HomeFooterImage() {
                 }
             }, void 0, false, {
                 fileName: "src/pages/Setting/others/cms/HomeFooterImage.tsx",
-                lineNumber: 103,
+                lineNumber: 107,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "src/pages/Setting/others/cms/HomeFooterImage.tsx",
-            lineNumber: 90,
+            lineNumber: 94,
             columnNumber: 7
         }, this);
     };
-    const getSignUpImage = async ()=>{
-        await (0, _others._getSignupImage)().then((res)=>{
-            setSignUpImage(res.data[0].images[0]);
+    const getHomeFooterImage = async ()=>{
+        await (0, _others._getCMSImage)(_cmsId.HOME_FOOTER_IMAGE_ID).then((res)=>{
+            setHomeFooterImage(res[0].images[0]);
         });
     };
     return (0, _jsxdevruntime.jsxDEV)(HomeFooterImage, {}, void 0, false, {
         fileName: "src/pages/Setting/others/cms/HomeFooterImage.tsx",
-        lineNumber: 124,
+        lineNumber: 128,
         columnNumber: 10
     }, this);
 }
-_s(HomeFooterImage, "EoP+Lb1E64m4yVVxId+uGED7shE=");
+_s(HomeFooterImage, "2RxpTzCwWBUAkkbzLi9dNQssc4Y=");
 _c = HomeFooterImage;
 var _c;
 $RefreshReg$(_c, "HomeFooterImage");
@@ -155,6 +223,7 @@ var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _others = __mako_require__("src/services/setting/others.ts");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
+var _cmsId = __mako_require__("config/cmsId.ts");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var prevRefreshReg;
@@ -168,10 +237,10 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function HomeTitleImage() {
     _s();
-    const [signUpImage, setSignUpImage] = (0, _react.useState)("");
+    const [homeTitleImage, setHomeTitleImage] = (0, _react.useState)("");
     const [loading, setLoading] = (0, _react.useState)(false);
     (0, _react.useEffect)(()=>{
-        getSignUpImage();
+        getHomeTitleImage();
     }, []);
     const props = {
         name: "file",
@@ -187,12 +256,13 @@ function HomeTitleImage() {
                 }
                 try {
                     setLoading(true);
-                    const response = await (0, _others._updateSignupImage)({
-                        file: file
+                    const response = await (0, _others._updateCMSImage)({
+                        file: file,
+                        session: _cmsId.HOME_TITLE_IMAGE_ID
                     });
                     if (response.status) {
                         _antd.message.success("上传成功");
-                        getSignUpImage();
+                        getHomeTitleImage();
                     } else _antd.message.error("上传失败");
                 } catch (error) {
                     _antd.message.error("上传失败");
@@ -220,7 +290,7 @@ function HomeTitleImage() {
             defaultCollapsed: true,
             children: (0, _jsxdevruntime.jsxDEV)(_antd.Image, {
                 height: "100%",
-                src: signUpImage,
+                src: homeTitleImage,
                 width: "100%",
                 fallback: "data:image/png;base64,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",
                 style: {
@@ -229,27 +299,28 @@ function HomeTitleImage() {
                 }
             }, void 0, false, {
                 fileName: "src/pages/Setting/others/cms/HomeTitileImage.tsx",
-                lineNumber: 103,
+                lineNumber: 107,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "src/pages/Setting/others/cms/HomeTitileImage.tsx",
-            lineNumber: 90,
+            lineNumber: 94,
             columnNumber: 7
         }, this);
     };
-    const getSignUpImage = async ()=>{
-        await (0, _others._getSignupImage)().then((res)=>{
-            setSignUpImage(res.data[0].images[0]);
+    const getHomeTitleImage = async ()=>{
+        await (0, _others._getCMSImage)(_cmsId.HOME_TITLE_IMAGE_ID).then((res)=>{
+            console.log("res", res[0].images[0]);
+            setHomeTitleImage(res[0].images[0]);
         });
     };
     return (0, _jsxdevruntime.jsxDEV)(HomeTitleImage, {}, void 0, false, {
         fileName: "src/pages/Setting/others/cms/HomeTitileImage.tsx",
-        lineNumber: 124,
+        lineNumber: 129,
         columnNumber: 10
     }, this);
 }
-_s(HomeTitleImage, "EoP+Lb1E64m4yVVxId+uGED7shE=");
+_s(HomeTitleImage, "cmiDdKFOcgRENirWBFFI1FQRWhw=");
 _c = HomeTitleImage;
 var _c;
 $RefreshReg$(_c, "HomeTitleImage");
@@ -420,20 +491,21 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 __mako_require__.d(exports, "__esModule", {
     value: true
 });
-__mako_require__.d(exports, "default", {
+__mako_require__.d(exports, "default" //
+, {
     enumerable: true,
     get: function() {
         return Index;
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _others = __mako_require__("src/services/setting/others.ts");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -445,12 +517,12 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function Index() {
     _s();
-    const [signUpImage, setSignUpImage] = (0, _react.useState)("");
+    /**********************************狀態管理**********************************/ const [signUpImage, setSignUpImage] = (0, _react.useState)("");
     const [loading, setLoading] = (0, _react.useState)(false);
     (0, _react.useEffect)(()=>{
         getSignUpImage();
     }, []);
-    const props = {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ const props = {
         name: "file",
         showUploadList: false,
         beforeUpload: ()=>false,
@@ -458,6 +530,7 @@ function Index() {
             var _info_fileList_;
             const file = (_info_fileList_ = info.fileList[0]) === null || _info_fileList_ === void 0 ? void 0 : _info_fileList_.originFileObj;
             if (file) {
+                // 验证是否为图片
                 if (!file.type.startsWith("image/")) {
                     _antd.message.error("请上传图片文件");
                     return;
@@ -481,21 +554,21 @@ function Index() {
         }
     };
     const SignUpImageElement = ()=>{
-        return (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
             title: "Signup image",
             headerBordered: true,
             boxShadow: true,
             loading: loading,
-            extra: (0, _jsxdevruntime.jsxDEV)(_antd.Upload, {
+            extra: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Upload, {
                 ...props,
-                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.UploadOutlined, {}, void 0, false, void 0, void 0),
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UploadOutlined, {}, void 0, false, void 0, void 0),
                     children: "Click to Upload"
                 }, void 0, false, void 0, void 0)
             }, void 0, false, void 0, void 0),
             collapsible: true,
             defaultCollapsed: true,
-            children: (0, _jsxdevruntime.jsxDEV)(_antd.Image, {
+            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Image, {
                 height: "100%",
                 src: signUpImage,
                 width: "100%",
@@ -515,12 +588,12 @@ function Index() {
             columnNumber: 7
         }, this);
     };
-    const getSignUpImage = async ()=>{
+    /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ const getSignUpImage = async ()=>{
         await (0, _others._getSignupImage)().then((res)=>{
             setSignUpImage(res.data[0].images[0]);
         });
     };
-    return (0, _jsxdevruntime.jsxDEV)(SignUpImageElement, {}, void 0, false, {
+    /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(SignUpImageElement, {}, void 0, false, {
         fileName: "src/pages/Setting/others/cms/SignUpImageElement.tsx",
         lineNumber: 124,
         columnNumber: 10
@@ -558,7 +631,8 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 __mako_require__.d(exports, "__esModule", {
     value: true
 });
-__mako_require__.d(exports, "default", {
+__mako_require__.d(exports, "default" //
+, {
     enumerable: true,
     get: function() {
         return Index;
@@ -566,23 +640,23 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _BaseIndex = _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
-var _BaseModel = _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
-var _BaseSearch = _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
-var _BaseTable = _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
+var _BaseIndex = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseIndex.tsx"));
+var _BaseModel = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseModel.tsx"));
+var _BaseSearch = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseSearch.tsx"));
+var _BaseTable = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Base/BaseTable.tsx"));
 var _others = __mako_require__("src/services/setting/others.ts");
-var _searchHelper = _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
+var _searchHelper = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/util/searchHelper.ts"));
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _procomponents = __mako_require__("node_modules/@ant-design/pro-components/es/index.js");
 var _max = __mako_require__("src/.umi/exports.ts");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
-var _LoginImageElement = _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/LoginImageElement.tsx"));
-var _SignUpImageElement = _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/SignUpImageElement.tsx"));
-var _HomeTitileImage = _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/HomeTitileImage.tsx"));
-var _HomeFooterImage = _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/HomeFooterImage.tsx"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _LoginImageElement = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/LoginImageElement.tsx"));
+var _SignUpImageElement = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/SignUpImageElement.tsx"));
+var _HomeTitileImage = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/HomeTitileImage.tsx"));
+var _HomeFooterImage = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/Setting/others/cms/HomeFooterImage.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -594,13 +668,13 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 function Index() {
     _s();
-    const [tab, setTab] = (0, _react.useState)("tab1");
+    /**********************************狀態管理**********************************/ const [tab, setTab] = (0, _react.useState)("tab1");
     const [bannerFormReadOnly, setBannerFormReadOnly] = (0, _react.useState)(true);
     const bannerFormRef = (0, _react.useRef)();
     const { refresh: BannerFormDataRefresh } = (0, _max.useRequest)(_others._getBannerContext, {
         onSuccess: async (res)=>{
             var _data_children, _data_children1, _data_children2, _data_children_, _data_children3, _data_children_1, _data_children4, _data_children_2, _data_children5, _data_children_3, _data_children6, _data_children_4, _data_children7, _data_children_5, _data_children8, _data_children_6, _data_children9, _data_children_7, _data_children10, _data_children_8, _data_children11, _bannerFormRef_current;
-            console.log("获取到的原始数据:", res);
+            console.log("获取到的原始数据:", res); // 调试用
             if (!res || !res[0]) {
                 console.warn("没有获取到数据");
                 return;
@@ -653,7 +727,7 @@ function Index() {
             return (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload;
         });
     }, []);
-    const uploadProps = {
+    /**********************************狀態管理**********************************/ /**********************************組件初始化**********************************/ const uploadProps = {
         name: "file",
         showUploadList: false,
         beforeUpload: ()=>false,
@@ -662,11 +736,12 @@ function Index() {
             var _info_fileList_;
             const file = (_info_fileList_ = info.fileList[0]) === null || _info_fileList_ === void 0 ? void 0 : _info_fileList_.originFileObj;
             if (file) {
+                // 验证是否为图片
                 if (!file.type.startsWith("video/")) {
                     _antd.message.error("请上传视频文件");
                     return;
                 }
-                const maxSize = 104857600;
+                const maxSize = 104857600; // 100MB
                 if (file.size > maxSize) {
                     _antd.message.error("视频文件不能超过 100MB");
                     return;
@@ -690,14 +765,15 @@ function Index() {
         }
     };
     const BannerVideoElement = ()=>{
-        return (0, _jsxdevruntime.jsxDEV)(_antd.Spin, {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Spin, {
             spinning: loading,
             tip: "视频上传中...",
-            children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm, {
+            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm, {
                 formRef: bannerFormRef,
                 onFinish: async (values)=>{
                     try {
                         var _values_description1, _values_description11, _values_description12, _values_description2, _values_description21, _values_description22, _values_description3, _values_description31, _values_description32;
+                        // 过滤空的描述对象
                         const children = [
                             {
                                 title: (_values_description1 = values.description1) === null || _values_description1 === void 0 ? void 0 : _values_description1.title,
@@ -740,7 +816,7 @@ function Index() {
                         BannerFormDataRefresh();
                     },
                     render (props, dom) {
-                        const editButton = (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        const editButton = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "primary",
                             onClick: ()=>setBannerFormReadOnly(false),
                             children: "Edit"
@@ -752,7 +828,7 @@ function Index() {
                 grid: true,
                 readonly: bannerFormReadOnly,
                 children: [
-                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                         colProps: {
                             span: 16
                         },
@@ -766,10 +842,10 @@ function Index() {
                             }
                         },
                         name: "url",
-                        extra: (0, _jsxdevruntime.jsxDEV)(_antd.Upload, {
+                        extra: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Upload, {
                             ...uploadProps,
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.UploadOutlined, {}, void 0, false, void 0, void 0),
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UploadOutlined, {}, void 0, false, void 0, void 0),
                                 children: "Click to Update Video"
                             }, void 0, false, void 0, void 0)
                         }, void 0, false, void 0, void 0)
@@ -778,10 +854,10 @@ function Index() {
                         lineNumber: 223,
                         columnNumber: 11
                     }, this),
-                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
                         title: "Description one",
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                 colProps: {
                                     span: 12
                                 },
@@ -795,7 +871,7 @@ function Index() {
                                 lineNumber: 243,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                 colProps: {
                                     span: 12
                                 },
@@ -809,7 +885,7 @@ function Index() {
                                 lineNumber: 248,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                 colProps: {
                                     span: 12
                                 },
@@ -829,10 +905,10 @@ function Index() {
                         lineNumber: 242,
                         columnNumber: 11
                     }, this),
-                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
                         title: "Description two",
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                 colProps: {
                                     span: 12
                                 },
@@ -846,7 +922,7 @@ function Index() {
                                 lineNumber: 261,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                 colProps: {
                                     span: 12
                                 },
@@ -860,7 +936,7 @@ function Index() {
                                 lineNumber: 266,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                 colProps: {
                                     span: 12
                                 },
@@ -880,10 +956,10 @@ function Index() {
                         lineNumber: 260,
                         columnNumber: 11
                     }, this),
-                    (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProForm.Group, {
                         title: "Description three",
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                 colProps: {
                                     span: 12
                                 },
@@ -897,7 +973,7 @@ function Index() {
                                 lineNumber: 279,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                 colProps: {
                                     span: 12
                                 },
@@ -911,7 +987,7 @@ function Index() {
                                 lineNumber: 284,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                 colProps: {
                                     span: 12
                                 },
@@ -944,7 +1020,7 @@ function Index() {
         }, this);
     };
     const CategoryElement = ()=>{
-        return (0, _jsxdevruntime.jsxDEV)(_procomponents.EditableProTable, {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.EditableProTable, {
             rowKey: "_id",
             editable: {
                 type: "single",
@@ -995,7 +1071,7 @@ function Index() {
                     valueType: "option",
                     width: 200,
                     render: (text, record, _, action)=>[
-                            (0, _jsxdevruntime.jsxDEV)("a", {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("a", {
                                 onClick: ()=>{
                                     var _action_startEditable;
                                     action === null || action === void 0 || (_action_startEditable = action.startEditable) === null || _action_startEditable === void 0 || _action_startEditable.call(action, record._id, record);
@@ -1013,9 +1089,9 @@ function Index() {
     };
     const PrivacyPolicyElement = ()=>{
         var _actionRef_current;
-        return (0, _jsxdevruntime.jsxDEV)("div", {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_actionRef_current = actionRef.current) === null || _actionRef_current === void 0 ? void 0 : _actionRef_current.reload,
                     inputProps: {
@@ -1027,13 +1103,13 @@ function Index() {
                     lineNumber: 369,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: searchKey,
                     props: {
                         headerTitle: "Privacy policy List",
                         actionRef: actionRef,
                         optionsRender (props, defaultDom) {
-                            const createFaq = (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                            const createFaq = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                 allowUpdate: false,
                                 readOnly: false,
                                 modalFormProps: {
@@ -1052,8 +1128,8 @@ function Index() {
                                         }
                                     },
                                     grid: true,
-                                    trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
+                                    trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
                                         type: "text"
                                     }, void 0, false, void 0, void 0),
                                     submitter: {
@@ -1064,7 +1140,7 @@ function Index() {
                                     }
                                 },
                                 title: "New Part",
-                                children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                     colProps: {
                                         span: 18
                                     },
@@ -1100,8 +1176,8 @@ function Index() {
                                 title: "Actions",
                                 dataIndex: "action",
                                 key: "action",
-                                render: (_, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
-                                        children: (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                                render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                             allowUpdate: false,
                                             readOnly: false,
                                             modalFormProps: {
@@ -1130,7 +1206,7 @@ function Index() {
                                             },
                                             title: "New Part",
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -1139,7 +1215,7 @@ function Index() {
                                                     readonly: true,
                                                     initialValue: record.part
                                                 }, void 0, false, void 0, void 0),
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -1183,9 +1259,9 @@ function Index() {
     };
     const TermsConditionElement = ()=>{
         var _termsConditionActionRef_current;
-        return (0, _jsxdevruntime.jsxDEV)("div", {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseSearch.default, {
                     title: "Search bar",
                     submitFun: (_termsConditionActionRef_current = termsConditionActionRef.current) === null || _termsConditionActionRef_current === void 0 ? void 0 : _termsConditionActionRef_current.reload,
                     inputProps: {
@@ -1197,13 +1273,13 @@ function Index() {
                     lineNumber: 520,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseTable.default, {
                     searchKey: termsConditionSearchKey,
                     props: {
                         headerTitle: "Terms & Conditions List",
                         actionRef: termsConditionActionRef,
                         optionsRender (props, defaultDom) {
-                            const createTermsCondition = (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                            const createTermsCondition = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                 allowUpdate: false,
                                 readOnly: false,
                                 modalFormProps: {
@@ -1222,8 +1298,8 @@ function Index() {
                                         }
                                     },
                                     grid: true,
-                                    trigger: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
+                                    trigger: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusSquareOutlined, {}, void 0, false, void 0, void 0),
                                         type: "text"
                                     }, void 0, false, void 0, void 0),
                                     submitter: {
@@ -1234,7 +1310,7 @@ function Index() {
                                     }
                                 },
                                 title: "New Part",
-                                children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                     colProps: {
                                         span: 18
                                     },
@@ -1270,8 +1346,8 @@ function Index() {
                                 title: "Actions",
                                 dataIndex: "action",
                                 key: "action",
-                                render: (_, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
-                                        children: (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
+                                render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseModel.default, {
                                             allowUpdate: false,
                                             readOnly: false,
                                             modalFormProps: {
@@ -1300,7 +1376,7 @@ function Index() {
                                             },
                                             title: "New Part",
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormText, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -1309,7 +1385,7 @@ function Index() {
                                                     readonly: true,
                                                     initialValue: record.part
                                                 }, void 0, false, void 0, void 0),
-                                                (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProFormTextArea, {
                                                     colProps: {
                                                         span: 18
                                                     },
@@ -1352,17 +1428,17 @@ function Index() {
         }, this);
     };
     const CmsElement = ()=>{
-        return (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
             title: "CMS",
             headerBordered: true,
             ghost: true,
             children: [
-                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                     gutter: 16,
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             span: 12,
-                            children: (0, _jsxdevruntime.jsxDEV)(_LoginImageElement.default, {}, void 0, false, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_LoginImageElement.default, {}, void 0, false, {
                                 fileName: "src/pages/Setting/others/index.tsx",
                                 lineNumber: 675,
                                 columnNumber: 13
@@ -1372,9 +1448,9 @@ function Index() {
                             lineNumber: 674,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             span: 12,
-                            children: (0, _jsxdevruntime.jsxDEV)(_SignUpImageElement.default, {}, void 0, false, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_SignUpImageElement.default, {}, void 0, false, {
                                 fileName: "src/pages/Setting/others/index.tsx",
                                 lineNumber: 678,
                                 columnNumber: 13
@@ -1390,17 +1466,17 @@ function Index() {
                     lineNumber: 673,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
                     fileName: "src/pages/Setting/others/index.tsx",
                     lineNumber: 681,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                     gutter: 16,
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             span: 12,
-                            children: (0, _jsxdevruntime.jsxDEV)(_HomeTitileImage.default, {}, void 0, false, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_HomeTitileImage.default, {}, void 0, false, {
                                 fileName: "src/pages/Setting/others/index.tsx",
                                 lineNumber: 684,
                                 columnNumber: 13
@@ -1410,9 +1486,9 @@ function Index() {
                             lineNumber: 683,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             span: 12,
-                            children: (0, _jsxdevruntime.jsxDEV)(_HomeFooterImage.default, {}, void 0, false, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_HomeFooterImage.default, {}, void 0, false, {
                                 fileName: "src/pages/Setting/others/index.tsx",
                                 lineNumber: 687,
                                 columnNumber: 13
@@ -1435,9 +1511,9 @@ function Index() {
             columnNumber: 7
         }, this);
     };
-    return (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
+    /**********************************組件初始化**********************************/ /**********************************異步函數**********************************/ /**********************************異步函數**********************************/ return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_BaseIndex.default, {
         title: "Other settings",
-        children: (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_procomponents.ProCard, {
             title: "Settings card",
             headStyle: {
                 paddingBottom: 24
@@ -1773,7 +1849,7 @@ const _putTermsCondition = async (values)=>{
     });
 };
 const _getCMSImage = async (session_id)=>{
-    return await (0, _max.request)(`/api/v1/admin/private/cms/${session_id}`, {
+    return await (0, _max.request)(`/api/v1/global/public/cms/${session_id}`, {
         method: "get"
     });
 };
