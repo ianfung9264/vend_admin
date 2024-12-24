@@ -2,3 +2,5 @@ node_modules
 **/.umi
 dist
 .husky
+src/.umi/**
+.umi-production
