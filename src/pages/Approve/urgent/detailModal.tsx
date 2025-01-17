@@ -1,5 +1,5 @@
 import { _approveCancelEvent, _getEventById, _getEventDetailsByEventId } from "@/services/event/info";
-import { Button, message, Modal } from "antd";
+import { Button, message, Modal, Input } from "antd";
 import { useEffect, useState } from "react";
 
 interface DetailModalProps {
@@ -19,6 +19,16 @@ const DetailModal: React.FC<DetailModalProps> = ({ initData, mainTableReload }) 
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [paidParticipant, setPaidParticipant] = useState(0);
 	const [applicationIdList, setApplicationIdList] = useState([]);
+	const [isRefundModalOpen, setIsRefundModalOpen] = useState(false);
+	const [refundAmount, setRefundAmount] = useState<string>("");
+
+	//fetch event data when modal open
+	useEffect(() => {
+		if (isModalOpen) {
+			fetchEventDataById();
+		}
+	}, [isModalOpen]);
+
 	const fetchEventDataById = async () => {
 		setLoading(true);
 		try {
@@ -27,7 +37,9 @@ const DetailModal: React.FC<DetailModalProps> = ({ initData, mainTableReload }) 
 			console.log("initData", data);
 			const eventDetail = await _getEventDetailsByEventId(initData.landownerId, initData.eventId);
 			console.log("eventDetail", eventDetail);
-			const totalAmount = eventDetail.application_list.reduce((sum: number, app: any) => {
+			console.log("just testing");
+			// const totalAmount = eventDetail.application_list.reduce((sum: number, app: any) => {
+			const totalAmount = eventDetail[0].application_list.reduce((sum: number, app: any) => {
 				if (app.status === "Paid") {
 					return sum + (app.ticket_type?.amount || 0);
 				}
@@ -36,11 +48,11 @@ const DetailModal: React.FC<DetailModalProps> = ({ initData, mainTableReload }) 
 			setTotalAmount(totalAmount);
 			console.log("totalAmount", totalAmount);
 
-			const paidParticipant = eventDetail.application_list.filter((app: any) => app.status === "Paid").length;
+			const paidParticipant = eventDetail[0].application_list.filter((app: any) => app.status === "Paid").length;
 			console.log("paidParticipant", paidParticipant);
 			setPaidParticipant(paidParticipant);
 
-			const application_id_list = eventDetail.application_list
+			const application_id_list = eventDetail[0].application_list
 				.filter((app: any) => app.status === "Paid")
 				.map((app: any, index: any) => {
 					return {
@@ -56,22 +68,27 @@ const DetailModal: React.FC<DetailModalProps> = ({ initData, mainTableReload }) 
 		}
 	};
 
-	//fetch event data when modal open
-	useEffect(() => {
-		if (isModalOpen) {
-			fetchEventDataById();
+	const handleRefundModalOk = async () => {
+		if (!refundAmount || isNaN(Number(refundAmount))) {
+			message.error("Please enter a valid refund amount");
+			return;
 		}
-	}, [isModalOpen]);
-
-	const handleApproveCancel = async () => {
-		try {
-			const payload = {
-				application_id_list: applicationIdList,
-			};
-			const result = await _approveCancelEvent(payload, initData.landownerId);
-			console.log("result", result);
-		} catch (error) {
-			console.log("error", error);
+		setIsRefundModalOpen(false);
+		const newApplicationIdListForRefundPayload = applicationIdList?.map((app: any) => ({
+			id: app.id,
+			amount: Number(refundAmount),
+		}));
+		const payload = {
+			application_id_list: newApplicationIdListForRefundPayload,
+		};
+		console.log("payload", payload);
+		const result = await _approveCancelEvent(payload, initData.landownerId);
+		if (result.code === 400) {
+			message.error(result.message);
+		} else {
+			message.success("Event cancellation approved successfully");
+			setIsModalOpen(false);
+			mainTableReload?.();
 		}
 	};
 
@@ -88,7 +105,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ initData, mainTableReload }) 
 					<Button key="reject" type="default" onClick={() => setIsModalOpen(false)}>
 						Reject Cancellation Request
 					</Button>,
-					<Button key="approve" type="primary" onClick={() => setIsModalOpen(false)}>
+					<Button key="approve" type="primary" onClick={() => setIsRefundModalOpen(true)}>
 						Approve Event Cancellation
 					</Button>,
 				]}
@@ -111,6 +128,24 @@ const DetailModal: React.FC<DetailModalProps> = ({ initData, mainTableReload }) 
 				<p>
 					<strong>Total Amount Received From Participants:</strong> ${totalAmount?.toFixed(2)}
 				</p>
+			</Modal>
+			<Modal
+				title="Enter Refund Amount"
+				open={isRefundModalOpen}
+				onCancel={() => setIsRefundModalOpen(false)}
+				onOk={handleRefundModalOk}
+			>
+				<div style={{ padding: "20px 0" }}>
+					<Input
+						prefix="$"
+						placeholder="Enter refund amount"
+						value={refundAmount}
+						onChange={(e) => setRefundAmount(e.target.value)}
+						type="number"
+						min="0"
+						step="0.01"
+					/>
+				</div>
 			</Modal>
 		</>
 	);
