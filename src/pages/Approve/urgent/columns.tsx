@@ -16,6 +16,7 @@ export function UrgentTableColumns({
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [currentReason, setCurrentReason] = useState("");
 	const markComplete = async (record: any) => {
+		console.log("record", record);
 		await _putUrgentInfo({
 			status: UrgentActionStatus.Handled,
 			urgent_id: record._id,
@@ -40,7 +41,7 @@ export function UrgentTableColumns({
 			dataIndex: "_id",
 			key: "id",
 			align: "center",
-			hidden: true,
+			hidden: false,
 		},
 		{
 			title: "Event Name",
@@ -143,6 +144,7 @@ export function UrgentTableColumns({
 								wallet: record.landowner_id.wallet,
 								eventId: record.related_id._id,
 								eventName: record.related_id.name,
+								_id: record._id,
 							}}
 							mainTableReload={mainTableReload}
 						/>
