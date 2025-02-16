@@ -6,10 +6,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/"
+      "url": "https://d917718013d0.ngrok.app"
     },
     {
-      "url": "https://localhost:8000/"
+      "url": "https://d917718013d0.ngrok.app"
     }
   ],
   "paths": {
