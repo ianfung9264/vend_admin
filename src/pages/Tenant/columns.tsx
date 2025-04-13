@@ -34,13 +34,13 @@ export function TenantTableColumns({
       align: "center",
     },
     {
-      title: "Joined Events Count",
+      title: "Participated Events Count",
       dataIndex: "joined_events_count",
       key: "joined_events_count",
       align: "center",
     },
     {
-      title: "Be Followers Count",
+      title: "Followers Count",
       dataIndex: "be_followed_count", // 根据您提供的数据结构
       key: "be_followed_count",
       align: "center",

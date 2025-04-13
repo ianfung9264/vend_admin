@@ -92,8 +92,8 @@ export default function DetailModal({
       <ProForm.Group style={{ ...groupStyle }}>
         <ProFormText label={"Id"} name="_id" colProps={leftFile} readonly />
         <ProFormText
-          label={"Be followed count"}
-          name="first_name"
+          label={"Business Name"}
+          name="business_name"
           colProps={rightFile}
           fieldProps={{
             value: tenant?.firstname + " " + tenant?.lastname,
@@ -105,7 +105,7 @@ export default function DetailModal({
         </ProFormField>
 
         <ProFormText
-          label={"Be followed count"}
+          label={"Followers Count"}
           name="be_followed_count"
           colProps={rightFile}
           readonly
@@ -119,7 +119,7 @@ export default function DetailModal({
         />
 
         <ProFormText
-          label={"Joined Event count"}
+          label={"Participated Events Count"}
           proFieldProps={{
             render: () => {
               return <div>{tenant?.joined_events.length}</div>;
@@ -130,13 +130,13 @@ export default function DetailModal({
         />
       </ProForm.Group>
       <>
-        <Divider
+        {/* <Divider
           children="Bank info"
           orientation="left"
           orientationMargin={20}
-        />
+        /> */}
 
-        <ProForm.Group style={{ ...groupStyle }}>
+        {/* <ProForm.Group style={{ ...groupStyle }}>
           <ProFormField colProps={{ span: 24 }}>
             <ProTable
               search={false}
@@ -151,11 +151,11 @@ export default function DetailModal({
               dataSource={tenant?.bank_info}
             />
           </ProFormField>
-        </ProForm.Group>
+        </ProForm.Group> */}
       </>
       <>
         <Divider
-          children="Product info"
+          children="Product Information"
           orientation="left"
           orientationMargin={20}
         />
@@ -191,7 +191,7 @@ export default function DetailModal({
                     );
                   },
                 },
-                { title: "Create time", dataIndex: "createdAt" },
+                //  { title: "Create time", dataIndex: "createdAt" },
               ]}
               dataSource={tenant?.products}
             />
@@ -283,16 +283,6 @@ export default function DetailModal({
         />
 
         <ProFormTextArea label={"Bio"} name="blurb" colProps={{ span: 24 }} />
-
-        <ProFormField label={"Rating average"}>
-          <Line
-            data={ratingDistribution}
-            height={200}
-            width={700}
-            xField="star"
-            yField="count"
-          />
-        </ProFormField>
       </ProForm.Group>
     </BaseModel>
   );

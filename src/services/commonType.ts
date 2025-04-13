@@ -32,6 +32,7 @@ export enum EventType {
   SINGLE = "single",
   MULTI = "multi",
   RECURRING = "recurring",
+  FULL_SERIES = "full-series",
 }
 export enum OtpStatusType {
   UNVERIFIED,

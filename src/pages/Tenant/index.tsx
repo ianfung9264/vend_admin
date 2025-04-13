@@ -27,7 +27,7 @@ export default function Index() {
   /**********************************異步函數**********************************/
   return (
     <div>
-      <BaseIndex title="Tenant account page">
+      <BaseIndex title="Vendor account page">
         <BaseSearch
           title="Search bar"
           submitFun={actionRef.current?.reload}

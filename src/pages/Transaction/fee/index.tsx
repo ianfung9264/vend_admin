@@ -192,6 +192,40 @@ export default function Index() {
     );
   };
   const TransactionFeeElement = () => {
+    // Function to process and group the data
+    const processApplicationFees = (data: any[]) => {
+      const groupedData = data.reduce((acc, curr) => {
+        const eventId = curr.event_id;
+        if (!acc[eventId]) {
+          acc[eventId] = {
+            event_id: eventId,
+            event_name: curr.event_name,
+            applications: [],
+            total_fee: 0,
+            latest_application_date: new Date(0),
+          };
+        }
+
+        // Add application to the group
+        acc[eventId].applications.push(curr);
+
+        // Calculate fee from application fee session (assuming $2 per application for now)
+        // You might want to extract the actual fee from fee_stripe_snap_shot if available
+        const applicationFee = 2; // Replace with actual fee calculation if available
+        acc[eventId].total_fee += applicationFee;
+
+        // Track the latest application date
+        const currentAppDate = new Date(curr.createdAt);
+        if (currentAppDate > acc[eventId].latest_application_date) {
+          acc[eventId].latest_application_date = currentAppDate;
+        }
+
+        return acc;
+      }, {});
+
+      return Object.values(groupedData);
+    };
+
     return (
       <div>
         <BaseSearch
@@ -206,62 +240,90 @@ export default function Index() {
         <BaseTable<any>
           searchKey={transactionFeeSearchKey}
           props={{
-            headerTitle: "Transaction fee List",
+            headerTitle: "Application Fee by Event",
             actionRef: feeActionRef,
             columns: [
               {
-                key: "id",
-                title: "Application Session Id",
-                dataIndex: "application_fee_session_id",
-                width: "10%",
+                title: "Event Name",
+                dataIndex: "event_name",
+                width: "20%",
                 align: "center",
                 ellipsis: true,
-                copyable: true,
               },
               {
-                key: "event_id",
-                title: "Event Id",
+                title: "Event ID",
                 dataIndex: "event_id",
+                width: "20%",
                 align: "center",
-                copyable: true,
                 ellipsis: true,
+                copyable: true,
               },
               {
-                key: "amount",
-                title: "Amount",
-                dataIndex: "event_id",
+                title: "Application Count",
+                dataIndex: "applications",
                 align: "center",
-                copyable: true,
-                ellipsis: true,
-                render: (text: any, record: any) => {
-                  return "$2";
-                },
+                render: (applications: any[]) => applications.length,
+              },
+              // {
+              //   title: "Applications",
+              //   dataIndex: "applications",
+              //   align: "center",
+              //   render: (applications: any[]) => (
+              //     <div style={{ textAlign: "left" }}>
+              //       {applications.map((app, index) => (
+              //         <div
+              //           key={app.application_fee_session_id}
+              //           style={{ marginBottom: "8px" }}
+              //         >
+              //           <div>Session ID: {app.application_fee_session_id}</div>
+              //           <div>Status: {app.application_fee_status}</div>
+              //           <div>
+              //             Created: {new Date(app.createdAt).toLocaleString()}
+              //           </div>
+              //           {index < applications.length - 1 && (
+              //             <hr style={{ margin: "8px 0" }} />
+              //           )}
+              //         </div>
+              //       ))}
+              //     </div>
+              //   ),
+              // },
+              {
+                title: "Total Fee",
+                dataIndex: "total_fee",
+                align: "center",
+                render: (fee: number) => `$${fee.toFixed(2)}`,
               },
               {
-                title: "Created At",
-                dataIndex: "createdAt",
+                title: "Latest Application",
+                dataIndex: "latest_application_date",
                 align: "center",
                 valueType: "dateTime",
+                sorter: (a, b) =>
+                  new Date(a.latest_application_date).getTime() -
+                  new Date(b.latest_application_date).getTime(),
               },
             ],
             request: async () => {
               const dataSource = await TransactionFeeDataRefresh().then(
                 (res) => {
+                  const processedData = processApplicationFees(
+                    res.application_fee_list
+                  );
                   return {
                     success: true,
-                    data: res.application_fee_list,
+                    data: processedData,
                   };
                 }
               );
+
               if (transactionFeeSearchKey) {
-                dataSource.data = Helper<Page_org.mainTable>({
+                dataSource.data = Helper<any>({
                   dataSource: dataSource.data,
                   keyWord: transactionFeeSearchKey,
-                }) as Page_org.mainTable[];
-                return dataSource;
-              } else {
-                return dataSource;
+                });
               }
+              return dataSource;
             },
           }}
         />

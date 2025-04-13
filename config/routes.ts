@@ -52,11 +52,11 @@ export default [
     icon: "dollar",
     name: "Transaction Management",
     routes: [
-      {
-        path: "/transaction/withdraw",
-        name: "Withdrawal Management",
-        component: "./Transaction/withdraw",
-      },
+      // {
+      //   path: "/transaction/withdraw",
+      //   name: "Withdrawal Management",
+      //   component: "./Transaction/withdraw",
+      // },
       {
         path: "/transaction/fee",
         name: "Fee Management",
@@ -84,11 +84,11 @@ export default [
         name: "Withdrawal Approvals",
         component: "./Approve/withdraw",
       },
-      {
-        path: "/approve/urgent",
-        name: "Urgent Approvals",
-        component: "./Approve/urgent",
-      },
+      // {
+      //   path: "/approve/urgent",
+      //   name: "Urgent Approvals",
+      //   component: "./Approve/urgent",
+      // },
     ],
   },
 

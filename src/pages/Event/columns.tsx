@@ -27,14 +27,14 @@ export function EventTableColumns({
       ellipsis: true,
       copyable: true,
     },
-    {
-      title: "Creator id",
-      dataIndex: "creator",
-      key: "creator",
-      align: "center",
-      ellipsis: true,
-      copyable: true,
-    },
+    // {
+    //   title: "Creator id",
+    //   dataIndex: "creator",
+    //   key: "creator",
+    //   align: "center",
+    //   ellipsis: true,
+    //   copyable: true,
+    // },
     {
       title: "Participants count",
       dataIndex: "participants",
@@ -71,12 +71,14 @@ export function EventTableColumns({
         { text: "Multi-day", value: EventType.MULTI },
         { text: "Single-day", value: EventType.SINGLE },
         { text: "Recurring", value: EventType.RECURRING },
+        { text: "full-series", value: EventType.FULL_SERIES },
       ],
-      onFilter: (value, record) => record.type === value, // 过滤逻辑
+      onFilter: (value, record) => record.type === value,
       valueEnum: {
         [EventType.MULTI]: { text: "Multi-day", color: "blue" },
         [EventType.SINGLE]: { text: "Single-day", color: "cyan" },
         [EventType.RECURRING]: { text: "Recurring", color: "purple" },
+        [EventType.FULL_SERIES]: { text: "Full-series", color: "yellow" },
       },
       align: "center",
     },
@@ -163,7 +165,7 @@ export function EventTableColumns({
                     : _restartEvent,
               }}
             />
-            <StrictVerifyButton
+            {/* <StrictVerifyButton
               title={"Are you sure you want to cancel the event?"}
               trigger={
                 <Button
@@ -180,7 +182,7 @@ export function EventTableColumns({
                 actionFuncParams: { event_id: record._id },
                 actionFunc: _cancelEvent,
               }}
-            />
+            /> */}
 
             {/* <DetailModal initData={record} mainTableReload={mainTableReload} /> */}
           </span>

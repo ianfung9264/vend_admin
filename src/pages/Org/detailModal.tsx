@@ -101,7 +101,7 @@ export default function DetailModal({
         </ProFormField>
 
         <ProFormText
-          label={"Be followed count"}
+          label={"Followers Count"}
           name="be_followed_count"
           colProps={{ span: 8, offset: 0 }}
           readonly
@@ -120,33 +120,34 @@ export default function DetailModal({
             2: { text: "Approved", status: "Success" },
           }}
         />
+        <ProFormField
+          label={"Wallet Balance"}
+          name="wallet"
+          colProps={{ span: 8, offset: 0 }}
+          valueType="money"
+        />
         <ProFormText
           label={"Email"}
           name="email"
-          colProps={{ span: 8, offset: 0 }}
+          colProps={{ span: 8, offset: 6 }}
           readonly
         />
         <ProFormText
-          label={"phone pre"}
+          label={"Phone Prefix"}
           name="phone_pre"
+          colProps={{ span: 8, offset: 0 }}
+          readonly
+        />
+
+        <ProFormText
+          label={"Phone Number"}
+          name="phone"
           colProps={{ span: 8, offset: 6 }}
           readonly
         />
 
         <ProFormText
-          label={"phone"}
-          name="phone"
-          colProps={{ span: 8, offset: 0 }}
-          readonly
-        />
-        <ProFormField
-          label={"Wallet"}
-          name="wallet"
-          colProps={{ span: 8, offset: 6 }}
-          valueType="money"
-        />
-        <ProFormText
-          label={"Event count"}
+          label={"Organizer Event Count"}
           proFieldProps={{
             render: () => {
               return <div>{org?.events.length}</div>;
@@ -156,7 +157,7 @@ export default function DetailModal({
           readonly
         />
         <ProFormField
-          label={"Event operation license"}
+          label={"Event Operation License"}
           name="event_operation_license"
           colProps={{ span: 8, offset: 6 }}
         >
@@ -165,45 +166,45 @@ export default function DetailModal({
       </ProForm.Group>
 
       <Divider
-        children="Business info"
+        children="Business Information"
         orientation="left"
         orientationMargin={20}
       />
 
       <ProForm.Group style={{ ...groupStyle }}>
         <ProFormText
-          label={"Business name"}
+          label={"Business Name"}
           name="business_name"
           colProps={{ span: 8, offset: 0 }}
         />
         <ProFormText
-          label={"Business full name"}
+          label={"Full Business Name"}
           name="business_full_name"
           colProps={{ span: 8, offset: 6 }}
         />
         <ProFormText
-          label={"Business url"}
+          label={"Business Website"}
           name="business_url"
           colProps={{ span: 8, offset: 0 }}
         />
 
         <ProFormText
-          label={"Facebook url"}
+          label={"Facebook URL"}
           name="facebook_url"
           colProps={{ span: 8, offset: 6 }}
         />
         <ProFormText
-          label={"Instagram url"}
+          label={"Instagram URL"}
           name="ins_url"
           colProps={{ span: 8, offset: 0 }}
         />
         <ProFormText
-          label={"X url"}
+          label={"X URL"}
           name="x_url"
           colProps={{ span: 8, offset: 6 }}
         />
         <ProFormText
-          label={"Legal person name"}
+          label={"Legal Person Name"}
           fieldProps={{
             value:
               org?.legal_person_first_name + " " + org?.legal_person_last_name,
@@ -218,10 +219,10 @@ export default function DetailModal({
             toolBarRender={false}
             pagination={false}
             columns={[
-              { title: "Card name", dataIndex: "card_type" },
-              { title: "Card info", dataIndex: "card_info" },
-              { title: "Card cvv code", dataIndex: "cvv_code" },
-              { title: "Card expiration date", dataIndex: "expire_date" },
+              { title: "Card Name", dataIndex: "card_type" },
+              { title: "Card Info", dataIndex: "card_info" },
+              { title: "Card CVV Code", dataIndex: "cvv_code" },
+              { title: "Card Expiration Date", dataIndex: "expire_date" },
             ]}
             dataSource={org?.bank_info}
           />
@@ -266,21 +267,7 @@ export default function DetailModal({
       <Divider children="Others" orientation="left" orientationMargin={20} />
 
       <ProForm.Group style={{ ...groupStyle }}>
-        <ProFormTextArea label={"Bio"} name="blurb" colProps={{ span: 8 }} />
-        <ProFormTextArea
-          label={"Rating average"}
-          name="rating_average"
-          colProps={{ span: 8, offset: 6 }}
-        />
-        <ProFormField label={"Rating average"}>
-          <Line
-            data={ratingDistribution}
-            height={200}
-            width={700}
-            xField="star"
-            yField="count"
-          />
-        </ProFormField>
+        <ProFormTextArea label={"Bio"} name="blurb" colProps={{ span: 24 }} />
       </ProForm.Group>
     </BaseModel>
   );

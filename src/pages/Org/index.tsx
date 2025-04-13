@@ -68,7 +68,7 @@ export default function Index() {
   /**********************************異步函數**********************************/
   return (
     <div>
-      <BaseIndex title="Org account page">
+      <BaseIndex title="Organization account page">
         <div>
           <div className="flex mb-8 justify-end">
             <Button
