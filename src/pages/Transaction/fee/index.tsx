@@ -93,49 +93,55 @@ export default function Index() {
                 copyable: true,
               },
               {
-                key: "event_id",
-                title: "Event Id",
-                dataIndex: "event_id",
+                title: "Event Name",
+                dataIndex: "event_name",
+                width: "15%",
                 align: "center",
-                copyable: true,
                 ellipsis: true,
               },
               {
-                title: "Schedule ",
-                dataIndex: "schedule",
+                title: "Vendor Name",
+                dataIndex: "tenant_name",
+                width: "15%",
                 align: "center",
-                copyable: true,
                 ellipsis: true,
-                render: (text: any, record: any) => {
-                  const mockData = [
-                    {
-                      start_time: "2024-10-28T00:30:00.000Z",
-                      end_time: "2024-10-28T12:55:00.000Z",
-                    },
-                    {
-                      start_time: "2024-10-28T00:30:00.000Z",
-                      end_time: "2024-10-28T12:55:00.000Z",
-                    },
-                  ];
-                  // 检查 schedule 是否存在并且是数组
-                  if (Array.isArray(record.schedule)) {
-                    return record.schedule.map((item: any, Index: number) => {
-                      const startTime = new Date(
-                        item.start_time
-                      ).toLocaleString(); // 格式化开始时间
-                      const endTime = new Date(item.end_time).toLocaleString(); // 格式化结束时间
-                      return (
-                        <>
-                          {Index + 1} : {startTime.toString()} -
-                          {endTime.toString()}
-                          <br></br>
-                        </>
-                      ); // 返回格式化的字符串
-                    });
-                  }
-                  return ""; // 如果没有 schedule，返回空字符串
-                },
               },
+              // {
+              //   title: "Schedule ",
+              //   dataIndex: "schedule",
+              //   align: "center",
+              //   copyable: true,
+              //   ellipsis: true,
+              //   render: (text: any, record: any) => {
+              //     const mockData = [
+              //       {
+              //         start_time: "2024-10-28T00:30:00.000Z",
+              //         end_time: "2024-10-28T12:55:00.000Z",
+              //       },
+              //       {
+              //         start_time: "2024-10-28T00:30:00.000Z",
+              //         end_time: "2024-10-28T12:55:00.000Z",
+              //       },
+              //     ];
+              //     // 检查 schedule 是否存在并且是数组
+              //     if (Array.isArray(record.schedule)) {
+              //       return record.schedule.map((item: any, Index: number) => {
+              //         const startTime = new Date(
+              //           item.start_time
+              //         ).toLocaleString(); // 格式化开始时间
+              //         const endTime = new Date(item.end_time).toLocaleString(); // 格式化结束时间
+              //         return (
+              //           <>
+              //             {Index + 1} : {startTime.toString()} -
+              //             {endTime.toString()}
+              //             <br></br>
+              //           </>
+              //         ); // 返回格式化的字符串
+              //       });
+              //     }
+              //     return ""; // 如果没有 schedule，返回空字符串
+              //   },
+              // },
               {
                 title: "Commission",
                 dataIndex: "commission",
@@ -375,13 +381,13 @@ export default function Index() {
             <ProCard split="vertical">
               <StatisticCard
                 statistic={{
-                  title: "Application total quantity",
+                  title: "Application total count",
                   value: applicationFee.length,
                 }}
               />
               <StatisticCard
                 statistic={{
-                  title: "Commission total quantity",
+                  title: "Commission total count",
                   value: commission.length,
                 }}
               />
@@ -391,19 +397,19 @@ export default function Index() {
                 statistic={{
                   title: "Application total amount",
                   value: applicationFeeTotalAmount,
-                  suffix: "$",
+                  prefix: "$",
                 }}
               />
               <StatisticCard
                 statistic={{
                   title: "Commission total amount",
                   value: totalVendpopupsCommission,
-                  suffix: "$",
+                  prefix: "$",
                 }}
               />
             </ProCard>
           </ProCard>
-          <ProCard split="vertical">
+          {/* <ProCard split="vertical">
             <StatisticCard
               title="Application fee percentage"
               chart={
@@ -460,7 +466,7 @@ export default function Index() {
                 />
               }
             />
-          </ProCard>
+          </ProCard> */}
         </ProCard>
       </ProCard>
     );
