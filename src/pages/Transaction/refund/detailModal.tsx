@@ -166,6 +166,7 @@ export default function DetailModal({
       <ProForm.Group style={groupStyle}>
         <ProFormSelect
           label="Chose withdrawal status"
+          placeholder="Please select status"
           name="progress"
           colProps={leftFile}
           options={[

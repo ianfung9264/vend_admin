@@ -144,18 +144,28 @@ export default function DetailModal({
         onInit(values, form) {
           formRef.current = form;
           switch (initData.progress) {
+            // case WithdrawalProgress.WAITING_FOR_APPROVE:
+            // setStatusSelection([
+            //   {
+            //     label: "Progressing",
+            //     value: WithdrawalProgress.APPROVED_PROGRESSING,
+            //   },
+            // ]);
+            // break;
             case WithdrawalProgress.WAITING_FOR_APPROVE:
               setStatusSelection([
                 {
-                  label: "Progressing",
+                  label: "Approve",
+                  // value: WithdrawalProgress.APPROVED_COMPLETED,
                   value: WithdrawalProgress.APPROVED_PROGRESSING,
                 },
               ]);
               break;
+
             case WithdrawalProgress.APPROVED_PROGRESSING:
               setStatusSelection([
                 {
-                  label: "Approve",
+                  label: "Refund Completed",
                   value: WithdrawalProgress.APPROVED_COMPLETED,
                 },
               ]);
@@ -198,6 +208,7 @@ export default function DetailModal({
       <ProForm.Group style={groupStyle}>
         <ProFormSelect
           label="Chose withdrawal status"
+          placeholder="Please select status"
           name="progress"
           colProps={leftFile}
           options={statusSelection}

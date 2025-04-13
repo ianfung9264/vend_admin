@@ -21,7 +21,7 @@ export function WithdrawalTableColumns({
   // }, [mainTableReload]);
   return [
     {
-      title: "Landowner email",
+      title: "Organizer email",
       dataIndex: "landowner",
       key: "landowner",
       render: (_, record) => {
@@ -30,7 +30,7 @@ export function WithdrawalTableColumns({
       align: "center",
     },
     {
-      title: "Landowner wallet",
+      title: "Organizer wallet",
       dataIndex: "landowner",
       key: "landowner",
       render: (_, record) => {
@@ -44,12 +44,12 @@ export function WithdrawalTableColumns({
       key: "amount",
       align: "center",
     },
-    {
-      title: "Currency",
-      dataIndex: "currency",
-      key: "currency",
-      align: "center",
-    },
+    // {
+    //   title: "Currency",
+    //   dataIndex: "currency",
+    //   key: "currency",
+    //   align: "center",
+    // },
     {
       title: "Progress",
       dataIndex: "progress",
