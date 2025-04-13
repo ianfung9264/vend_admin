@@ -14,6 +14,12 @@ export const _getAllTenant = async (): Promise<API.DefaultObjectResponse> => {
     method: "get",
   });
 };
+export const _getAllNewsletter =
+  async (): Promise<API.DefaultObjectResponse> => {
+    return request("/api/v1/admin/private/news/all", {
+      method: "get",
+    });
+  };
 export const _getTenantById = async (
   id: string
 ): Promise<API.DefaultObjectResponse> => {

@@ -94,3 +94,13 @@ export const _approveCancelEvent = async (
     }
   );
 };
+
+export const _sendEmail = async (data: {
+  subject: string;
+  content: string;
+}) => {
+  return request(`/api/v1/admin/private/news/send-mass-email`, {
+    method: "post",
+    data,
+  });
+};
