@@ -133,7 +133,7 @@ export const _updateCategory = async (values: {
 }): Promise<API.DefaultObjectResponse> => {
   return await request(`/api/v1/admin/private/category`, {
     method: "put",
-    data: { ...values, isDisplay: JSON.parse(values.isDisplay as any) },
+    data: values,
   });
 };
 export const _createCategory = async (values: {
@@ -142,6 +142,15 @@ export const _createCategory = async (values: {
   return await request(`/api/v1/admin/private/category`, {
     method: "post",
     params: { name: values.name },
+  });
+};
+
+export const _deleteCategory = async (
+  id: string
+): Promise<API.DefaultObjectResponse> => {
+  // The backend endpoint is /api/v1/admin/private/category/:id
+  return await request(`/api/v1/admin/private/category/${id}`, {
+    method: "delete",
   });
 };
 

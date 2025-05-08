@@ -10,7 +10,11 @@ import { Button, Space, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { LandownerAdvancedStatus } from "@/services/commonType";
 import { _getAllNewsletter } from "@/services/tenant/info";
-import { _sendEmail } from "@/services/event/info";
+import {
+  _sendEmail,
+  _sendVendorMassEmail,
+  _sendOrganizerMassEmail,
+} from "@/services/event/info";
 import SendEmailModal from "./SendEmailModal";
 
 export default function Index() {
@@ -20,6 +24,9 @@ export default function Index() {
   const [reload, setReload] = useState(() => actionRef.current?.reload);
   const [modalVisible, setModalVisible] = useState(false);
   const [sending, setSending] = useState(false);
+  const [currentEmailType, setCurrentEmailType] = useState<
+    "newsletter" | "vendor" | "organizer"
+  >("newsletter");
 
   useEffect(() => {
     setReload(() => actionRef.current?.reload);
@@ -29,26 +36,44 @@ export default function Index() {
   /**********************************組件初始化**********************************/
   /**********************************組件初始化**********************************/
   /**********************************異步函數**********************************/
-  const handleSendEmail = async (values: {
+  const openSendEmailModal = (
+    emailType: "newsletter" | "vendor" | "organizer"
+  ) => {
+    setCurrentEmailType(emailType);
+    setModalVisible(true);
+  };
+
+  const handleMassEmailSubmit = async (values: {
     subject: string;
     content: string;
   }) => {
     try {
       setSending(true);
-      // Call the API service function
-      const result = await _sendEmail(values);
-      console.log("Email sent result:", result);
+      let result;
+      let successMessage = "";
 
-      message.success("Email sent successfully to all subscribers!");
+      if (currentEmailType === "newsletter") {
+        result = await _sendEmail(values);
+        successMessage =
+          "Email sent successfully to all newsletter subscribers!";
+      } else if (currentEmailType === "vendor") {
+        result = await _sendVendorMassEmail(values);
+        successMessage = "Email sent successfully to all vendors!";
+      } else if (currentEmailType === "organizer") {
+        result = await _sendOrganizerMassEmail(values);
+        successMessage = "Email sent successfully to all organizers!";
+      }
+
+      console.log(`${currentEmailType} email sent result:`, result);
+      message.success(successMessage);
     } catch (error) {
-      console.error("Failed to send email:", error);
-      message.error("Failed to send email. Please try again.");
+      console.error(`Failed to send ${currentEmailType} email:`, error);
+      message.error(
+        `Failed to send ${currentEmailType} email. Please try again.`
+      );
     } finally {
-      // Close modal and refresh the page regardless of success or failure
       setModalVisible(false);
       setSending(false);
-
-      // Refresh the page unconditionally
       if (actionRef.current) {
         actionRef.current.reload();
       }
@@ -74,9 +99,25 @@ export default function Index() {
                 <Button
                   type="primary"
                   icon={<MailOutlined />}
-                  onClick={() => setModalVisible(true)}
+                  onClick={() => openSendEmailModal("newsletter")}
                 >
-                  Send Email
+                  Send Newsletter Email
+                </Button>
+                <Button
+                  type="primary"
+                  icon={<MailOutlined />}
+                  onClick={() => openSendEmailModal("vendor")}
+                  // style={{ backgroundColor: 'green', borderColor: 'green' }} // Optional: different color
+                >
+                  Send Vendor Emails
+                </Button>
+                <Button
+                  type="primary"
+                  icon={<MailOutlined />}
+                  onClick={() => openSendEmailModal("organizer")}
+                  // style={{ backgroundColor: 'orange', borderColor: 'orange' }} // Optional: different color
+                >
+                  Send Organizer Emails
                 </Button>
               </Space>
             ),
@@ -112,7 +153,8 @@ export default function Index() {
       <SendEmailModal
         visible={modalVisible}
         onCancel={() => setModalVisible(false)}
-        onSubmit={handleSendEmail}
+        onSubmit={handleMassEmailSubmit}
+        loading={sending}
       />
     </div>
   );

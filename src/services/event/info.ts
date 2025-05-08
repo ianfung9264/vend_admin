@@ -104,3 +104,23 @@ export const _sendEmail = async (data: {
     data,
   });
 };
+
+export const _sendVendorMassEmail = async (data: {
+  subject: string;
+  content: string;
+}) => {
+  return request(`/api/v1/admin/private/news/send-vendor-emails`, {
+    method: "post",
+    data,
+  });
+};
+
+export const _sendOrganizerMassEmail = async (data: {
+  subject: string;
+  content: string;
+}) => {
+  return request(`/api/v1/admin/private/news/send-organizer-emails`, {
+    method: "post",
+    data,
+  });
+};
