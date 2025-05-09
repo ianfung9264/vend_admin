@@ -46,86 +46,38 @@ export default function Index() {
 						onChange: ({ currentTarget: { value } }) => setSearchKey(value),
 					}}
 				/>
-				<ProCard split="vertical" style={{ width: "100%" }}>
-					<ProCard colSpan={{ xs: 19, sm: 19 }}>
-						<BaseTable<API_EVENT.Event>
-							searchKey={searchKey}
-							props={{
-								headerTitle: "Event List",
-								actionRef: actionRef,
-								onRow: (record) => {
-									return {
-										onClick: () => {
-											setCurrentEventSchedule(record.schedule);
-											setCurrentEventName(record.name);
-											setCurrentRowId(record._id);
-										},
-									};
-								},
-								rowKey: "_id",
-								rowClassName: (record) =>
-									record._id === currentRowId ? "bg-gradient-to-r from-cyan-300 to-cyan-100" : "", // 根据当前行 ID 设置样式
+				<BaseTable<API_EVENT.Event>
+					searchKey={searchKey}
+					props={{
+						headerTitle: "Event List",
+						actionRef: actionRef,
+						columns: EventTableColumns({
+							mainTableReload: reload,
+						}),
+						request: async () => {
+							const dataSource = await _getAllEvent().then(({ data }) => {
+								console.log("data", data);
+								setCurrentEventSchedule(data[0].schedule);
+								setCurrentEventName(data[0].name);
+								setCurrentRowId(data[0]._id);
+								return {
+									success: true,
+									data: data,
+								};
+							});
+							if (searchKey) {
+								dataSource.data = Helper<API_EVENT.Event[]>({
+									dataSource: dataSource.data,
+									keyWord: searchKey,
+								}) as API_EVENT.Event[];
 
-								columns: EventTableColumns({
-									mainTableReload: reload,
-								}),
-								request: async () => {
-									const dataSource = await _getAllEvent().then(({ data }) => {
-										console.log("data", data);
-										setCurrentEventSchedule(data[0].schedule);
-										setCurrentEventName(data[0].name);
-										setCurrentRowId(data[0]._id);
-										return {
-											success: true,
-											data: data,
-										};
-									});
-									if (searchKey) {
-										dataSource.data = Helper<API_EVENT.Event[]>({
-											dataSource: dataSource.data,
-											keyWord: searchKey,
-										}) as API_EVENT.Event[];
-
-										return dataSource;
-									} else {
-										return dataSource;
-									}
-								},
-							}}
-						/>
-					</ProCard>
-					{/* <ProCard colSpan={{ xs: 5, sm: 5 }} ghost>
-            {currentEventSchedule.map((_, index) => {
-              return (
-                <>
-                  <Card
-                    title={`${currentEventName} schedule No.${index + 1}`}
-                    className="m-2 bg-gradient-to-r from-cyan-300 to-cyan-100 opacity-60"
-                  >
-                    <div>
-                      <div>
-                        Start time:{" "}
-                        {dayjs
-                          .utc(_.start_time)
-                          .local()
-                          .format("YYYY-MM-DD HH:mm")}
-                      </div>
-                    </div>
-                    <div>
-                      <div>
-                        End time:{" "}
-                        {dayjs
-                          .utc(_.end_time)
-                          .local()
-                          .format("YYYY-MM-DD HH:mm")}
-                      </div>
-                    </div>
-                  </Card>
-                </>
-              );
-            })}
-          </ProCard> */}
-				</ProCard>
+								return dataSource;
+							} else {
+								return dataSource;
+							}
+						},
+					}}
+				/>
 			</BaseIndex>
 		</div>
 	);
