@@ -159,262 +159,189 @@ export default function VendorDetailModal({
 			allowUpdate={true}
 			submit={formRef?.current?.submit}
 			initData={data}
-			title="Account Details"
+			title="Vendor Information"
 		>
-			<Divider children="Event Information" orientation="left" orientationMargin={20} />
-			<ProForm.Group style={{ ...groupStyle }}>
-				<ProFormText label={"Name"} name="name" colProps={{ span: 12, offset: 0 }} />
-				<ProFormText label={"Event Type"} name="type" colProps={{ span: 12, offset: 0 }} />
+			{data?.participants &&
+				Array.isArray(data.participants) &&
+				data.participants.map((participant: any, index: number) => {
+					// Check if participant is an object (populated) or still a string ID (fallback)
+					if (typeof participant === "object" && participant !== null) {
+						return (
+							<ProForm.Group
+								key={`participant-group-${index}`}
+								style={{
+									...groupStyle,
+									marginBottom: "20px",
+									borderTop: "1px solid #eee",
+									paddingTop: "20px",
+								}}
+							>
+								<ProFormText
+									label={"Participant Business Name"}
+									name={["participant", index, "business_name"]}
+									initialValue={participant.business_name || "N/A"}
+									colProps={{ span: 12, offset: 0 }}
+									readonly
+								/>
+								<ProFormText
+									name={["participant", index, "email"]}
+									label={"Email"}
+									initialValue={participant.email || "N/A"}
+									colProps={{ span: 12, offset: 0 }}
+									readonly
+								/>
+								<ProFormText
+									label={"Contact Person First Name"}
+									name={["participant", index, "firstname"]}
+									initialValue={participant.firstname || "N/A"}
+									colProps={{ span: 12, offset: 0 }} // Spans next to business name
+									readonly
+								/>
+								<ProFormText
+									label={"Contact Person Last Name"}
+									name={["participant", index, "lastname"]}
+									initialValue={participant.lastname || "N/A"}
+									colProps={{ span: 12, offset: 0 }} // Spans next to business name
+									readonly
+								/>
 
-				<ProFormField label={"Description"} colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.description && (
-						<div
-							className="event-description"
-							dangerouslySetInnerHTML={{ __html: data.description }}
-							style={{
-								border: "1px solid #f0f0f0",
-								padding: "15px",
-								borderRadius: "5px",
-								marginBottom: "15px",
-							}}
-						/>
-					)}
-				</ProFormField>
-				<ProFormText label={"Event Organizer"} name={["creator", "name"]} colProps={{ span: 12, offset: 0 }} />
-				<ProFormText label={"Organizer Email"} name={["creator", "email"]} colProps={{ span: 12, offset: 0 }} />
-				<ProFormText
-					label={"Organizer Phone Prefix"}
-					name={["creator", "phone_pre"]}
-					colProps={{ span: 12, offset: 0 }}
-				/>
-				<ProFormText label={"Organizer Phone"} name={["creator", "phone"]} colProps={{ span: 12, offset: 0 }} />
-				<ProFormText
-					label={"Organizer Total Balance Amount"}
-					name={["creator", "wallet"]}
-					colProps={{ span: 12, offset: 0 }}
-				/>
-				<ProFormText
-					label={"Organizer Withdrawable Balance Amount"}
-					name={["creator", "useable_wallet"]}
-					colProps={{ span: 12, offset: 0 }}
-				/>
-				<ProFormText
-					label={"Organizer Pending Balance Amount"}
-					name={["creator", "total_cool_down"]}
-					colProps={{ span: 12, offset: 0 }}
-					proFieldProps={{
-						render: () => {
-							return (Number(data?.creator?.wallet) || 0) - (Number(data?.creator?.useable_wallet) || 0);
-						},
-					}}
-				/>
-				<ProFormField label={"Images"} name="image_filename" colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.image_filename.map((imageObj: any, index: number) => (
-						<Image src={imageObj.url} width={100} style={{ paddingRight: "10px" }} />
-					))}
-				</ProFormField>
+								<ProFormText
+									name={["participant", index, "phone"]}
+									label={"Phone"}
+									initialValue={
+										`${participant.phone_pre || ""} ${participant.phone || ""}`.trim() || "N/A"
+									}
+									colProps={{ span: 12, offset: 0 }}
+									readonly
+								/>
+								<ProFormText
+									name={["participant", index, "stall_payment_status"]}
+									label={"Stall Payment Status"}
+									initialValue={participant.stall_payment_status || "N/A"}
+									colProps={{ span: 12, offset: 0 }}
+									readonly
+								/>
+							
 
-				<ProFormText name={["location", "country"]} colProps={{ span: 12, offset: 0 }} label={"Country"} />
-				<ProFormText name={["location", "zip"]} colProps={{ span: 12, offset: 0 }} label={"State"} />
-				<ProFormText name={["location", "city"]} colProps={{ span: 12 }} label={"City"} />
-				<ProFormText name={["location", "address"]} label={"Address"} colProps={{ span: 12 }} />
-				<ProFormText name={["location", "venue"]} label={"Venue"} colProps={{ span: 24 }} />
-
-				<ProFormText
-					name={"stripe_fee_belong"}
-					label={"Stripe Fee Responsibility"}
-					colProps={{ span: 24 }}
-					proFieldProps={{
-						render: () => {
-							return data?.stripe_fee_belong
-								? data.stripe_fee_belong === 0
-									? "Organizer"
-									: "Platform"
-								: "N/A";
-						},
-					}}
-				/>
-				{data?.schedule &&
-					Array.isArray(data.schedule) &&
-					data.schedule.map((scheduleItem: { start_time: string; end_time: string }, index: number) => (
-						<React.Fragment key={`schedule-entry-${index}`}>
-							<ProFormText
-								label={`Schedule ${index + 1} Start Time`}
-								initialValue={
-									scheduleItem.start_time ? new Date(scheduleItem.start_time).toLocaleString() : "N/A"
-								}
-								name={scheduleItem.start_time}
-								readonly
-								colProps={{ span: 12, offset: 0 }}
-							/>
-							<ProFormText
-								label={`Schedule ${index + 1} End Time`}
-								initialValue={
-									scheduleItem.end_time ? new Date(scheduleItem.end_time).toLocaleString() : "N/A"
-								}
-								name={scheduleItem.end_time}
-								readonly
-								colProps={{ span: 12, offset: 0 }}
-							/>
-						</React.Fragment>
-					))}
-				<ProFormField
-					label={"Application Deadline"}
-					colProps={{ span: 24, offset: 0 }}
-					readonly
-					proFieldProps={{
-						render: () => {
-							return data?.application_deadline
-								? new Date(data.application_deadline).toLocaleString()
-								: "N/A";
-						},
-					}}
-				/>
-				<ProFormField
-					label={"Invoice Effective Duration "}
-					colProps={{ span: 24, offset: 0 }}
-					readonly
-					proFieldProps={{
-						render: () => {
-							return data?.invoice_effective_duration
-								? new Date(data.invoice_effective_duration).toLocaleString()
-								: "N/A";
-						},
-					}}
-				/>
-				<ProFormField label={"Ticket Types"} colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.ticket_types && Array.isArray(data.ticket_types) && (
-						<div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-							{data.ticket_types.map((ticket: any, index: number) => (
-								<div
-									key={`ticket-${index}`}
-									style={{ border: "1px solid #f0f0f0", padding: "15px", borderRadius: "5px" }}
-								>
-									<h4 style={{ marginTop: 0 }}>{ticket.stall_type}</h4>
-									<p style={{ margin: "0 0 10px" }}>{ticket.description}</p>
-									<div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-										<div>
-											<strong>Price:</strong> ${ticket.price}
+								{/* Ticket Type Applied */}
+								<ProFormField label={"Ticket Type Applied"} colProps={{ span: 24 }} mode="read">
+									{participant.ticket_type_applied ? (
+										<div
+											style={{
+												border: "1px solid #f0f0f0",
+												padding: "10px",
+												borderRadius: "4px",
+												background: "#fafafa",
+											}}
+										>
+											<p style={{ margin: 0 }}>
+												<strong>Type:</strong>{" "}
+												{participant.ticket_type_applied.ticket_type || "N/A"}
+											</p>
+											<p style={{ margin: 0 }}>
+												<strong>Amount:</strong> $
+												{participant.ticket_type_applied.amount || "0"}
+											</p>
+											{/* Can display questions if needed: JSON.stringify(participant.ticket_type_applied.questions) */}
 										</div>
-										<div>
-											<strong>Quantity:</strong> {ticket.quantity}
+									) : (
+										<p>N/A</p>
+									)}
+								</ProFormField>
+
+								{/* Add-ons */}
+								<ProFormField label={"Add-ons"} colProps={{ span: 24 }} mode="read">
+									{participant.add_ons &&
+									Array.isArray(participant.add_ons) &&
+									participant.add_ons.length > 0 ? (
+										<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+											{participant.add_ons.map((addon: any, addonIndex: number) => (
+												<div
+													key={`addon-${index}-${addonIndex}`}
+													style={{
+														border: "1px solid #f0f0f0",
+														padding: "10px",
+														borderRadius: "4px",
+														background: "#fafafa",
+													}}
+												>
+													<p style={{ margin: 0 }}>
+														<strong>Type:</strong> {addon.add_on_type || "N/A"}
+													</p>
+													<p style={{ margin: 0 }}>
+														<strong>Quantity:</strong> {addon.quantity || "0"}
+													</p>
+													<p style={{ margin: 0 }}>
+														<strong>Amount:</strong> ${addon.amount || "0"}
+													</p>
+												</div>
+											))}
 										</div>
-										<div>
-											<strong>Dimensions:</strong> {ticket.length} × {ticket.width} ×{" "}
-											{ticket.height}
+									) : (
+										<p>No add-ons</p>
+									)}
+								</ProFormField>
+
+								{/* Applied Schedule */}
+								<ProFormField label={"Applied Date"} colProps={{ span: 24 }} mode="read">
+									{participant.schedule &&
+									Array.isArray(participant.schedule) &&
+									participant.schedule.length > 0 ? (
+										<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+											{participant.schedule.map((slot: any, slotIndex: number) => (
+												<div
+													key={`schedule-${index}-${slotIndex}`}
+													style={{
+														border: "1px solid #f0f0f0",
+														padding: "10px",
+														borderRadius: "4px",
+														background: "#fafafa",
+													}}
+												>
+													<p style={{ margin: 0 }}>
+														<strong>Start:</strong>{" "}
+														{slot.start_time
+															? new Date(slot.start_time).toLocaleString()
+															: "N/A"}
+													</p>
+													<p style={{ margin: 0 }}>
+														<strong>End:</strong>{" "}
+														{slot.end_time
+															? new Date(slot.end_time).toLocaleString()
+															: "N/A"}
+													</p>
+												</div>
+											))}
 										</div>
-									</div>
-								</div>
-							))}
-						</div>
-					)}
-				</ProFormField>
-
-				<ProFormField label={"Add-ons"} colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.add_ons && Array.isArray(data.add_ons) && data.add_ons.length > 0 ? (
-						<div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-							{data.add_ons.map((addon: any, index: number) => (
-								<div
-									key={`addon-${index}`}
-									style={{ border: "1px solid #f0f0f0", padding: "15px", borderRadius: "5px" }}
-								>
-									<h4 style={{ marginTop: 0 }}>{addon.add_on_type}</h4>
-									<p style={{ margin: "0 0 10px" }}>{addon.description}</p>
-									<div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-										<div>
-											<strong>Price:</strong> ${addon.price}
-										</div>
-										<div>
-											<strong>Quantity:</strong> {addon.quantity}
-										</div>
-									</div>
-								</div>
-							))}
-						</div>
-					) : (
-						<span>No add-ons available</span>
-					)}
-				</ProFormField>
-
-				<ProFormField label={"Tags"} colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.tags && Array.isArray(data.tags) && data.tags.length > 0 ? (
-						<div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-							{data.tags.map((tag: string, index: number) => (
-								<div
-									key={`tag-${index}`}
-									style={{
-										background: "#f0f0f0",
-										padding: "4px 12px",
-										borderRadius: "16px",
-										fontSize: "14px",
-									}}
-								>
-									{tag}
-								</div>
-							))}
-						</div>
-					) : (
-						<span>No tags</span>
-					)}
-				</ProFormField>
-
-				<ProFormField label={"Refund Policy"} colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.refund_policy && Array.isArray(data.refund_policy) && data.refund_policy.length > 0 ? (
-						<div>
-							{data.refund_policy[0].days === "" && data.refund_policy[0].percent === "" ? (
-								<span>No Refund Policy</span>
-							) : (
-								<div
-									style={{
-										border: "1px solid #f0f0f0",
-										padding: "15px",
-										borderRadius: "5px",
-									}}
-								>
-									<p>
-										<strong>{data.refund_policy[0].days}</strong> days:{" "}
-										<strong>{data.refund_policy[0].percent}%</strong> refund
-									</p>
-								</div>
-							)}
-						</div>
-					) : (
-						<span>No Refund Policy</span>
-					)}
-				</ProFormField>
-
-				{/* <ProFormField label={"Additional Details"} colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.additional_detail ? (
-						<div
-							className="additional-details"
-							dangerouslySetInnerHTML={{ __html: data.additional_detail }}
-							style={{
-								border: "1px solid #f0f0f0",
-								padding: "15px",
-								borderRadius: "5px",
-							}}
-						/>
-					) : (
-						<span>No additional details</span>
-					)}
-				</ProFormField>
-
-				<ProFormField label={"Setup Details"} colProps={{ span: 24, offset: 0 }} readonly>
-					{data?.set_up_detail ? (
-						<div
-							className="setup-details"
-							dangerouslySetInnerHTML={{ __html: data.set_up_detail }}
-							style={{
-								border: "1px solid #f0f0f0",
-								padding: "15px",
-								borderRadius: "5px",
-							}}
-						/>
-					) : (
-						<span>No setup details</span>
-					)}
-				</ProFormField> */}
-			</ProForm.Group>
+									) : (
+										<p>No specific schedule applied</p>
+									)}
+								</ProFormField>
+							</ProForm.Group>
+						);
+					} else if (typeof participant === "string") {
+						// If it's just an ID (tenant not found during backend population)
+						return (
+							<ProForm.Group
+								key={`participant-group-${index}`}
+								style={{
+									...groupStyle,
+									marginBottom: "20px",
+									borderTop: "1px solid #eee",
+									paddingTop: "20px",
+								}}
+							>
+								<ProFormText
+									label={`Participant ID (Details N/A)`}
+									initialValue={participant}
+									colProps={{ span: 24, offset: 0 }}
+									readonly
+								/>
+							</ProForm.Group>
+						);
+					}
+					return null; // Should ideally not be reached
+				})}
 		</BaseModel>
 	);
 }
