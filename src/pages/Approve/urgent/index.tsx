@@ -7,7 +7,7 @@ import { useRequest } from "@umijs/max";
 import React, { useEffect, useRef, useState } from "react";
 import { UrgentTableColumns } from "./columns";
 import Helper from "@/util/searchHelper";
-import { message } from "antd";
+import { message, Typography } from "antd";
 import { LandownerAdvancedStatus } from "@/services/commonType";
 import { _getAllWaitingAdvancedOrg } from "@/services/org/advanced";
 import { _getUrgentInfo } from "@/services/urgent/info";
@@ -31,6 +31,12 @@ export default function Index() {
 	return (
 		<div>
 			<BaseIndex title="Urgent approval page">
+				<Typography.Text type="secondary">
+					This section handles event cancellation requests from organizers. When approved, the system will
+					automatically process refunds for all participants. It is still being developed and will be ready in
+					the next patch.
+					<br />
+				</Typography.Text>
 				<BaseSearch
 					title="Search bar"
 					submitFun={actionRef.current?.reload}

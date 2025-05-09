@@ -30,70 +30,64 @@ export function EventTableColumns({
 		//   ellipsis: true,
 		//   copyable: true,
 		// },
-		{
-			title: "Participants count",
-			dataIndex: "participants",
-			key: "participants",
-			render: (text) => ((text as any) ? (text as any).length : 0),
-			align: "center",
-		},
-		{
-			title: "Price",
-			dataIndex: "price",
-			key: "price",
-			render: (text) => `$${Number(text).toFixed(2)}`, // 格式化为货币
-			align: "center",
-		},
-		{
-			title: "Liked Count",
-			dataIndex: "liked_count",
-			key: "liked_count",
-			align: "center",
-		},
-		{
-			title: "Location",
-			dataIndex: "location",
-			key: "location",
-			render: (_, record: API_EVENT.Event) =>
-				`${record.location.city}, ${record.location.state}, ${record.location.country}`, // 格式化位置
-			align: "center",
-		},
-		{
-			title: "Event Type",
-			dataIndex: "type",
-			key: "event_type",
-			filters: [
-				{ text: "Multi-day", value: EventType.MULTI },
-				{ text: "Single-day", value: EventType.SINGLE },
-				{ text: "Recurring", value: EventType.RECURRING },
-				{ text: "full-series", value: EventType.FULL_SERIES },
-			],
-			onFilter: (value, record) => record.type === value,
-			valueEnum: {
-				[EventType.MULTI]: { text: "Multi-day", color: "blue" },
-				[EventType.SINGLE]: { text: "Single-day", color: "cyan" },
-				[EventType.RECURRING]: { text: "Recurring", color: "purple" },
-				[EventType.FULL_SERIES]: { text: "Full-series", color: "yellow" },
-			},
-			align: "center",
-		},
-		{
-			title: "Status",
-			dataIndex: "status",
-			key: "status",
-			filters: [
-				{ text: "Normal", value: EventStatus.NORMAL },
-				{ text: "Cancel", value: EventStatus.CANCEL },
-				{ text: "Suspend", value: EventStatus.SUSPEND },
-			],
-			onFilter: (value, record) => record.status === value, // 过滤逻辑
-			valueEnum: {
-				[EventStatus.NORMAL]: { text: "Normal", status: "Success" },
-				[EventStatus.CANCEL]: { text: "Cancel", status: "Error" },
-				[EventStatus.SUSPEND]: { text: "Suspend", status: "Warning" },
-			},
-			align: "center",
-		},
+
+		// {
+		// 	title: "Event Customer Admission Price",
+		// 	dataIndex: "price",
+		// 	key: "price",
+		// 	render: (text) => `$${Number(text).toFixed(2)}`, // 格式化为货币
+		// 	align: "center",
+		// },
+		// {
+		// 	title: "Liked Count",
+		// 	dataIndex: "liked_count",
+		// 	key: "liked_count",
+		// 	align: "center",
+		// },
+		// {
+		// 	title: "Location",
+		// 	dataIndex: "location",
+		// 	key: "location",
+		// 	render: (_, record: API_EVENT.Event) =>
+		// 		`${record.location.city}, ${record.location.state}, ${record.location.country}`, // 格式化位置
+		// 	align: "center",
+		// },
+		// {
+		// 	title: "Event Type",
+		// 	dataIndex: "type",
+		// 	key: "event_type",
+		// 	filters: [
+		// 		{ text: "Multi-day", value: EventType.MULTI },
+		// 		{ text: "Single-day", value: EventType.SINGLE },
+		// 		{ text: "Recurring", value: EventType.RECURRING },
+		// 		{ text: "full-series", value: EventType.FULL_SERIES },
+		// 	],
+		// 	onFilter: (value, record) => record.type === value,
+		// 	valueEnum: {
+		// 		[EventType.MULTI]: { text: "Multi-day", color: "blue" },
+		// 		[EventType.SINGLE]: { text: "Single-day", color: "cyan" },
+		// 		[EventType.RECURRING]: { text: "Recurring", color: "purple" },
+		// 		[EventType.FULL_SERIES]: { text: "Full-series", color: "yellow" },
+		// 	},
+		// 	align: "center",
+		// },
+		// {
+		// 	title: "Status",
+		// 	dataIndex: "status",
+		// 	key: "status",
+		// 	filters: [
+		// 		{ text: "Normal", value: EventStatus.NORMAL },
+		// 		{ text: "Cancel", value: EventStatus.CANCEL },
+		// 		{ text: "Suspend", value: EventStatus.SUSPEND },
+		// 	],
+		// 	onFilter: (value, record) => record.status === value, // 过滤逻辑
+		// 	valueEnum: {
+		// 		[EventStatus.NORMAL]: { text: "Normal", status: "Success" },
+		// 		[EventStatus.CANCEL]: { text: "Cancel", status: "Error" },
+		// 		[EventStatus.SUSPEND]: { text: "Suspend", status: "Warning" },
+		// 	},
+		// 	align: "center",
+		// },
 		// {
 		//   title: "schedule",
 		//   dataIndex: "schedule",

@@ -13,130 +13,130 @@
  * @doc https://umijs.org/docs/guides/routes
  */
 export default [
-  {
-    path: "/user",
-    layout: false,
-    routes: [
-      {
-        name: "login",
-        path: "/user/login",
-        component: "./User/Login",
-      },
-    ],
-  },
-  {
-    path: "/welcome",
-    icon: "smile",
-    component: "./Org",
-  },
-  {
-    path: "/org",
-    icon: "team",
-    name: "Organizer Management",
-    component: "./Org",
-  },
-  {
-    path: "/tenant",
-    icon: "userAdd",
-    name: "Vendor Management",
-    component: "./Tenant",
-  },
-  {
-    path: "/event",
-    icon: "sound",
-    name: "Event Management",
-    component: "./Event",
-  },
-  {
-    path: "/transaction",
-    icon: "dollar",
-    name: "Transaction Management",
-    routes: [
-      // {
-      //   path: "/transaction/withdraw",
-      //   name: "Withdrawal Management",
-      //   component: "./Transaction/withdraw",
-      // },
-      {
-        path: "/transaction/fee",
-        name: "Fee Management",
-        component: "./Transaction/fee",
-      },
-      {
-        path: "/transaction/refund",
-        name: "Refund Management",
-        component: "./Transaction/refund",
-      },
-    ],
-  },
-  {
-    path: "/approve",
-    icon: "checkSquare",
-    name: "Approvals",
-    routes: [
-      {
-        path: "/approve/advanced",
-        name: "Status Approvals",
-        component: "./Approve/advanced",
-      },
-      {
-        path: "/approve/withdraw",
-        name: "Withdrawal Approvals",
-        component: "./Approve/withdraw",
-      },
-      // {
-      //   path: "/approve/urgent",
-      //   name: "Urgent Approvals",
-      //   component: "./Approve/urgent",
-      // },
-    ],
-  },
+	{
+		path: "/user",
+		layout: false,
+		routes: [
+			{
+				name: "login",
+				path: "/user/login",
+				component: "./User/Login",
+			},
+		],
+	},
+	{
+		path: "/welcome",
+		icon: "smile",
+		component: "./Org",
+	},
+	{
+		path: "/org",
+		icon: "team",
+		name: "Organizer Management",
+		component: "./Org",
+	},
+	{
+		path: "/tenant",
+		icon: "userAdd",
+		name: "Vendor Management",
+		component: "./Tenant",
+	},
+	{
+		path: "/event",
+		icon: "sound",
+		name: "Event Management",
+		component: "./Event",
+	},
+	{
+		path: "/transaction",
+		icon: "dollar",
+		name: "Transaction Management",
+		routes: [
+			// {
+			//   path: "/transaction/withdraw",
+			//   name: "Withdrawal Management",
+			//   component: "./Transaction/withdraw",
+			// },
+			{
+				path: "/transaction/fee",
+				name: "Fee Management",
+				component: "./Transaction/fee",
+			},
+			{
+				path: "/transaction/refund",
+				name: "Refund Management",
+				component: "./Transaction/refund",
+			},
+		],
+	},
+	{
+		path: "/approve",
+		icon: "checkSquare",
+		name: "Approvals",
+		routes: [
+			{
+				path: "/approve/advanced",
+				name: "Status Approvals",
+				component: "./Approve/advanced",
+			},
+			{
+				path: "/approve/withdraw",
+				name: "Withdrawal Approvals",
+				component: "./Approve/withdraw",
+			},
+			{
+				path: "/approve/urgent",
+				name: "Urgent Approvals",
+				component: "./Approve/urgent",
+			},
+		],
+	},
 
-  {
-    path: "/setting",
-    icon: "setting",
-    name: "Setting",
-    routes: [
-      // {
-      //   path: "/setting/termersCondition",
-      //   name: "TermersCondition",
-      //   component: "./Setting/termersCondition",
-      // },
-      // {
-      //   path: "/setting/privacy",
-      //   name: "Privacy",
-      //   component: "./Setting/privacy",
-      // },
-      {
-        path: "/setting/faq",
-        name: "FAQ",
-        component: "./Setting/faq",
-      },
-      {
-        path: "/setting/fee",
-        name: "Fee",
-        component: "./Setting/fee",
-      },
-      {
-        path: "/setting/others",
-        name: "Others",
-        component: "./Setting/others",
-      },
-    ],
-  },
-  {
-    path: "/news",
-    icon: "mail",
-    name: "Newsletter",
-    component: "./NewsLetter",
-  },
-  {
-    path: "/",
-    redirect: "/org",
-  },
-  {
-    path: "*",
-    layout: false,
-    component: "./404",
-  },
+	{
+		path: "/setting",
+		icon: "setting",
+		name: "Setting",
+		routes: [
+			// {
+			//   path: "/setting/termersCondition",
+			//   name: "TermersCondition",
+			//   component: "./Setting/termersCondition",
+			// },
+			// {
+			//   path: "/setting/privacy",
+			//   name: "Privacy",
+			//   component: "./Setting/privacy",
+			// },
+			{
+				path: "/setting/faq",
+				name: "FAQ",
+				component: "./Setting/faq",
+			},
+			{
+				path: "/setting/fee",
+				name: "Fee",
+				component: "./Setting/fee",
+			},
+			{
+				path: "/setting/others",
+				name: "Others",
+				component: "./Setting/others",
+			},
+		],
+	},
+	{
+		path: "/news",
+		icon: "mail",
+		name: "Newsletter",
+		component: "./NewsLetter",
+	},
+	{
+		path: "/",
+		redirect: "/org",
+	},
+	{
+		path: "*",
+		layout: false,
+		component: "./404",
+	},
 ];
