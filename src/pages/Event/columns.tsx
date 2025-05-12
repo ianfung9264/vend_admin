@@ -1,12 +1,13 @@
 import { StrictVerifyButton } from "@/components/Base/StrictVerifyButton";
 import { EventStatus, EventType, LandownerAdvancedStatus } from "@/services/commonType";
 import { _stopEvent, _restartEvent, _cancelEvent } from "@/services/event/info";
-import { PauseOutlined, PlayCircleOutlined, StopOutlined } from "@ant-design/icons";
+import { CloseOutlined, PauseOutlined, PlayCircleOutlined, StopOutlined } from "@ant-design/icons";
 import { ProColumns, ProFormList } from "@ant-design/pro-components";
-import { Button, Tooltip } from "antd";
+import { Button, Tooltip, message } from "antd";
 import { StrictMode } from "react";
 import { readonly } from "vue";
 import DetailModal from "./detailModal";
+import { _refundAllVendorFromOrgWallet } from "@/services/event/info";
 import VendorDetailModal from "./vendorDetailModal";
 export function EventTableColumns({
 	mainTableReload,
@@ -119,8 +120,8 @@ export function EventTableColumns({
 						<StrictVerifyButton
 							title={
 								record.status == EventStatus.NORMAL
-									? "Are you sure you want to stop the event?"
-									: "Are you sure you want to start the event?"
+									? "Are you sure you want to hide the event?"
+									: "Are you sure you want to show the event?"
 							}
 							trigger={
 								<Button
@@ -146,6 +147,78 @@ export function EventTableColumns({
 									event_id: record._id,
 								},
 								actionFunc: record.status == EventStatus.NORMAL ? _stopEvent : _restartEvent,
+							}}
+						/>
+						{/* this is the button i am talking about!!!! */}
+						<StrictVerifyButton
+							title={"Are you sure you want to refund all the vendors?"}
+							trigger={
+								<Button
+									disabled={!canCancelOrStop}
+									type="primary"
+									size="small"
+									icon={
+										<Tooltip title="Click to refund all the vendors">
+											<CloseOutlined />
+										</Tooltip>
+									}
+								></Button>
+							}
+							initData={{
+								mainTableReload,
+								actionFuncParams: {
+									event_id: record._id,
+									participants:
+										record.participants?.filter((p: any) => p.stall_payment_status === "Paid") ||
+										[],
+								},
+								actionFunc: async (params: { event_id: string; participants: any[] }) => {
+									try {
+										// Prepare the refund list
+										const refundList = params.participants
+											.filter((p) => p.stall_payment_status === "Paid" && p.ticket_type_applied)
+											.map((p) => ({
+												id: p.application_id,
+												amount: p.ticket_type_applied.amount,
+											}));
+
+										if (refundList.length > 0) {
+											message.loading({
+												content: `Processing refunds for ${refundList.length} vendors...`,
+												key: "refundProgress",
+												duration: 0,
+											});
+
+											try {
+												await _refundAllVendorFromOrgWallet(record.creator._id, refundList);
+												message.success({
+													content: `Successfully processed refunds for ${refundList.length} vendors. All payment intents have been created.`,
+													key: "refundProgress",
+												});
+											} catch (error) {
+												message.error({
+													content: "Error during refund process. Please try again.",
+													key: "refundProgress",
+												});
+												throw error;
+											}
+										} else {
+											message.info({
+												content: "No vendors to refund",
+												key: "refundProgress",
+											});
+										}
+
+										return { success: true };
+									} catch (error) {
+										message.error({
+											content: "Error during refund process. Please try again.",
+											key: "refundProgress",
+										});
+										console.error("Error during refund process:", error);
+										throw error;
+									}
+								},
 							}}
 						/>
 						{/* <StrictVerifyButton

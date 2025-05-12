@@ -117,3 +117,14 @@ export const _refundVendorFromOrgWallet = async (
 		},
 	});
 };
+export const _refundAllVendorFromOrgWallet = async (
+	landowner_id: string,
+	refundList: { id: string; amount: number | string }[]
+) => {
+	return request(`/api/v1/client/private/landowner/application/refund/admin/${landowner_id}`, {
+		method: "post",
+		data: {
+			application_id_list: refundList,
+		},
+	});
+};
