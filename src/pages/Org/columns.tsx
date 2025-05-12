@@ -3,27 +3,32 @@ import { Button, Divider, Tooltip } from "antd";
 import DetailModal from "./detailModal";
 import { LandownerAdvancedStatus, OtpStatusType } from "@/services/commonType";
 import { InfoCircleOutlined } from "@ant-design/icons";
+import WalletBalanceModal from "./WalletBalanceModal";
+import { useState } from "react";
 
 export function OrgTableColumns({
 	mainTableReload,
 }: {
 	mainTableReload: (() => Promise<void>) | undefined;
 }): ProColumns<Page_org.mainTable>[] {
-	// console.log("mainTableReload", mainTableReload);
-	// const [tableReload, setTableReload] = useState(() => mainTableReload);
+	const [selectedRecord, setSelectedRecord] = useState<Page_org.mainTable | null>(null);
+	const [modalVisible, setModalVisible] = useState(false);
 
-	// useEffect(() => {
-	//   setTableReload(() => mainTableReload);
-	// }, [mainTableReload]);
 	return [
 		{
-			title: "Business Name",
+			title: "Organizer ID",
+			dataIndex: "_id",
+			key: "_id",
+			align: "center",
+		},
+		{
+			title: "Display Business Name",
 			dataIndex: "business_name",
 			key: "business_name",
 			align: "center",
 		},
 		{
-			title: "Full Business Name",
+			title: "Full Legal Business Name",
 			dataIndex: "business_full_name",
 			key: "business_full_name",
 			align: "center",
@@ -38,7 +43,31 @@ export function OrgTableColumns({
 			title: "Wallet Balance",
 			dataIndex: "wallet",
 			key: "wallet",
-			render: (text) => `$${Number(text)?.toFixed(2)}`, // Format as currency
+			render: (text, record) => (
+				<>
+					<Button
+						type="link"
+						style={{ padding: 0 }}
+						onClick={() => {
+							setSelectedRecord(record);
+							setModalVisible(true);
+						}}
+					>
+						{`$${Number(text)?.toFixed(2)}`}
+					</Button>
+					{selectedRecord && (
+						<WalletBalanceModal
+							visible={modalVisible}
+							onClose={() => {
+								setModalVisible(false);
+								setSelectedRecord(null);
+							}}
+							record={selectedRecord}
+						
+						/>
+					)}
+				</>
+			),
 			align: "center",
 		},
 		{
@@ -70,13 +99,7 @@ export function OrgTableColumns({
 			key: "action",
 			render: (_, record) => (
 				<span>
-					{record.advanced_status !== LandownerAdvancedStatus.APPROVED ? (
-						<Tooltip title="Account is not approved yet">
-							<Button type="text" disabled icon={<InfoCircleOutlined />} />
-						</Tooltip>
-					) : (
-						<DetailModal initData={record} mainTableReload={mainTableReload} />
-					)}
+					<DetailModal initData={record} mainTableReload={mainTableReload} />
 				</span>
 			),
 			align: "center",

@@ -33,3 +33,9 @@ export const _updateWithdrawalProgress = async (data: {
 		data: { progress: data.progress },
 	});
 };
+
+export const _getWithdrawalByLandowner = async (landownerId: string): Promise<any[]> => {
+	return request(`/api/v1/admin/private/withdrawal/transaction/${landownerId}`, {
+		method: "get",
+	});
+};

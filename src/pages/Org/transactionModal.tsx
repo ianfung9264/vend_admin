@@ -18,7 +18,7 @@ import { truncate } from "lodash";
 
 const { Text } = Typography;
 
-export default function DetailModal({
+export default function TransactionModal({
 	initData,
 	mainTableReload,
 }: {
@@ -172,7 +172,7 @@ export default function DetailModal({
 			initData={org}
 			title="Account Details"
 		>
-			<Divider children="Basic Information" orientation="left" orientationMargin={20} />
+			<Divider children="Transaction Information" orientation="left" orientationMargin={20} />
 			<ProForm.Group style={{ ...groupStyle }}>
 				<ProFormText label={"Id"} name="_id" colProps={{ span: 8, offset: 0 }} readonly />
 				<ProFormField label={"Icon"} name="icon_url" colProps={{ span: 8, offset: 6 }} readonly>

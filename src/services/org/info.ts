@@ -29,3 +29,11 @@ export const _editOrgInfo = async (orgId: string, adminId: string, data: any): P
 		data: data,
 	});
 };
+
+export const _getApplicationTransactionsByEventIds = async (eventIds: string[]): Promise<any[]> => {
+	const eventIdsParam = eventIds.join(",");
+	return request(`/api/v1/admin/private/application/transaction`, {
+		method: "get",
+		params: { event_ids: eventIdsParam },
+	});
+};
