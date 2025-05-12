@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import BaseModel from "@/components/Base/BaseModel";
 import { _editOrgInfo, _getOrgById } from "@/services/org/info";
+import { _refundVendorFromOrgWallet } from "@/services/event/info";
 import {
 	ProForm,
 	ProFormField,
@@ -12,7 +13,7 @@ import {
 	ProFormTextArea,
 	ProTable,
 } from "@ant-design/pro-components";
-import { Divider, Image, message, Progress } from "antd";
+import { Divider, Image, message, Progress, Button, Modal, Input, InputNumber } from "antd";
 import { Line } from "@ant-design/charts";
 import { truncate } from "lodash";
 
@@ -27,6 +28,10 @@ export default function VendorDetailModal({
 	/**********************************狀態管理**********************************/
 	const formRef = useRef<ProFormInstance>();
 	const [data, setData] = useState<Record<string, any>>();
+	const [isRefundModalVisible, setIsRefundModalVisible] = useState(false);
+	const [refundAmount, setRefundAmount] = useState<number>(0);
+	const [currentParticipant, setCurrentParticipant] = useState<any>(null);
+	const [isRefunding, setIsRefunding] = useState(false);
 
 	/**********************************狀態管理**********************************/
 	/**********************************組件初始化**********************************/
@@ -51,6 +56,31 @@ export default function VendorDetailModal({
 	//   }
 	// };
 	/**********************************異步函數**********************************/
+
+	const handleRefund = async () => {
+		if (!currentParticipant || !refundAmount) {
+			message.error("Please enter a valid refund amount");
+			return;
+		}
+
+		setIsRefunding(true);
+		try {
+			await _refundVendorFromOrgWallet(data?.creator?._id, currentParticipant.application_id, refundAmount);
+			message.success("Refund processed successfully");
+			setIsRefundModalVisible(false);
+			setRefundAmount(0);
+			setCurrentParticipant(null);
+			if (mainTableReload) {
+				await mainTableReload();
+			}
+		} catch (error) {
+			message.error("Failed to process refund");
+			console.error("Refund error:", error);
+		} finally {
+			setIsRefunding(false);
+		}
+	};
+
 	return (
 		<BaseModel<Page_org.mainTable>
 			modalFormProps={{
@@ -221,7 +251,26 @@ export default function VendorDetailModal({
 									colProps={{ span: 12, offset: 0 }}
 									readonly
 								/>
-							
+								<ProFormText
+									name={["participant", index, "application_id"]}
+									label={"Application ID"}
+									initialValue={participant.application_id || "N/A"}
+									colProps={{ span: 12, offset: 0 }}
+									readonly
+								/>
+								{participant.stall_payment_status === "Paid" && (
+									<ProFormField colProps={{ span: 24 }}>
+										<Button
+											type="primary"
+											onClick={() => {
+												setCurrentParticipant(participant);
+												setIsRefundModalVisible(true);
+											}}
+										>
+											Process Refund
+										</Button>
+									</ProFormField>
+								)}
 
 								{/* Ticket Type Applied */}
 								<ProFormField label={"Ticket Type Applied"} colProps={{ span: 24 }} mode="read">
@@ -240,9 +289,18 @@ export default function VendorDetailModal({
 											</p>
 											<p style={{ margin: 0 }}>
 												<strong>Amount:</strong> $
-												{participant.ticket_type_applied.amount || "0"}
+												{participant.ticket_type_applied.amount -
+													(participant.add_ons_applied &&
+													Array.isArray(participant.add_ons_applied)
+														? participant.add_ons_applied.reduce(
+																(sum: number, addon: any) =>
+																	sum +
+																	(Number(addon.amount) * Number(addon.quantity) ||
+																		0),
+																0
+															)
+														: 0)}
 											</p>
-											{/* Can display questions if needed: JSON.stringify(participant.ticket_type_applied.questions) */}
 										</div>
 									) : (
 										<p>N/A</p>
@@ -251,11 +309,11 @@ export default function VendorDetailModal({
 
 								{/* Add-ons */}
 								<ProFormField label={"Add-ons"} colProps={{ span: 24 }} mode="read">
-									{participant.add_ons &&
-									Array.isArray(participant.add_ons) &&
-									participant.add_ons.length > 0 ? (
+									{participant.add_ons_applied &&
+									Array.isArray(participant.add_ons_applied) &&
+									participant.add_ons_applied.length > 0 ? (
 										<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-											{participant.add_ons.map((addon: any, addonIndex: number) => (
+											{participant.add_ons_applied.map((addon: any, addonIndex: number) => (
 												<div
 													key={`addon-${index}-${addonIndex}`}
 													style={{
@@ -272,7 +330,7 @@ export default function VendorDetailModal({
 														<strong>Quantity:</strong> {addon.quantity || "0"}
 													</p>
 													<p style={{ margin: 0 }}>
-														<strong>Amount:</strong> ${addon.amount || "0"}
+														<strong>Amount per quantity:</strong> ${addon.amount || "0"}
 													</p>
 												</div>
 											))}
@@ -342,6 +400,34 @@ export default function VendorDetailModal({
 					}
 					return null; // Should ideally not be reached
 				})}
+
+			<Modal
+				title="Process Refund"
+				open={isRefundModalVisible}
+				onOk={handleRefund}
+				onCancel={() => {
+					setIsRefundModalVisible(false);
+					setRefundAmount(0);
+				}}
+				okText="Confirm"
+				cancelText="Cancel"
+				confirmLoading={isRefunding}
+			>
+				<div style={{ marginBottom: 16 }}>
+					<p>Please enter the refund amount:</p>
+					<p className="text-xs text-gray-500">
+						Note: the maxium amount you can refund is the ticket amount + add on amount.
+					</p>
+					<InputNumber
+						style={{ width: "100%" }}
+						min={0}
+						precision={2}
+						value={refundAmount}
+						onChange={(value) => setRefundAmount(value || 0)}
+						placeholder="Enter refund amount"
+					/>
+				</div>
+			</Modal>
 		</BaseModel>
 	);
 }
