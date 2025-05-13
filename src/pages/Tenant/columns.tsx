@@ -29,17 +29,23 @@ export function TenantTableColumns({
 			align: "center",
 		},
 		{
-			title: "First Name",
-			dataIndex: "firstname", // 根据您提供的数据结构
-			key: "firstname",
+			title: "Vendor Business Name",
+			dataIndex: "business_name",
+			key: "business_name",
 			align: "center",
 		},
-		{
-			title: "Last Name",
-			dataIndex: "lastname", // 根据您提供的数据结构
-			key: "lastname",
-			align: "center",
-		},
+		// {
+		// 	title: "First Name",
+		// 	dataIndex: "firstname", // 根据您提供的数据结构
+		// 	key: "firstname",
+		// 	align: "center",
+		// },
+		// {
+		// 	title: "Last Name",
+		// 	dataIndex: "lastname", // 根据您提供的数据结构
+		// 	key: "lastname",
+		// 	align: "center",
+		// },
 		{
 			title: "Email",
 			dataIndex: "email",

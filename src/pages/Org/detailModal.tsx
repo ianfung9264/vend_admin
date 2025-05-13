@@ -203,8 +203,7 @@ export default function DetailModal({
 					}}
 					colProps={{ span: 8, offset: 6 }}
 					valueEnum={{
-						0: { text: "Unapproved", status: "Error" },
-						1: { text: "Waiting", status: "Processing" },
+						0: { text: "Rejected", status: "Error" },
 						2: { text: "Approved", status: "Success" },
 					}}
 				/>

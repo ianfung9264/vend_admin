@@ -62,12 +62,9 @@ export const _getApplicantInformationByEventId = async (eventId: string) => {
 };
 
 export const _getEventDetailsByEventId = async (creatorId: string, eventId: string) => {
-	const result = await request(
-		`https://d917718013d0.ngrok.app/api/v1/client/private/landowner/event/details/admin/${creatorId}/${eventId}`,
-		{
-			method: "get",
-		}
-	);
+	const result = await request(`/api/v1/client/private/landowner/event/details/admin/${creatorId}/${eventId}`, {
+		method: "get",
+	});
 	return result;
 };
 
@@ -75,13 +72,10 @@ export const _approveCancelEvent = async (
 	data: { application_id_list: { id: string; amount: number }[] },
 	landowner_id: string
 ) => {
-	return request(
-		`https://d917718013d0.ngrok.app/api/v1/client/private/landowner/application/refund/admin/${landowner_id}`,
-		{
-			method: "post",
-			data,
-		}
-	);
+	return request(`/api/v1/client/private/landowner/application/refund/admin/${landowner_id}`, {
+		method: "post",
+		data,
+	});
 };
 
 export const _sendEmail = async (data: { subject: string; content: string }) => {

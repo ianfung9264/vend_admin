@@ -6,7 +6,7 @@ import { ActionType, ProCard } from "@ant-design/pro-components";
 import { useRequest } from "@umijs/max";
 import React, { useEffect, useRef, useState } from "react";
 import Helper from "@/util/searchHelper";
-import { Badge, Calendar, Card, message } from "antd";
+import { Badge, Calendar, Card, message, Typography } from "antd";
 import { _getAllEvent } from "@/services/event/info";
 import { EventTableColumns } from "./columns";
 import dayjs, { Dayjs } from "dayjs";
@@ -38,6 +38,10 @@ export default function Index() {
 	return (
 		<div>
 			<BaseIndex title="Event page">
+				<Typography.Text type="secondary">
+					Currently cannot edit event as function is being tested. Another patch Will be pushed tomorrow.
+					<br />
+				</Typography.Text>
 				<BaseSearch
 					title="Search bar"
 					submitFun={actionRef.current?.reload}

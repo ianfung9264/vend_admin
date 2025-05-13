@@ -114,7 +114,13 @@ const WalletBalanceModal: React.FC<WalletBalanceModalProps> = ({ visible, onClos
 			title: "Amount",
 			dataIndex: "amount",
 			key: "amount",
-			render: (text: number) => `$${Number(text)?.toFixed(2)}`,
+			render: (text: number, row: any) => {
+				const status = row.status?.toUpperCase();
+				if (status === "REFUNDED" || status === "REJECTED" || status === "DENIED") {
+					return "-";
+				}
+				return `$${Number(text)?.toFixed(2)}`;
+			},
 		},
 		{
 			title: "Action Type",
@@ -205,7 +211,18 @@ const WalletBalanceModal: React.FC<WalletBalanceModalProps> = ({ visible, onClos
 							</p>
 							<p>
 								<strong style={{ display: "block", marginBottom: "4px" }}>Ticket Type:</strong>
-								<span style={{ marginLeft: "10px" }}>{ticket_type?.ticket_type || "N/A"}</span>
+								<span style={{ marginLeft: "10px" }}>
+									{ticket_type?.ticket_type || "N/A"} - $
+									{(() => {
+										const addOnsTotal = (add_ons || []).reduce(
+											(sum: number, addon: any) =>
+												sum + (Number(addon.amount) * Number(addon.quantity) || 0),
+											0
+										);
+										const baseTicketPrice = Number(ticket_type?.amount || 0) - addOnsTotal;
+										return baseTicketPrice === 0 ? "0" : baseTicketPrice.toFixed(2);
+									})()}
+								</span>
 							</p>
 							<div style={{ marginBottom: "8px" }}>
 								<strong style={{ display: "block", marginBottom: "2px" }}>Add-ons:</strong>
@@ -263,9 +280,11 @@ const WalletBalanceModal: React.FC<WalletBalanceModalProps> = ({ visible, onClos
 										</p>
 										<p style={{ marginLeft: "10px" }}>
 											- Fixed Amount: $
-											{Number(stall_payment_summary.vendpopups_commission?.fixed_amount).toFixed(
-												2
-											)}
+											{Number(stall_payment_summary.vendpopups_commission?.fixed_amount)
+												? Number(
+														stall_payment_summary.vendpopups_commission?.fixed_amount
+													).toFixed(2)
+												: "0"}
 										</p>
 										<p style={{ marginLeft: "10px" }}>
 											- Total Commission: $

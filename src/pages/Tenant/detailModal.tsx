@@ -158,14 +158,16 @@ export default function DetailModal({
 		>
 			<Divider children="Basic Information" orientation="left" orientationMargin={20} />
 			<ProForm.Group style={{ ...groupStyle }}>
-				<ProFormText label={"Id"} name="_id" colProps={leftFile} readonly />{" "}
-				<ProFormField label={"Icon"} name="icon_url" colProps={rightFile}>
-					<Image src={tenant && tenant?.icon_url.url} width={100} />
-				</ProFormField>
+				<ProFormText label={"Id"} name="_id" readonly />{" "}
 				<ProFormText label={"Vendor Last Name"} name="lastname" colProps={leftFile} />
 				<ProFormText label={"Vendor First Name"} name="firstname" colProps={rightFile} />
+				<ProFormText label={"Phone Prefix"} name="phone_pre" colProps={leftFile} />
+				<ProFormText label={"Phone Number"} name="phone" colProps={rightFile} />
 				<ProFormText label={"Followers Count"} name="be_followed_count" colProps={leftFile} />
 				<ProFormText label={"Email"} name="email" colProps={rightFile} />
+				<ProFormField label={"Icon"} name="icon_url" colProps={leftFile}>
+					<Image src={tenant && tenant?.icon_url.url} width={100} />
+				</ProFormField>
 			</ProForm.Group>
 			<>
 				{/* <Divider

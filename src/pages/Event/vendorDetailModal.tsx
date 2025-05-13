@@ -369,10 +369,10 @@ export default function VendorDetailModal({
 				// 	}
 				// },
 			}}
-			allowUpdate={true}
+			allowUpdate={false}
 			submit={formRef?.current?.submit}
 			initData={data}
-			title="Vendor Information"
+			title="Participating Vendor Information"
 		>
 			<ProTable
 				columns={vendorColumns}

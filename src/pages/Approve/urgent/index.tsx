@@ -32,9 +32,12 @@ export default function Index() {
 		<div>
 			<BaseIndex title="Urgent approval page">
 				<Typography.Text type="secondary">
-					This section handles event cancellation requests from organizers. When approved, the system will
-					automatically process refunds for all participants. It is still being developed and will be ready in
-					the next patch.
+					This page manages urgent event cancellation requests from organizers. These requests may arise due
+					to unforeseen circumstances such as severe weather conditions, safety concerns, or other emergency
+					situations. As an admin, you can review the cancellation reason, contact the organizer if needed,
+					and take appropriate action. If the cancellation is justified, follow the instructions in the "View
+					Cancellation Request" button to process the cancellation and ensure all vendors receive their
+					refunds.
 					<br />
 				</Typography.Text>
 				<BaseSearch

@@ -125,7 +125,7 @@ const EventModal: React.FC<EventModalProps> = ({ visible, onClose, record }) => 
 
 	return (
 		<Modal
-			title={`Events by ${record?.business_name || "Organizer"}`}
+			title={`Events created by ${record?.business_name || "Organizer"}`}
 			open={visible}
 			onCancel={onClose}
 			footer={null}
