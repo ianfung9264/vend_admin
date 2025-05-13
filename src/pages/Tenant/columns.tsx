@@ -1,7 +1,9 @@
 import { ProColumns } from "@ant-design/pro-components";
-import { Divider } from "antd";
+import { Divider, Button } from "antd";
 import DetailModal from "./detailModal";
 import { LandownerAdvancedStatus, OtpStatusType } from "@/services/commonType";
+import JoinedEventsModal from "./JoinedEventsModal";
+import React, { useState } from "react";
 
 export function TenantTableColumns({
 	mainTableReload,
@@ -14,7 +16,18 @@ export function TenantTableColumns({
 	// useEffect(() => {
 	//   setTableReload(() => mainTableReload);
 	// }, [mainTableReload]);
+
+	// State for JoinedEventsModal
+	const [selectedTenantForEvents, setSelectedTenantForEvents] = useState<Page_tenant.mainTable | null>(null);
+	const [joinedEventsModalVisible, setJoinedEventsModalVisible] = useState(false);
+
 	return [
+		{
+			title: "Vendor ID",
+			dataIndex: "_id", // 根据您提供的数据结构
+			key: "_id",
+			align: "center",
+		},
 		{
 			title: "First Name",
 			dataIndex: "firstname", // 根据您提供的数据结构
@@ -38,20 +51,35 @@ export function TenantTableColumns({
 			dataIndex: "joined_events_count",
 			key: "joined_events_count",
 			align: "center",
+			render: (text, record) => (
+				<>
+					<Button
+						type="link"
+						style={{ padding: 0 }}
+						onClick={() => {
+							setSelectedTenantForEvents(record);
+							setJoinedEventsModalVisible(true);
+						}}
+					>
+						{text}
+					</Button>
+					{selectedTenantForEvents && (
+						<JoinedEventsModal
+							visible={joinedEventsModalVisible}
+							onClose={() => {
+								setJoinedEventsModalVisible(false);
+								setSelectedTenantForEvents(null);
+							}}
+							tenantRecord={selectedTenantForEvents}
+						/>
+					)}
+				</>
+			),
 		},
 		{
 			title: "Followers Count",
 			dataIndex: "be_followed_count", // 根据您提供的数据结构
 			key: "be_followed_count",
-			align: "center",
-		},
-
-		{
-			title: "Account Status",
-			dataIndex: "otpStatus",
-			key: "otpStatus",
-			valueType: "select",
-			valueEnum: OtpStatusType,
 			align: "center",
 		},
 		{

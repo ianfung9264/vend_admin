@@ -4,7 +4,12 @@ import DetailModal from "./detailModal";
 import { LandownerAdvancedStatus, OtpStatusType } from "@/services/commonType";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import WalletBalanceModal from "./WalletBalanceModal";
+import EventModal from "./EventModal";
 import { useState } from "react";
+
+interface Page_org {
+	mainTable: any;
+}
 
 export function OrgTableColumns({
 	mainTableReload,
@@ -13,6 +18,9 @@ export function OrgTableColumns({
 }): ProColumns<Page_org.mainTable>[] {
 	const [selectedRecord, setSelectedRecord] = useState<Page_org.mainTable | null>(null);
 	const [modalVisible, setModalVisible] = useState(false);
+
+	const [selectedRecordForEvents, setSelectedRecordForEvents] = useState<Page_org.mainTable | null>(null);
+	const [eventModalVisible, setEventModalVisible] = useState(false);
 
 	return [
 		{
@@ -63,7 +71,6 @@ export function OrgTableColumns({
 								setSelectedRecord(null);
 							}}
 							record={selectedRecord}
-						
 						/>
 					)}
 				</>
@@ -74,6 +81,30 @@ export function OrgTableColumns({
 			title: "Event Count",
 			dataIndex: "eventCount",
 			key: "eventCount",
+			render: (text, record) => (
+				<>
+					<Button
+						type="link"
+						style={{ padding: 0 }}
+						onClick={() => {
+							setSelectedRecordForEvents(record);
+							setEventModalVisible(true);
+						}}
+					>
+						{text}
+					</Button>
+					{selectedRecordForEvents && (
+						<EventModal
+							visible={eventModalVisible}
+							onClose={() => {
+								setEventModalVisible(false);
+								setSelectedRecordForEvents(null);
+							}}
+							record={selectedRecordForEvents}
+						/>
+					)}
+				</>
+			),
 			align: "center",
 		},
 		{

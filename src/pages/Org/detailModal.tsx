@@ -10,6 +10,7 @@ import {
 	ProFormText,
 	ProFormTextArea,
 	ProTable,
+	ProFormDigit,
 } from "@ant-design/pro-components";
 import { Divider, Image, message, Progress, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
@@ -122,6 +123,15 @@ export default function DetailModal({
 						finalPayload.advanced_status = Number(finalPayload.advanced_status);
 					}
 
+					// Ensure wallet is a number
+					if (
+						finalPayload.hasOwnProperty("wallet") &&
+						finalPayload.wallet !== null &&
+						typeof finalPayload.wallet !== "undefined"
+					) {
+						finalPayload.wallet = Number(finalPayload.wallet);
+					}
+
 					if (finalPayload.hasOwnProperty("be_followed_count")) {
 						finalPayload.be_followed_count = finalPayload.be_followed_count.toString();
 					}
@@ -198,11 +208,11 @@ export default function DetailModal({
 						2: { text: "Approved", status: "Success" },
 					}}
 				/>
-				<ProFormField
+				<ProFormDigit
 					label={"Wallet Balance"}
 					name="wallet"
 					colProps={{ span: 8, offset: 0 }}
-					valueType="money"
+					fieldProps={{ prefix: "$ " }}
 				/>
 				<ProFormText label={"Email"} name="email" colProps={{ span: 8, offset: 6 }} />
 				<ProFormText label={"Phone Prefix"} name="phone_pre" colProps={{ span: 8, offset: 0 }} />
@@ -216,6 +226,7 @@ export default function DetailModal({
 							return <div>{org?.events?.length || 0}</div>;
 						},
 					}}
+					readonly
 					colProps={{ span: 8, offset: 0 }}
 				/>
 				<ProFormField

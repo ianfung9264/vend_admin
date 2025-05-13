@@ -12,10 +12,31 @@ import {
 	ProFormText,
 	ProFormTextArea,
 	ProTable,
+	ProColumns,
 } from "@ant-design/pro-components";
-import { Divider, Image, message, Progress, Button, Modal, Input, InputNumber } from "antd";
+import { Divider, Image, message, Progress, Button, Modal, Input, InputNumber, Tag } from "antd";
 import { Line } from "@ant-design/charts";
 import { truncate } from "lodash";
+
+// Helper function for status tags
+const getPaymentStatusTag = (status: string | undefined | null): React.ReactNode => {
+	switch (status?.toUpperCase()) {
+		case "PAID":
+			return <Tag color="green">Accepted & Paid</Tag>;
+		case "REFUNDED":
+			return <Tag color="purple">Refunded</Tag>;
+		case "DENIED":
+			return <Tag color="red">Rejected Application</Tag>;
+		case "WAITING":
+			return <Tag color="orange">Pending Decision</Tag>;
+		case "ACCEPT":
+			return <Tag color="blue">Accepted & Unpaid</Tag>;
+		case "CANCELLED":
+			return <Tag color="default">Cancelled</Tag>;
+		default:
+			return <Tag>{status || "N/A"}</Tag>;
+	}
+};
 
 export default function VendorDetailModal({
 	initData,
@@ -80,6 +101,168 @@ export default function VendorDetailModal({
 			setIsRefunding(false);
 		}
 	};
+
+	const expandedVendorRowRender = (participant: any) => {
+		const {
+			ticket_type_applied,
+			add_ons_applied,
+			schedule,
+			application_id,
+			stall_payment_status,
+			firstname,
+			lastname,
+			phone_pre,
+			phone,
+		} = participant;
+
+		const formattedPhone = `${phone_pre || ""} ${phone || ""}`.trim() || "N/A";
+
+		return (
+			<div style={{ padding: "16px", backgroundColor: "#f9f9f9" }}>
+				<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+					<div>
+						<p>
+							<strong>Contact Name:</strong> {firstname || ""} {lastname || ""}
+						</p>
+						<p>
+							<strong>Phone:</strong> {formattedPhone}
+						</p>
+						<p>
+							<strong>Application ID:</strong> {application_id || "N/A"}
+						</p>
+						{stall_payment_status === "Paid" && (
+							<Button
+								type="primary"
+								onClick={() => {
+									setCurrentParticipant(participant);
+									setIsRefundModalVisible(true);
+								}}
+								style={{ marginTop: "10px" }}
+							>
+								Process Refund
+							</Button>
+						)}
+					</div>
+					<div>
+						<h4>Ticket Type Applied:</h4>
+						{ticket_type_applied ? (
+							<div>
+								<p>
+									<strong>Type:</strong> {ticket_type_applied.ticket_type || "N/A"}
+								</p>
+								<p>
+									<strong>Amount:</strong> $
+									{(
+										ticket_type_applied.amount -
+										(add_ons_applied && Array.isArray(add_ons_applied)
+											? add_ons_applied.reduce(
+													(sum: number, addon: any) =>
+														sum + (Number(addon.amount) * Number(addon.quantity) || 0),
+													0
+												)
+											: 0)
+									).toFixed(2)}
+								</p>
+							</div>
+						) : (
+							<p>N/A</p>
+						)}
+					</div>
+				</div>
+
+				<h4 style={{ marginTop: "16px" }}>Add-ons:</h4>
+				{add_ons_applied && Array.isArray(add_ons_applied) && add_ons_applied.length > 0 ? (
+					<ul style={{ listStyleType: "none", paddingLeft: 0 }}>
+						{add_ons_applied.map((addon: any, idx: number) => (
+							<li key={idx} style={{ marginBottom: "5px" }}>
+								{addon.add_on_type || "N/A"}: ${Number(addon.amount).toFixed(2)} (Qty:{" "}
+								{addon.quantity || 0})
+							</li>
+						))}
+					</ul>
+				) : (
+					<p>No add-ons</p>
+				)}
+
+				<h4 style={{ marginTop: "16px" }}>Applied Schedule:</h4>
+				{schedule && Array.isArray(schedule) && schedule.length > 0 ? (
+					<ul style={{ listStyleType: "none", paddingLeft: 0 }}>
+						{schedule.map((slot: any, idx: number) => (
+							<li key={idx}>
+								{slot.start_time ? new Date(slot.start_time).toLocaleString() : "N/A"} -
+								{slot.end_time ? new Date(slot.end_time).toLocaleString() : "N/A"}
+							</li>
+						))}
+					</ul>
+				) : (
+					<p>No specific schedule applied</p>
+				)}
+			</div>
+		);
+	};
+
+	const vendorColumns: ProColumns<any>[] = [
+		{
+			title: "Vendor Name",
+			dataIndex: "business_name",
+			key: "business_name",
+			render: (text) => text || "N/A",
+			width: 150,
+			ellipsis: true,
+			sorter: (a, b) => (a.business_name || "").localeCompare(b.business_name || ""),
+		},
+		{
+			title: "Application Date",
+			dataIndex: "application_createdAt",
+			key: "application_createdAt",
+			render: (text: any, record: any) => {
+				// console.log(`App Date for ${record.business_name}:`, text, typeof text); // Uncomment for debugging
+				if (text && typeof text === "string") {
+					const date = new Date(text);
+					if (!isNaN(date.getTime())) {
+						return date.toLocaleDateString();
+					}
+				}
+				return "N/A";
+			},
+			sorter: (a: any, b: any) =>
+				new Date(a.application_createdAt || 0).getTime() - new Date(b.application_createdAt || 0).getTime(),
+			width: 150,
+			// valueType: 'date', // Temporarily commented out
+		},
+		{
+			title: "Payment Status",
+			dataIndex: "stall_payment_status",
+			key: "stall_payment_status",
+			render: (dom: React.ReactNode, entity: any) =>
+				getPaymentStatusTag(entity.stall_payment_status as string | undefined),
+			width: 150,
+			align: "center",
+			sorter: (a, b) => (a.stall_payment_status || "").localeCompare(b.stall_payment_status || ""),
+			filters: [
+				{ text: "Paid", value: "Paid" },
+				{ text: "Refunded", value: "Refunded" },
+				{ text: "Denied", value: "Denied" },
+				{ text: "Cancelled", value: "Cancelled" },
+			],
+			onFilter: (value, record) => record.stall_payment_status === value,
+		},
+		{
+			title: "Email",
+			dataIndex: "email",
+			key: "email",
+			render: (text) => text || "N/A",
+			width: 250,
+			ellipsis: true,
+		},
+		{
+			title: "Phone",
+			dataIndex: "phone",
+			key: "phone",
+			render: (text, record) => `${record.phone_pre || ""} ${text || ""}`.trim() || "N/A",
+			width: 180,
+		},
+	];
 
 	return (
 		<BaseModel<Page_org.mainTable>
@@ -191,215 +374,20 @@ export default function VendorDetailModal({
 			initData={data}
 			title="Vendor Information"
 		>
-			{data?.participants &&
-				Array.isArray(data.participants) &&
-				data.participants.map((participant: any, index: number) => {
-					// Check if participant is an object (populated) or still a string ID (fallback)
-					if (typeof participant === "object" && participant !== null) {
-						return (
-							<ProForm.Group
-								key={`participant-group-${index}`}
-								style={{
-									...groupStyle,
-									marginBottom: "20px",
-									borderTop: "1px solid #eee",
-									paddingTop: "20px",
-								}}
-							>
-								<ProFormText
-									label={"Participant Business Name"}
-									name={["participant", index, "business_name"]}
-									initialValue={participant.business_name || "N/A"}
-									colProps={{ span: 12, offset: 0 }}
-									readonly
-								/>
-								<ProFormText
-									name={["participant", index, "email"]}
-									label={"Email"}
-									initialValue={participant.email || "N/A"}
-									colProps={{ span: 12, offset: 0 }}
-									readonly
-								/>
-								<ProFormText
-									label={"Contact Person First Name"}
-									name={["participant", index, "firstname"]}
-									initialValue={participant.firstname || "N/A"}
-									colProps={{ span: 12, offset: 0 }} // Spans next to business name
-									readonly
-								/>
-								<ProFormText
-									label={"Contact Person Last Name"}
-									name={["participant", index, "lastname"]}
-									initialValue={participant.lastname || "N/A"}
-									colProps={{ span: 12, offset: 0 }} // Spans next to business name
-									readonly
-								/>
-
-								<ProFormText
-									name={["participant", index, "phone"]}
-									label={"Phone"}
-									initialValue={
-										`${participant.phone_pre || ""} ${participant.phone || ""}`.trim() || "N/A"
-									}
-									colProps={{ span: 12, offset: 0 }}
-									readonly
-								/>
-								<ProFormText
-									name={["participant", index, "stall_payment_status"]}
-									label={"Stall Payment Status"}
-									initialValue={participant.stall_payment_status || "N/A"}
-									colProps={{ span: 12, offset: 0 }}
-									readonly
-								/>
-								<ProFormText
-									name={["participant", index, "application_id"]}
-									label={"Application ID"}
-									initialValue={participant.application_id || "N/A"}
-									colProps={{ span: 12, offset: 0 }}
-									readonly
-								/>
-								{participant.stall_payment_status === "Paid" && (
-									<ProFormField colProps={{ span: 24 }}>
-										<Button
-											type="primary"
-											onClick={() => {
-												setCurrentParticipant(participant);
-												setIsRefundModalVisible(true);
-											}}
-										>
-											Process Refund
-										</Button>
-									</ProFormField>
-								)}
-
-								{/* Ticket Type Applied */}
-								<ProFormField label={"Ticket Type Applied"} colProps={{ span: 24 }} mode="read">
-									{participant.ticket_type_applied ? (
-										<div
-											style={{
-												border: "1px solid #f0f0f0",
-												padding: "10px",
-												borderRadius: "4px",
-												background: "#fafafa",
-											}}
-										>
-											<p style={{ margin: 0 }}>
-												<strong>Type:</strong>{" "}
-												{participant.ticket_type_applied.ticket_type || "N/A"}
-											</p>
-											<p style={{ margin: 0 }}>
-												<strong>Amount:</strong> $
-												{participant.ticket_type_applied.amount -
-													(participant.add_ons_applied &&
-													Array.isArray(participant.add_ons_applied)
-														? participant.add_ons_applied.reduce(
-																(sum: number, addon: any) =>
-																	sum +
-																	(Number(addon.amount) * Number(addon.quantity) ||
-																		0),
-																0
-															)
-														: 0)}
-											</p>
-										</div>
-									) : (
-										<p>N/A</p>
-									)}
-								</ProFormField>
-
-								{/* Add-ons */}
-								<ProFormField label={"Add-ons"} colProps={{ span: 24 }} mode="read">
-									{participant.add_ons_applied &&
-									Array.isArray(participant.add_ons_applied) &&
-									participant.add_ons_applied.length > 0 ? (
-										<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-											{participant.add_ons_applied.map((addon: any, addonIndex: number) => (
-												<div
-													key={`addon-${index}-${addonIndex}`}
-													style={{
-														border: "1px solid #f0f0f0",
-														padding: "10px",
-														borderRadius: "4px",
-														background: "#fafafa",
-													}}
-												>
-													<p style={{ margin: 0 }}>
-														<strong>Type:</strong> {addon.add_on_type || "N/A"}
-													</p>
-													<p style={{ margin: 0 }}>
-														<strong>Quantity:</strong> {addon.quantity || "0"}
-													</p>
-													<p style={{ margin: 0 }}>
-														<strong>Amount per quantity:</strong> ${addon.amount || "0"}
-													</p>
-												</div>
-											))}
-										</div>
-									) : (
-										<p>No add-ons</p>
-									)}
-								</ProFormField>
-
-								{/* Applied Schedule */}
-								<ProFormField label={"Applied Date"} colProps={{ span: 24 }} mode="read">
-									{participant.schedule &&
-									Array.isArray(participant.schedule) &&
-									participant.schedule.length > 0 ? (
-										<div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-											{participant.schedule.map((slot: any, slotIndex: number) => (
-												<div
-													key={`schedule-${index}-${slotIndex}`}
-													style={{
-														border: "1px solid #f0f0f0",
-														padding: "10px",
-														borderRadius: "4px",
-														background: "#fafafa",
-													}}
-												>
-													<p style={{ margin: 0 }}>
-														<strong>Start:</strong>{" "}
-														{slot.start_time
-															? new Date(slot.start_time).toLocaleString()
-															: "N/A"}
-													</p>
-													<p style={{ margin: 0 }}>
-														<strong>End:</strong>{" "}
-														{slot.end_time
-															? new Date(slot.end_time).toLocaleString()
-															: "N/A"}
-													</p>
-												</div>
-											))}
-										</div>
-									) : (
-										<p>No specific schedule applied</p>
-									)}
-								</ProFormField>
-							</ProForm.Group>
-						);
-					} else if (typeof participant === "string") {
-						// If it's just an ID (tenant not found during backend population)
-						return (
-							<ProForm.Group
-								key={`participant-group-${index}`}
-								style={{
-									...groupStyle,
-									marginBottom: "20px",
-									borderTop: "1px solid #eee",
-									paddingTop: "20px",
-								}}
-							>
-								<ProFormText
-									label={`Participant ID (Details N/A)`}
-									initialValue={participant}
-									colProps={{ span: 24, offset: 0 }}
-									readonly
-								/>
-							</ProForm.Group>
-						);
-					}
-					return null; // Should ideally not be reached
-				})}
+			<ProTable
+				columns={vendorColumns}
+				dataSource={data?.participants || []}
+				rowKey="application_id"
+				pagination={false}
+				search={false}
+				toolBarRender={false}
+				expandable={{
+					expandedRowRender: expandedVendorRowRender,
+					rowExpandable: (record) => true,
+					expandRowByClick: true,
+				}}
+				tableLayout="fixed"
+			/>
 
 			<Modal
 				title="Process Refund"
@@ -414,13 +402,32 @@ export default function VendorDetailModal({
 				confirmLoading={isRefunding}
 			>
 				<div style={{ marginBottom: 16 }}>
-					<p>Please enter the refund amount:</p>
-					<p className="text-xs text-gray-500">
-						Note: the maxium amount you can refund is the ticket amount + add on amount.
+					<p>
+						Max refund amount (Ticket + Add-ons): $
+						{(currentParticipant?.ticket_type_applied?.amount || 0) +
+							(currentParticipant?.add_ons_applied && Array.isArray(currentParticipant?.add_ons_applied)
+								? currentParticipant.add_ons_applied.reduce(
+										(sum: number, addon: any) =>
+											sum + (Number(addon.amount) * Number(addon.quantity) || 0),
+										0
+									)
+								: 0
+							).toFixed(2)}
 					</p>
+					<p>Please enter the refund amount:</p>
 					<InputNumber
 						style={{ width: "100%" }}
-						min={0}
+						min={0.01}
+						max={
+							(currentParticipant?.ticket_type_applied?.amount || 0) +
+							(currentParticipant?.add_ons_applied && Array.isArray(currentParticipant?.add_ons_applied)
+								? currentParticipant.add_ons_applied.reduce(
+										(sum: number, addon: any) =>
+											sum + (Number(addon.amount) * Number(addon.quantity) || 0),
+										0
+									)
+								: 0)
+						}
 						precision={2}
 						value={refundAmount}
 						onChange={(value) => setRefundAmount(value || 0)}
