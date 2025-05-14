@@ -67,6 +67,11 @@ export default [
 				name: "Refund Management",
 				component: "./Transaction/refund",
 			},
+			{
+				path: "/transaction/transaction",
+				name: "Transaction Management",
+				component: "./Transaction/transaction",
+			},
 		],
 	},
 	{
@@ -91,7 +96,6 @@ export default [
 			},
 		],
 	},
-
 	{
 		path: "/setting",
 		icon: "setting",
