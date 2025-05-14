@@ -30,6 +30,12 @@ export const _editOrgInfo = async (orgId: string, adminId: string, data: any): P
 	});
 };
 
+export const _deleteOrgById = async (orgId: string): Promise<API.DefaultObjectResponse> => {
+	return request(`/api/v1/admin/private/org/${orgId}`, {
+		method: "DELETE",
+	});
+};
+
 export const _getApplicationTransactionsByEventIds = async (eventIds: string[]): Promise<any[]> => {
 	const eventIdsParam = eventIds.join(",");
 	return request(`/api/v1/admin/private/application/transaction`, {

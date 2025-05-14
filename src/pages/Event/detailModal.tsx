@@ -156,7 +156,7 @@ export default function DetailModal({
 				// 	}
 				// },
 			}}
-			allowUpdate={false}
+			allowUpdate={true}
 			submit={formRef?.current?.submit}
 			initData={data}
 			title="Account Details"

@@ -37,3 +37,9 @@ export const _editVendorInfo = async (
 		data: data,
 	});
 };
+
+export const _deleteTenantById = async (tenantId: string): Promise<API.DefaultObjectResponse> => {
+	return request(`/api/v1/admin/private/tenant/${tenantId}`, {
+		method: "DELETE",
+	});
+};

@@ -38,10 +38,10 @@ export default function Index() {
 	return (
 		<div>
 			<BaseIndex title="Event page">
-				<Typography.Text type="secondary">
+				{/* <Typography.Text type="secondary">
 					Currently cannot edit event as function is being tested. Another patch Will be pushed tomorrow.
 					<br />
-				</Typography.Text>
+				</Typography.Text> */}
 				<BaseSearch
 					title="Search bar"
 					submitFun={actionRef.current?.reload}

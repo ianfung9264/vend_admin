@@ -1,11 +1,12 @@
 import { ProColumns } from "@ant-design/pro-components";
-import { Button, Divider, Tooltip } from "antd";
+import { Button, Divider, Tooltip, Modal, message } from "antd";
 import DetailModal from "./detailModal";
 import { LandownerAdvancedStatus, OtpStatusType } from "@/services/commonType";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import WalletBalanceModal from "./WalletBalanceModal";
 import EventModal from "./EventModal";
 import { useState } from "react";
+import { _deleteOrgById } from "@/services/org/info";
 
 interface Page_org {
 	mainTable: any;
@@ -131,6 +132,32 @@ export function OrgTableColumns({
 			render: (_, record) => (
 				<span>
 					<DetailModal initData={record} mainTableReload={mainTableReload} />
+					<Divider type="vertical" />
+					<Tooltip title="Delete Organizer">
+						<Button
+							danger
+							icon={<DeleteOutlined />}
+							onClick={() => {
+								Modal.confirm({
+									title: "Are you sure you want to delete this organizer?",
+									content: `Deleting Organizer: ${record.business_name || record._id}. This action cannot be undone.`,
+									okText: "Yes, Delete",
+									okType: "danger",
+									cancelText: "No",
+									onOk: async () => {
+										try {
+											await _deleteOrgById(record._id);
+											message.success("Organizer deleted successfully");
+											mainTableReload?.();
+										} catch (error) {
+											console.error("Failed to delete organizer:", error);
+											message.error("Failed to delete organizer");
+										}
+									},
+								});
+							}}
+						/>
+					</Tooltip>
 				</span>
 			),
 			align: "center",
