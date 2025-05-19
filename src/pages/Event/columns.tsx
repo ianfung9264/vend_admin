@@ -9,6 +9,8 @@ import { readonly } from "vue";
 import DetailModal from "./detailModal";
 import { _refundAllVendorFromOrgWallet } from "@/services/event/info";
 import VendorDetailModal from "./vendorDetailModal";
+import dayjs from "dayjs";
+
 export function EventTableColumns({
 	mainTableReload,
 }: {
@@ -22,6 +24,11 @@ export function EventTableColumns({
 			align: "center",
 			ellipsis: true,
 			copyable: true,
+			render: (text, record: API_EVENT.Event) => (
+				<a href={`https://vendpopups.com/event/${record._id}`} target="_blank" rel="noopener noreferrer">
+					{text}
+				</a>
+			),
 		},
 		// {
 		//   title: "Creator id",
@@ -101,20 +108,59 @@ export function EventTableColumns({
 		//   // `${record.schedule.start_date} - ${record.schedule.end_date}`,
 		// },
 		{
+			title: "Date",
+			dataIndex: "schedule",
+			key: "date",
+			align: "center",
+			defaultSortOrder: "descend",
+			render: (_: any, record: API_EVENT.Event) => {
+				if (record.schedule && record.schedule.length > 0 && record.schedule[0].start_time) {
+					return dayjs(record.schedule[0].start_time).format("YYYY-MM-DD");
+				}
+				return "N/A";
+			},
+			sorter: (a: API_EVENT.Event, b: API_EVENT.Event) => {
+				const dateA =
+					a.schedule && a.schedule.length > 0 && a.schedule[0].start_time
+						? dayjs(a.schedule[0].start_time)
+						: dayjs(0);
+				const dateB =
+					b.schedule && b.schedule.length > 0 && b.schedule[0].start_time
+						? dayjs(b.schedule[0].start_time)
+						: dayjs(0);
+				return dateA.valueOf() - dateB.valueOf();
+			},
+		},
+		{
 			title: "Actions",
 			dataIndex: "action",
 			key: "action",
 			render: (_, record) => {
 				const schedule = record.schedule;
-				const latestScheduleItem = schedule.reduce((latest, current) => {
-					return new Date(current.start_time) > new Date(latest.end_time) ? current : latest;
-				});
+				const now = dayjs();
+				let canCancelOrStop = false;
 
-				// 获取当前时间
-				const now = new Date();
+				if (schedule && schedule.length > 0) {
+					const validEndTimes = schedule
+						.map((s) => {
+							if (s.end_time) {
+								const endTimeDayjs = dayjs(s.end_time);
+								return endTimeDayjs.isValid() ? endTimeDayjs : null;
+							}
+							return null;
+						})
+						.filter((d): d is dayjs.Dayjs => d !== null);
 
-				// 比较最晚的时间与当前时间
-				const canCancelOrStop = latestScheduleItem && new Date(latestScheduleItem.start_time) > now;
+					if (validEndTimes.length > 0) {
+						const latestEndTime = validEndTimes.reduce((latest, current) => {
+							return current.isAfter(latest) ? current : latest;
+						}, validEndTimes[0]);
+
+						const cutOffDate = latestEndTime.add(3, "day");
+
+						canCancelOrStop = now.isBefore(cutOffDate);
+					}
+				}
 				return (
 					<span className="flex flex-row gap-2 justify-center">
 						<StrictVerifyButton
@@ -292,6 +338,19 @@ export function EventScheduleTableColumns({
 			align: "center",
 			ellipsis: true,
 			copyable: true,
+		},
+		{
+			title: "Date",
+			dataIndex: "date",
+			key: "date",
+			align: "center",
+			defaultSortOrder: "descend",
+			render: (_: any, record: API_EVENT.Event) => {
+				if (record.schedule && record.schedule.length > 0 && record.schedule[0].start_time) {
+					return new Date(record.schedule[0].start_time).toLocaleDateString();
+				}
+				return "";
+			},
 		},
 	];
 }
