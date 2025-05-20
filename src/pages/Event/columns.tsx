@@ -180,13 +180,14 @@ export function EventTableColumns({
 												<PauseOutlined />
 											</Tooltip>
 										) : (
-											<Tooltip title="Click to stop the event">
+											<Tooltip title="Click to restart the event">
 												<PlayCircleOutlined />
 											</Tooltip>
 										)
 									}
 								></Button>
 							}
+							{...(record.status == EventStatus.NORMAL && { reasonInputLabel: "Reason for stopping" })}
 							initData={{
 								mainTableReload,
 								actionFuncParams: {
@@ -195,7 +196,7 @@ export function EventTableColumns({
 								actionFunc: record.status == EventStatus.NORMAL ? _stopEvent : _restartEvent,
 							}}
 						/>
-						{/* this is the button i am talking about!!!! */}
+
 						<StrictVerifyButton
 							title={"Are you sure you want to refund all the vendors?"}
 							trigger={

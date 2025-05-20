@@ -404,30 +404,13 @@ export default function VendorDetailModal({
 				<div style={{ marginBottom: 16 }}>
 					<p>
 						Max refund amount (Ticket + Add-ons): $
-						{(currentParticipant?.ticket_type_applied?.amount || 0) +
-							(currentParticipant?.add_ons_applied && Array.isArray(currentParticipant?.add_ons_applied)
-								? currentParticipant.add_ons_applied.reduce(
-										(sum: number, addon: any) =>
-											sum + (Number(addon.amount) * Number(addon.quantity) || 0),
-										0
-									)
-								: 0
-							).toFixed(2)}
+						{(currentParticipant?.ticket_type_applied?.amount || 0).toFixed(2)}
 					</p>
 					<p>Please enter the refund amount:</p>
 					<InputNumber
 						style={{ width: "100%" }}
 						min={0.01}
-						max={
-							(currentParticipant?.ticket_type_applied?.amount || 0) +
-							(currentParticipant?.add_ons_applied && Array.isArray(currentParticipant?.add_ons_applied)
-								? currentParticipant.add_ons_applied.reduce(
-										(sum: number, addon: any) =>
-											sum + (Number(addon.amount) * Number(addon.quantity) || 0),
-										0
-									)
-								: 0)
-						}
+						max={currentParticipant?.ticket_type_applied?.amount || 0}
 						precision={2}
 						value={refundAmount}
 						onChange={(value) => setRefundAmount(value || 0)}

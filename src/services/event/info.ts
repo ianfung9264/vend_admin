@@ -8,16 +8,32 @@ export const _getAllEvent = async (): Promise<API.DefaultListResponse<API_EVENT.
 };
 export const _stopEvent = async ({
 	event_id,
+	reason,
 }: {
 	event_id: string;
+	reason?: string;
 }): Promise<API.DefaultListResponse<API_EVENT.Event>> => {
-	return request("/api/v1/admin/private/event/status", {
+	const stopResponse = await request("/api/v1/admin/private/event/status", {
 		method: "put",
 		data: {
 			event_id: event_id,
 			status: EventStatus.SUSPEND,
 		},
 	});
+
+	if (stopResponse && stopResponse.status) {
+		try {
+			await request(`/api/v1/admin/private/event/notify-event-stopped/${event_id}`, {
+				method: "post",
+				data: { reason: reason },
+			});
+			console.log("Successfully triggered notification for event stop.");
+		} catch (notificationError) {
+			console.error("Failed to trigger notification for event stop:", notificationError);
+		}
+	}
+
+	return stopResponse;
 };
 export const _cancelEvent = async ({
 	event_id,

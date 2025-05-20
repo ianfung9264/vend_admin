@@ -166,7 +166,7 @@ export default function DetailModal({
 				<ProFormText label={"Followers Count"} name="be_followed_count" colProps={leftFile} />
 				<ProFormText label={"Email"} name="email" colProps={rightFile} />
 				<ProFormField label={"Icon"} name="icon_url" colProps={leftFile}>
-					<Image src={tenant && tenant?.icon_url.url} width={100} />
+					{tenant?.icon_url?.url ? <Image src={tenant.icon_url.url} width={100} /> : <span>N/A</span>}
 				</ProFormField>
 			</ProForm.Group>
 			<>
@@ -277,9 +277,18 @@ export default function DetailModal({
 					/>
 					<ProFormField label={"Images"} name="shoot_photo" colProps={{ span: 24, offset: 0 }}>
 						<div style={{ display: "flex", gap: "8px" }}>
-							{tenant?.shoot_pictures.map((pic: any) => (
-								<Image key={pic.url} src={pic.url} width={100} height={100} />
-							))}
+							{tenant?.shoot_pictures?.map((pic: any, index: number) =>
+								pic?.url ? (
+									<Image
+										key={pic.id || pic.asset_id || index} // Use a more robust key
+										src={pic.url}
+										width={100}
+										height={100}
+									/>
+								) : (
+									<span key={index}>N/A</span>
+								)
+							)}
 						</div>
 					</ProFormField>
 				</ProForm.Group>
