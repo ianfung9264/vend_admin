@@ -207,6 +207,7 @@ export default function DetailModal({
 							return (Number(data?.creator?.wallet) || 0) - (Number(data?.creator?.useable_wallet) || 0);
 						},
 					}}
+					readonly
 				/>
 				<ProFormField label={"Images"} name="image_filename" colProps={{ span: 24, offset: 0 }} readonly>
 					{data?.image_filename.map((imageObj: any, index: number) => (

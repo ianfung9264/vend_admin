@@ -44,6 +44,21 @@ export function UrgentTableColumns({
 			align: "center",
 		},
 		{
+			title: "Event Status",
+			dataIndex: ["related_id", "status"],
+			key: "event_status",
+			align: "center",
+			render: (status: number) => {
+				if (status === 2) {
+					return "Cancelled";
+				}
+				if (status === 0) {
+					return "Normal";
+				}
+				return "Unknown";
+			},
+		},
+		{
 			title: "Organizer Business Name",
 			dataIndex: ["landowner_id", "business_name"],
 			key: "landowner_business_name",

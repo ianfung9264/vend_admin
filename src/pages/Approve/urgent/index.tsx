@@ -11,6 +11,8 @@ import { message, Typography } from "antd";
 import { LandownerAdvancedStatus } from "@/services/commonType";
 import { _getAllWaitingAdvancedOrg } from "@/services/org/advanced";
 import { _getUrgentInfo } from "@/services/urgent/info";
+import { _getEventById } from "@/services/event/info";
+
 export default function Index() {
 	/**********************************狀態管理**********************************/
 
@@ -58,22 +60,57 @@ export default function Index() {
 							mainTableReload: reload,
 						}),
 						request: async () => {
-							const dataSource = await _getUrgentInfo().then(({ data }) => {
-								return {
-									success: true,
-									data: data,
-								};
-							});
+							const urgentInfoResponse = await _getUrgentInfo();
+							if (!urgentInfoResponse || !urgentInfoResponse.data) {
+								message.error("Failed to fetch urgent requests.");
+								return { success: false, data: [] };
+							}
+
+							const urgentData = urgentInfoResponse.data;
+
+							// Fetch event details for each urgent request
+							const enrichedData = await Promise.all(
+								urgentData.map(async (item: any) => {
+									if (item.related_id && item.related_id._id) {
+										try {
+											const eventDetails = await _getEventById(item.related_id._id);
+											if (eventDetails && eventDetails.data) {
+												// Assuming eventDetails.data contains the status
+												// and related_id is where the column expects it
+												return {
+													...item,
+													related_id: {
+														...item.related_id,
+														status: eventDetails.data.status, // Add status here
+													},
+												};
+											}
+										} catch (error) {
+											console.log(
+												`Failed to fetch event details for ${item.related_id._id}`,
+												error
+											);
+											// Return item without status if fetch fails
+											return item;
+										}
+									}
+									return item; // Return item if no related_id._id
+								})
+							);
+
+							let processedData = enrichedData;
 							if (searchKey) {
-								dataSource.data = Helper<any>({
-									dataSource: dataSource.data,
+								processedData = Helper<any>({
+									dataSource: enrichedData,
 									keyWord: searchKey,
 								}) as Page_org.mainTable[];
-								return dataSource;
-							} else {
-								console.log("dataSource", dataSource);
-								return dataSource;
 							}
+
+							console.log("dataSource with status", { success: true, data: processedData });
+							return {
+								success: true,
+								data: processedData,
+							};
 						},
 					}}
 				/>
