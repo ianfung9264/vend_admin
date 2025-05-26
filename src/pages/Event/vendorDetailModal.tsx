@@ -184,6 +184,34 @@ export default function VendorDetailModal({
 					<p>No add-ons</p>
 				)}
 
+				<h4 style={{ marginTop: "16px" }}>Application Questions:</h4>
+				{ticket_type_applied?.questions &&
+				Array.isArray(ticket_type_applied.questions) &&
+				ticket_type_applied.questions.length > 0 ? (
+					<ul style={{ listStyleType: "disc", paddingLeft: "20px", marginTop: "8px" }}>
+						{ticket_type_applied.questions.map((qna: any, idx: number) => (
+							<li key={idx} style={{ marginBottom: "8px" }}>
+								<p style={{ marginBottom: "2px" }}>
+									<strong>Q:</strong> {qna.questions || "N/A"}
+								</p>
+								<p style={{ marginBottom: "2px" }}>
+									<strong>A:</strong> {qna.answer || "N/A"}
+								</p>
+								{qna.file && (
+									<p style={{ marginBottom: "2px" }}>
+										<strong>File:</strong>{" "}
+										<a href={qna.file.url} target="_blank" rel="noopener noreferrer">
+											{qna.file.filename || "View File"}
+										</a>
+									</p>
+								)}
+							</li>
+						))}
+					</ul>
+				) : (
+					<p>No additional questions.</p>
+				)}
+
 				<h4 style={{ marginTop: "16px" }}>Applied Schedule:</h4>
 				{schedule && Array.isArray(schedule) && schedule.length > 0 ? (
 					<ul style={{ listStyleType: "none", paddingLeft: 0 }}>

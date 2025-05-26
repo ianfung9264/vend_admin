@@ -85,19 +85,59 @@ export function WithdrawalTableColumns({
 		{
 			title: "Organizer Email",
 			dataIndex: "landowner",
-			key: "landowner",
-			render: (_, record) => record.landowner.email,
+			key: "landowner_email",
+			render: (_, record) => record.landowner.email || "N/A",
 			align: "center",
 		},
 		{
-			title: "Current Wallet Balance",
+			title: "Organizer ID",
+			dataIndex: "landowner",
+			key: "landowner_id",
+			render: (_, record) => record.landowner._id || "N/A",
+			align: "center",
+		},
+		{
+			title: "Organizer Business Name",
+			dataIndex: "landowner",
+			key: "landowner_business_name",
+			render: (_, record) => {
+				const landowner = record.landowner;
+				const organizerProfileUrl = `https://vendpopups.com/organizer/${landowner._id}`;
+				return (
+					<a href={organizerProfileUrl} target="_blank" rel="noopener noreferrer">
+						{landowner.business_name || "N/A"}
+					</a>
+				);
+			},
+			align: "center",
+		},
+		{
+			title: "Organizer Phone",
+			dataIndex: "landowner",
+			key: "landowner_phone",
+			render: (_, record) => {
+				const landowner = record.landowner;
+				const phoneNumber = `${landowner.phone_pre || ""} ${landowner.phone || ""}`.trim();
+				return phoneNumber || "N/A";
+			},
+			align: "center",
+		},
+		{
+			title: "Total Wallet Balance",
 			dataIndex: "landowner",
 			key: "landowner",
 			render: (_, record) => `$${Number(record.landowner.wallet).toFixed(2)}`,
 			align: "center",
 		},
 		{
-			title: "Withdrawal Amount",
+			title: "Withdrawable Amount",
+			dataIndex: "landowner",
+			key: "landowner",
+			render: (_, record) => `$${Number(record.landowner.available_wallet).toFixed(2)}`,
+			align: "center",
+		},
+		{
+			title: "Requested Withdrawal Amount",
 			dataIndex: "amount",
 			key: "amount",
 			render: (text) => `$${Number(text).toFixed(2)}`,
