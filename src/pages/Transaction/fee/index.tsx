@@ -357,7 +357,7 @@ export default function Index() {
 								align: "center",
 								render: (_, record: CommissionEntry) => {
 									const val = record.stall_payment_summary?.stripe_fee_belong;
-									return val === 1 ? "Platform" : val === 2 ? "Organizer" : "N/A";
+									return val === 1 ? "Vendor" : val === 0 ? "Organizer" : "N/A";
 								},
 							},
 							{
