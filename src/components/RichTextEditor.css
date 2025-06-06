@@ -1,0 +1,50 @@
+.rich-text-editor {
+  border: 3px solid #d9d9d9;
+  border-radius: 12px;
+  padding: 8px;
+  margin-left: 4px;
+}
+
+.rich-text-editor .ProseMirror {
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  outline: none;
+  min-height: inherit;
+  min-width: inherit;
+}
+
+.rich-text-editor .ProseMirror:focus {
+  background-color: rgba(0, 0, 0, 0.02);
+  border: 1px solid #d9d9d9;
+}
+
+.rich-text-editor .ProseMirror p {
+  margin: 0 0 8px 0;
+}
+
+/* Add some additional styles for better usability */
+.rich-text-editor .ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+
+/* Style for headings */
+.rich-text-editor .ProseMirror h1 {
+  font-size: 24px;
+  margin: 16px 0 8px 0;
+}
+
+.rich-text-editor .ProseMirror h2 {
+  font-size: 20px;
+  margin: 14px 0 8px 0;
+}
+
+/* Style for the content when editor is empty */
+.rich-text-editor .ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

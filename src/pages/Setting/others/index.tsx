@@ -9,7 +9,6 @@ import {
   _getCategory,
   _getPrivacyPolicy,
   _getTermsCondition,
-  _postPrivacyPolicy,
   _postTermsCondition,
   _putPrivacyPolicy,
   _putTermsCondition,
@@ -50,6 +49,7 @@ import SignUpImageElement from "./cms/SignUpImageElement";
 import { UploadProps } from "antd/lib";
 import HomeTitleImage from "./cms/HomeTitileImage";
 import HomeFooterImage from "./cms/HomeFooterImage";
+import RichTextEditor from "@/components/RichTextEditor";
 
 export default function Index() {
   /**********************************狀態管理**********************************/
@@ -408,17 +408,25 @@ export default function Index() {
       <div>
         <BaseSearch
           title="Search bar"
-          submitFun={() => privacyPolicyActionRef.current?.reload()}
+          submitFun={async () => {
+            await privacyPolicyActionRef.current?.reload();
+          }}
           inputProps={{
             value: privacyPolicySearchKey,
             onChange: ({ currentTarget: { value } }) =>
               setPrivacyPolicySearchKey(value),
           }}
         />
-        <BaseTable<any> // Assuming API_Setting.PrivacyPolicyItem or similar type
+        <BaseTable<any>
           searchKey={privacyPolicySearchKey}
+          requestFun={async () => {
+            const res = await _getPrivacyPolicy();
+            const dataArray = res.status && res.data ? [res.data] : [];
+            return { detail: dataArray } as any;
+          }}
           props={{
             headerTitle: "Privacy Policy List",
+            rowKey: "_id",
             actionRef: privacyPolicyActionRef,
             optionsRender(props, defaultDom) {
               const createEntry = (
@@ -428,8 +436,8 @@ export default function Index() {
                   modalFormProps={{
                     onFinish: async (value) => {
                       try {
-                        await _postPrivacyPolicy({ context: value.context });
-                        message.success("Created successfully");
+                        await _putPrivacyPolicy({ context: value.context });
+                        message.success("Updated successfully");
                         privacyPolicyActionRef.current?.reload();
                         return true;
                       } catch (error: any) {
@@ -454,137 +462,76 @@ export default function Index() {
                   }}
                   title="New Part"
                 >
-                  <ProFormTextArea
-                    colProps={{ span: 18 }}
+                  <ProForm.Item
                     label="Context"
                     name="context"
                     rules={[{ required: true, message: "Context is required" }]}
-                  />
+                  >
+                    <RichTextEditor />
+                  </ProForm.Item>
                 </BaseModel>
               );
               return [createEntry, ...defaultDom];
             },
             columns: [
               {
-                key: "part",
-                title: "Part",
-                dataIndex: "part",
-                width: "10%",
-                align: "center",
-                sorter: (a, b) => a.part - b.part,
-              },
-              {
                 key: "context",
-                title: "Context",
+                title: "Content",
                 dataIndex: "context",
                 align: "center",
-                copyable: true,
-                width: "80%",
-                valueType: "textarea",
-                ellipsis: true,
+                width: "90%",
+                render: (_, record) => (
+                  <div
+                    style={{ textAlign: "left", padding: 8 }}
+                    dangerouslySetInnerHTML={{ __html: record.context }}
+                  />
+                ),
               },
               {
                 title: "Actions",
                 dataIndex: "action",
                 key: "action",
                 render: (_, record) => (
-                  <span>
-                    <BaseModel<API_Setting.UpdatePrivacyPolicy>
-                      // allowUpdate might be true here for an "Edit" modal
-                      readOnly={false} // Form should be editable
-                      modalFormProps={{
-                        // Pre-fill form with record data
-                        initialValues: {
-                          part: record.part,
-                          context: record.context,
+                  <BaseModel<API_Setting.UpdatePrivacyPolicy>
+                    readOnly={true}
+                    modalFormProps={{
+                      initialValues: {
+                        context: record.context,
+                      },
+                      onFinish: async (value) => {
+                        try {
+                          await _putPrivacyPolicy({
+                            context: value.context,
+                          });
+                          message.success("Updated successfully");
+                          privacyPolicyActionRef.current?.reload();
+                          return true;
+                        } catch (error: any) {
+                          message.error(
+                            error?.data?.message ||
+                              error?.message ||
+                              "Update failed"
+                          );
+                          return false;
+                        }
+                      },
+                      grid: true,
+                      submitter: {
+                        searchConfig: {
+                          resetText: "Cancel",
+                          submitText: "Confirm",
                         },
-                        onFinish: async (value) => {
-                          try {
-                            // 'part' in _putPrivacyPolicy is likely the ID/key, not an editable field.
-                            // Assuming 'record.part' is the identifier for the item to update.
-                            await _putPrivacyPolicy({
-                              part: record.part, // Use record.part as the identifier
-                              context: value.context,
-                            });
-                            message.success("Updated successfully");
-                            privacyPolicyActionRef.current?.reload();
-                            return true;
-                          } catch (error: any) {
-                            message.error(
-                              error?.data?.message ||
-                                error?.message ||
-                                "Update failed"
-                            );
-                            return false;
-                          }
-                        },
-                        grid: true,
-                        submitter: {
-                          searchConfig: {
-                            resetText: "Cancel",
-                            submitText: "Confirm",
-                          },
-                        },
-                      }}
-                      title="Edit Part" // Changed title to reflect "Edit"
-                    >
-                      <ProFormText // 'Part' is likely an identifier, so read-only when editing
-                        colProps={{ span: 18 }}
-                        label="Part"
-                        name="part"
-                        readonly={true}
-                      />
-                      <ProFormTextArea
-                        colProps={{ span: 18 }}
-                        label="Context"
-                        name="context"
-                        rules={[
-                          { required: true, message: "Context is required" },
-                        ]}
-                      />
-                    </BaseModel>
-                  </span>
+                      },
+                    }}
+                    title="Edit Content"
+                    allowUpdate={false}
+                  >
+                    <RichTextEditor />
+                  </BaseModel>
                 ),
                 align: "center",
               },
             ],
-            request: async (params) => {
-              // Include params for server-side search/pagination if needed
-              try {
-                // Pass searchKey to the API if backend supports server-side search
-                const res =
-                  await _getPrivacyPolicy(/* { searchKey: privacyPolicySearchKey, ...params } */);
-                if (res.status && Array.isArray(res.data)) {
-                  // If client-side search:
-                  let dataToDisplay = res.data;
-                  if (privacyPolicySearchKey) {
-                    dataToDisplay = Helper<any>({
-                      dataSource: res.data,
-                      keyWord: privacyPolicySearchKey,
-                    });
-                  }
-                  return {
-                    success: true,
-                    data: dataToDisplay,
-                    total: dataToDisplay.length,
-                  };
-                }
-                message.error(
-                  typeof res.data === "string"
-                    ? res.data
-                    : "Failed to load privacy policies"
-                );
-                return { success: false, data: [] };
-              } catch (error: any) {
-                message.error(
-                  error?.data?.message ||
-                    error?.message ||
-                    "Failed to load privacy policies"
-                );
-                console.error("Load privacy policies error:", error);
-                return { success: false, data: [] };
-              }
-            },
           }}
         />
       </div>
@@ -596,7 +543,9 @@ export default function Index() {
       <div>
         <BaseSearch
           title="Search bar"
-          submitFun={() => termsConditionActionRef.current?.reload()}
+          submitFun={async () => {
+            await termsConditionActionRef.current?.reload();
+          }}
           inputProps={{
             value: termsConditionSearchKey,
             onChange: ({ currentTarget: { value } }) =>
@@ -605,8 +554,14 @@ export default function Index() {
         />
         <BaseTable<any> // Assuming API_Setting.TermsConditionItem or similar
           searchKey={termsConditionSearchKey}
+          requestFun={async () => {
+            const res = await _getTermsCondition();
+            const arr = res.status && Array.isArray(res.data) ? res.data : [];
+            return { detail: arr } as any;
+          }}
           props={{
             headerTitle: "Terms & Conditions List",
+            rowKey: "part",
             actionRef: termsConditionActionRef,
             optionsRender(props, defaultDom) {
               const createEntry = (
@@ -642,12 +597,13 @@ export default function Index() {
                   }}
                   title="New Part"
                 >
-                  <ProFormTextArea
-                    colProps={{ span: 18 }}
+                  <ProForm.Item
                     label="Context"
                     name="context"
                     rules={[{ required: true, message: "Context is required" }]}
-                  />
+                  >
+                    <RichTextEditor />
+                  </ProForm.Item>
                 </BaseModel>
               );
               return [createEntry, ...defaultDom];
@@ -663,13 +619,16 @@ export default function Index() {
               },
               {
                 key: "context",
-                title: "Context",
+                title: "Content",
                 dataIndex: "context",
                 align: "center",
-                copyable: true,
                 width: "80%",
-                valueType: "textarea",
-                ellipsis: true,
+                render: (_, record) => (
+                  <div
+                    style={{ textAlign: "left", padding: 8 }}
+                    dangerouslySetInnerHTML={{ __html: record.context }}
+                  />
+                ),
               },
               {
                 title: "Actions",
@@ -718,50 +677,21 @@ export default function Index() {
                         name="part"
                         readonly={true}
                       />
-                      <ProFormTextArea
-                        colProps={{ span: 18 }}
+                      <ProForm.Item
                         label="Context"
                         name="context"
                         rules={[
                           { required: true, message: "Context is required" },
                         ]}
-                      />
+                      >
+                        <RichTextEditor />
+                      </ProForm.Item>
                     </BaseModel>
                   </span>
                 ),
                 align: "center",
               },
             ],
-            request: async (params) => {
-              try {
-                const res =
-                  await _getTermsCondition(/* { searchKey: termsConditionSearchKey, ...params } */);
-                if (res.status && Array.isArray(res.data)) {
-                  let dataToDisplay = res.data;
-                  if (termsConditionSearchKey) {
-                    dataToDisplay = Helper<any>({
-                      dataSource: res.data,
-                      keyWord: termsConditionSearchKey,
-                    });
-                  }
-                  return {
-                    success: true,
-                    data: dataToDisplay,
-                    total: dataToDisplay.length,
-                  };
-                }
-                message.error(
-                  typeof res.data === "string" ? res.data : "Failed to load T&C"
-                );
-                return { success: false, data: [] };
-              } catch (error: any) {
-                message.error(
-                  error?.data?.message || error?.message || "Failed to load T&C"
-                );
-                console.error("Load T&C error:", error);
-                return { success: false, data: [] };
-              }
-            },
           }}
         />
       </div>

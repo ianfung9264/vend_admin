@@ -161,24 +161,15 @@ export const _getPrivacyPolicy =
     });
   };
 
-export const _postPrivacyPolicy = async (values: {
-  context: string;
-}): Promise<API.DefaultObjectResponse> => {
-  return await request(`/api/v1/admin/private/privacy`, {
-    method: "post",
-    data: { context: values.context },
-  });
-};
-
 export const _putPrivacyPolicy = async (values: {
-  part: number;
   context: string;
 }): Promise<API.DefaultObjectResponse> => {
   return await request(`/api/v1/admin/private/privacy`, {
     method: "put",
-    data: { context: values.context, part: values.part },
+    data: { context: values.context },
   });
 };
+
 export const _getTermsCondition =
   async (): Promise<API.DefaultObjectResponse> => {
     return await request(`/api/v1/admin/private/termsCondition`, {
