@@ -177,22 +177,12 @@ export const _getTermsCondition =
     });
   };
 
-export const _postTermsCondition = async (values: {
-  context: string;
-}): Promise<API.DefaultObjectResponse> => {
-  return await request(`/api/v1/admin/private/termsCondition`, {
-    method: "post",
-    data: { context: values.context },
-  });
-};
-
 export const _putTermsCondition = async (values: {
-  part: number;
   context: string;
 }): Promise<API.DefaultObjectResponse> => {
   return await request(`/api/v1/admin/private/termsCondition`, {
     method: "put",
-    data: { context: values.context, part: values.part },
+    data: { context: values.context },
   });
 };
 

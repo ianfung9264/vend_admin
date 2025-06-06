@@ -9,7 +9,6 @@ import {
   _getCategory,
   _getPrivacyPolicy,
   _getTermsCondition,
-  _postTermsCondition,
   _putPrivacyPolicy,
   _putTermsCondition,
   _updateBannerVideo,
@@ -558,34 +557,34 @@ export default function Index() {
               setTermsConditionSearchKey(value),
           }}
         />
-        <BaseTable<any> // Assuming API_Setting.TermsConditionItem or similar
+        <BaseTable<any>
           searchKey={termsConditionSearchKey}
           requestFun={async () => {
             const res = await _getTermsCondition();
-            const arr = res.status && Array.isArray(res.data) ? res.data : [];
-            return { detail: arr } as any;
+            const dataArray = res.status && res.data ? [res.data] : [];
+            return { detail: dataArray } as any;
           }}
           props={{
-            headerTitle: "Terms & Conditions List",
-            rowKey: "part",
+            headerTitle: "Terms & Conditions",
+            rowKey: "_id",
             actionRef: termsConditionActionRef,
             optionsRender(props, defaultDom) {
               const createEntry = (
-                <BaseModel<API_Setting.CreateTermsCondition>
+                <BaseModel<any>
                   allowUpdate={false}
                   readOnly={false}
                   modalFormProps={{
                     onFinish: async (value) => {
                       try {
-                        await _postTermsCondition({ context: value.context });
-                        message.success("Created successfully");
+                        await _putTermsCondition({ context: value.context });
+                        message.success("Updated successfully");
                         termsConditionActionRef.current?.reload();
                         return true;
                       } catch (error: any) {
                         message.error(
                           error?.data?.message ||
                             error?.message ||
-                            "Create failed"
+                            "Update failed"
                         );
                         return false;
                       }
@@ -601,7 +600,7 @@ export default function Index() {
                       },
                     },
                   }}
-                  title="New Part"
+                  title="Update Terms & Conditions"
                 >
                   <ProForm.Item
                     label="Context"
@@ -616,19 +615,11 @@ export default function Index() {
             },
             columns: [
               {
-                key: "part",
-                title: "Part",
-                dataIndex: "part",
-                width: "10%",
-                align: "center",
-                sorter: (a, b) => a.part - b.part,
-              },
-              {
                 key: "context",
                 title: "Content",
                 dataIndex: "context",
                 align: "center",
-                width: "80%",
+                width: "90%",
                 render: (_, record) => (
                   <div
                     style={{ textAlign: "left", padding: 8 }}
@@ -641,59 +632,51 @@ export default function Index() {
                 dataIndex: "action",
                 key: "action",
                 render: (_, record) => (
-                  <span>
-                    <BaseModel<API_Setting.UpdateTermsCondition>
-                      readOnly={false}
-                      modalFormProps={{
-                        initialValues: {
-                          part: record.part,
-                          context: record.context,
+                  <BaseModel<any>
+                    readOnly={false}
+                    allowUpdate={true}
+                    modalFormProps={{
+                      initialValues: {
+                        context: record.context,
+                      },
+                      onFinish: async (value) => {
+                        try {
+                          await _putTermsCondition({
+                            context: value.context,
+                          });
+                          message.success("Updated successfully");
+                          termsConditionActionRef.current?.reload();
+                          return true;
+                        } catch (error: any) {
+                          message.error(
+                            error?.data?.message ||
+                              error?.message ||
+                              "Update failed"
+                          );
+                          return false;
+                        }
+                      },
+                      grid: true,
+                      submitter: {
+                        searchConfig: {
+                          resetText: "Cancel",
+                          submitText: "Confirm",
                         },
-                        onFinish: async (value) => {
-                          try {
-                            await _putTermsCondition({
-                              part: record.part, // Use record.part as identifier
-                              context: value.context,
-                            });
-                            message.success("Updated successfully");
-                            termsConditionActionRef.current?.reload();
-                            return true;
-                          } catch (error: any) {
-                            message.error(
-                              error?.data?.message ||
-                                error?.message ||
-                                "Update failed"
-                            );
-                            return false;
-                          }
-                        },
-                        grid: true,
-                        submitter: {
-                          searchConfig: {
-                            resetText: "Cancel",
-                            submitText: "Confirm",
-                          },
-                        },
-                      }}
-                      title="Edit Part"
+                      },
+                    }}
+                    title="Edit Content"
+                  >
+                    <ProForm.Item
+                      label="Content"
+                      name="context"
+                      style={{ marginLeft: 16 }}
+                      rules={[
+                        { required: true, message: "Context is required" },
+                      ]}
                     >
-                      <ProFormText
-                        colProps={{ span: 18 }}
-                        label="Part"
-                        name="part"
-                        readonly={true}
-                      />
-                      <ProForm.Item
-                        label="Context"
-                        name="context"
-                        rules={[
-                          { required: true, message: "Context is required" },
-                        ]}
-                      >
-                        <RichTextEditor />
-                      </ProForm.Item>
-                    </BaseModel>
-                  </span>
+                      <RichTextEditor />
+                    </ProForm.Item>
+                  </BaseModel>
                 ),
                 align: "center",
               },
