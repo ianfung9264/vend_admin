@@ -526,7 +526,13 @@ export default function Index() {
                     title="Edit Content"
                     allowUpdate={false}
                   >
-                    <RichTextEditor />
+                    <ProForm.Item
+                      label="Content"
+                      name="context"
+                      style={{ marginLeft: 16 }}
+                    >
+                      <RichTextEditor />
+                    </ProForm.Item>
                   </BaseModel>
                 ),
                 align: "center",

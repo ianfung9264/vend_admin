@@ -36,10 +36,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       Heading.configure({ levels: [1, 2] }),
       TextStyle,
     ],
-    content: value,
+    content: value || "",
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      onChange?.(html);
+      if (onChange) {
+        onChange(html.toString());
+      }
     },
   });
 
