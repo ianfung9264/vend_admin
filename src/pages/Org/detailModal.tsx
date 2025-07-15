@@ -95,11 +95,14 @@ export default function DetailModal({
 
           // Destructure to remove event_operation_license and _id.
           // _id is removed because it's passed as initData._id to the API.
+          // useable_wallet and total_cool_down are read-only fields that shouldn't be updated
           const {
             event_operation_license,
             _id,
             icon_url,
             adminId,
+            useable_wallet,
+            total_cool_down,
             ...intermediatePayload
           } = value as any;
 
@@ -272,10 +275,26 @@ export default function DetailModal({
           }}
         />
         <ProFormDigit
-          label={"Wallet Balance"}
+          label={"Total Balance (Withdrawable Wallet + Pending Balance)"}
           name="wallet"
           colProps={{ span: 8, offset: 0 }}
           fieldProps={{ prefix: "$ " }}
+        />
+
+        <ProFormDigit
+          label={"Withdrawable Balance"}
+          name="useable_wallet"
+          colProps={{ span: 8, offset: 6 }}
+          fieldProps={{ prefix: "$ " }}
+          readonly
+        />
+
+        <ProFormDigit
+          label={"Pending Balance"}
+          name="total_cool_down"
+          colProps={{ span: 8, offset: 0 }}
+          fieldProps={{ suffix: " days" }}
+          readonly
         />
 
         <ProFormText
