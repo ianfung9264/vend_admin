@@ -13,6 +13,7 @@ import {
   ProTable,
 } from "@ant-design/pro-components";
 import { Divider, Image, message, Progress } from "antd";
+import { _getEventByIdWithApplications } from "@/services/event/info";
 import { Line } from "@ant-design/charts";
 import { truncate } from "lodash";
 
@@ -57,20 +58,20 @@ export default function DetailModal({
         formRef: formRef,
         clearOnDestroy: true,
         onInit: async (values, form) => {
-          console.log("initData", initData);
+          try {
+            if (initData?._id) {
+              const res = await _getEventByIdWithApplications(initData._id);
+              if (res?.data) {
+                setData(res.data);
+                form.setFieldsValue(res.data);
+                return;
+              }
+            }
+          } catch (e) {
+            console.error("Failed to load full event details:", e);
+          }
           setData(initData);
           form.setFieldsValue(initData);
-          // if (initData?._id) {
-          // 	const res = await _getOrgById(initData._id);
-          // 	// res.data.beFollowedCount = res.data.beFollowedCount.length;
-          // 	console.log("res.data", res.data);
-          // 	setOrg(res.data);
-          // 	const rating_distribution = Object.keys(res.data.rating_distribution).map((key) => {
-          // 		return { star: key, count: res.data.rating_distribution[key] };
-          // 	});
-          // 	setRatingDistribution(rating_distribution);
-          // 	form.setFieldsValue(res.data);
-          // }
         },
         // onFinish: async (value) => {
         // 	console.log("original value", value);
