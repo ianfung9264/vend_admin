@@ -50,6 +50,10 @@ export default function Index() {
 					"Bank Routing Number": org.bank_routing_number || "",
 					"Bank Account Number": org.bank_account_number || "",
 					Amount: withdrawal.amount || "",
+					"Withdrawal Requested Date": withdrawal.createdAt ? new Date(withdrawal.createdAt).toLocaleString() : "",
+					// Event metadata is not present on withdrawal records; add placeholders if needed
+					"Event Name": "",
+					"Event Date": "",
 					taxpayer_identification_number: org.taxpayer_identification_number,
 					social_security_number: org.social_security_number,
 				};
@@ -59,6 +63,21 @@ export default function Index() {
 			const worksheet = XLSX.utils.json_to_sheet(exportData);
 			const workbook = XLSX.utils.book_new();
 			XLSX.utils.book_append_sheet(workbook, worksheet, "Pending Withdrawals");
+
+			// Auto-size columns so headers and values are fully visible
+			const keys = exportData.length > 0 ? Object.keys(exportData[0]) : [];
+			const colWidths = keys.map((k) => {
+				const headerLen = k.length;
+				const maxCellLen = exportData.reduce((max, row) => {
+					const v = row[k];
+					const str = v === undefined || v === null ? "" : String(v);
+					return Math.max(max, str.length);
+				}, 0);
+				// Add some padding; ensure minimum width for long headers like "Bank Routing Number"
+				const wch = Math.max(headerLen, maxCellLen, 22) + 2;
+				return { wch } as any;
+			});
+			(worksheet as any)["!cols"] = colWidths;
 
 			// Generate Excel file and trigger download
 			XLSX.writeFile(workbook, "pending_withdrawals.xlsx");
