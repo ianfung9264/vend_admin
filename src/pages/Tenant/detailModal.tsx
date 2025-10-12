@@ -19,12 +19,14 @@ import { Line } from "@ant-design/charts";
 import { _editVendorInfo, _getTenantById } from "@/services/tenant/info";
 
 export default function DetailModal({
-	initData,
-	mainTableReload,
+    initData,
+    mainTableReload,
+    trigger,
 }: {
-	mainTableReload: (() => Promise<void>) | undefined;
+    mainTableReload: (() => Promise<void>) | undefined;
 
-	initData?: Page_tenant.mainTable;
+    initData?: Page_tenant.mainTable;
+    trigger?: React.ReactElement;
 }) {
 	/**********************************狀態管理**********************************/
 	const formRef = useRef<ProFormInstance>();
@@ -56,7 +58,8 @@ export default function DetailModal({
 	// };
 	/**********************************異步函數**********************************/
 	return (
-		<BaseModel<Page_tenant.mainTable>
+        <BaseModel<Page_tenant.mainTable>
+            trigger={trigger}
 			modalFormProps={{
 				formRef: formRef,
 				clearOnDestroy: true,
@@ -151,7 +154,7 @@ export default function DetailModal({
 					}
 				},
 			}}
-			allowUpdate={true}
+            allowUpdate={false}
 			submit={formRef?.current?.submit}
 			initData={tenant}
 			title="Account Details"

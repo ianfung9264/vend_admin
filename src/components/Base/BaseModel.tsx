@@ -12,6 +12,7 @@ export default function BaseModel<T = Record<string, any>, U = Record<string, an
 	loading = false,
 	allowUpdate = true,
 	submit,
+	trigger,
 }: {
 	modalFormProps?: ModalFormProps<T, U>;
 	modalProps?: ModalProps;
@@ -22,6 +23,7 @@ export default function BaseModel<T = Record<string, any>, U = Record<string, an
 	allowUpdate?: boolean;
 	submit?: () => void;
 	loading?: boolean;
+	trigger?: ReactElement;
 }) {
 	/**********************************狀態管理**********************************/
 	const [readonly, setReadonly] = useState(true);
@@ -38,7 +40,9 @@ export default function BaseModel<T = Record<string, any>, U = Record<string, an
 		<ModalForm<T, U>
 			autoComplete={"nope"}
 			// trigger={<Button type="text" icon={<InfoCircleOutlined />}></Button>}
-			trigger={<Button type="text" icon={<InfoCircleOutlined />}></Button>}
+			trigger={
+				trigger ?? <Button type="text" icon={<InfoCircleOutlined />}></Button>
+			}
 			title={
 				<div className="w-[auto] pl-[0px] pr-[68px] pb-4 flex justify-between">
 					<div className="py-[4px]">{title}</div>

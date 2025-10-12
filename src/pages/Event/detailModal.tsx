@@ -20,10 +20,12 @@ import { truncate } from "lodash";
 export default function DetailModal({
   initData,
   mainTableReload,
+  trigger,
 }: {
   mainTableReload: (() => Promise<void>) | undefined;
 
   initData?: Page_org.mainTable;
+  trigger?: React.ReactElement;
 }) {
   /**********************************狀態管理**********************************/
   const formRef = useRef<ProFormInstance>();
@@ -219,6 +221,7 @@ export default function DetailModal({
   /**********************************異步函數**********************************/
   return (
     <BaseModel<Page_org.mainTable>
+      trigger={trigger}
       modalFormProps={{
         formRef: formRef,
         clearOnDestroy: true,

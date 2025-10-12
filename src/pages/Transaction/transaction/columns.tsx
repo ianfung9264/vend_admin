@@ -1,9 +1,12 @@
 import { ProColumns } from "@ant-design/pro-components";
+import React from "react";
 import { Tooltip } from "antd";
 // import DetailModal from "./detailModal";
 // import { LandownerAdvancedStatus, OtpStatusType } from "@/services/commonType";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { UnifiedTransaction } from ".";
+import EventDetailModal from "@/pages/Event/detailModal";
+import TenantDetailModal from "@/pages/Tenant/detailModal";
 
 export function AllTransactionsTableColumns({
 	mainTableReload,
@@ -44,6 +47,38 @@ export function AllTransactionsTableColumns({
 			align: "center",
 			sorter: (a, b) => (a.event_name || "").localeCompare(b.event_name || ""),
 			ellipsis: true,
+			render: (_, record) => {
+				const eventId = (record as any)?.original_application?.event_id ||
+					(record as any)?.original_refund?.application?.event_id;
+				if (!eventId) return record.event_name || "Event";
+				return (
+					<EventDetailModal
+						initData={{ _id: eventId, name: record.event_name }}
+						mainTableReload={mainTableReload}
+						trigger={<a>{record.event_name || "Event"}</a>}
+					/>
+				);
+			},
+		},
+		{
+			title: "Vendor Name",
+			dataIndex: "tenant_name",
+			key: "vendor_name",
+			align: "center",
+			sorter: (a, b) => (a.tenant_name || "").localeCompare(b.tenant_name || ""),
+			ellipsis: true,
+			render: (_, record) => {
+				const tenantId = (record as any)?.original_application?.tenant_id ||
+					(record as any)?.original_refund?.application?.tenant_id;
+				if (!tenantId) return record.tenant_name || "Vendor";
+				return (
+					<TenantDetailModal
+						initData={{ _id: tenantId, business_name: record.tenant_name }}
+						mainTableReload={mainTableReload}
+						trigger={<a>{record.tenant_name || "Vendor"}</a>}
+					/>
+				);
+			},
 		},
 		{
 			title: "Vendor Name",
