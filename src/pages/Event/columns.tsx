@@ -21,6 +21,136 @@ import VendorDetailModal from "./vendorDetailModal";
 import dayjs from "dayjs";
 import { _getOrgById } from "@/services/org/info";
 
+// Resolve timezone from event location (US-focused fallback), used for date display
+const US_STATE_TO_TZ: Record<string, string> = {
+  AL: "America/Chicago",
+  AK: "America/Anchorage",
+  AZ: "America/Phoenix",
+  AR: "America/Chicago",
+  CA: "America/Los_Angeles",
+  CO: "America/Denver",
+  CT: "America/New_York",
+  DE: "America/New_York",
+  FL: "America/New_York",
+  GA: "America/New_York",
+  HI: "Pacific/Honolulu",
+  IA: "America/Chicago",
+  ID: "America/Denver",
+  IL: "America/Chicago",
+  IN: "America/New_York",
+  KS: "America/Chicago",
+  KY: "America/New_York",
+  LA: "America/Chicago",
+  ME: "America/New_York",
+  MD: "America/New_York",
+  MA: "America/New_York",
+  MI: "America/Detroit",
+  MN: "America/Chicago",
+  MS: "America/Chicago",
+  MO: "America/Chicago",
+  MT: "America/Denver",
+  NE: "America/Chicago",
+  NV: "America/Los_Angeles",
+  NH: "America/New_York",
+  NJ: "America/New_York",
+  NM: "America/Denver",
+  NY: "America/New_York",
+  NC: "America/New_York",
+  ND: "America/Chicago",
+  OH: "America/New_York",
+  OK: "America/Chicago",
+  OR: "America/Los_Angeles",
+  PA: "America/New_York",
+  RI: "America/New_York",
+  SC: "America/New_York",
+  SD: "America/Chicago",
+  TN: "America/Chicago",
+  TX: "America/Chicago",
+  UT: "America/Denver",
+  VT: "America/New_York",
+  VA: "America/New_York",
+  WA: "America/Los_Angeles",
+  WV: "America/New_York",
+  WI: "America/Chicago",
+  WY: "America/Denver",
+  DC: "America/New_York",
+};
+
+const US_STATE_NAME_TO_CODE: Record<string, string> = {
+  ALABAMA: "AL",
+  ALASKA: "AK",
+  ARIZONA: "AZ",
+  ARKANSAS: "AR",
+  CALIFORNIA: "CA",
+  COLORADO: "CO",
+  CONNECTICUT: "CT",
+  DELAWARE: "DE",
+  FLORIDA: "FL",
+  GEORGIA: "GA",
+  HAWAII: "HI",
+  IDAHO: "ID",
+  ILLINOIS: "IL",
+  INDIANA: "IN",
+  IOWA: "IA",
+  KANSAS: "KS",
+  KENTUCKY: "KY",
+  LOUISIANA: "LA",
+  MAINE: "ME",
+  MARYLAND: "MD",
+  MASSACHUSETTS: "MA",
+  MICHIGAN: "MI",
+  MINNESOTA: "MN",
+  MISSISSIPPI: "MS",
+  MISSOURI: "MO",
+  MONTANA: "MT",
+  NEBRASKA: "NE",
+  NEVADA: "NV",
+  "NEW HAMPSHIRE": "NH",
+  "NEW JERSEY": "NJ",
+  "NEW MEXICO": "NM",
+  "NEW YORK": "NY",
+  "NORTH CAROLINA": "NC",
+  "NORTH DAKOTA": "ND",
+  OHIO: "OH",
+  OKLAHOMA: "OK",
+  OREGON: "OR",
+  PENNSYLVANIA: "PA",
+  "RHODE ISLAND": "RI",
+  "SOUTH CAROLINA": "SC",
+  "SOUTH DAKOTA": "SD",
+  TENNESSEE: "TN",
+  TEXAS: "TX",
+  UTAH: "UT",
+  VERMONT: "VT",
+  VIRGINIA: "VA",
+  WASHINGTON: "WA",
+  "WEST VIRGINIA": "WV",
+  WISCONSIN: "WI",
+  WYOMING: "WY",
+  "DISTRICT OF COLUMBIA": "DC",
+};
+
+function resolveTimezoneFromLocationFallback(location?: {
+  state?: string;
+  country?: string;
+} | null): string | null {
+  if (!location) return null;
+  const countryRaw = String(location.country || "").trim().toLowerCase();
+  const stateRaw = String(location.state || "").trim();
+  const stateUpper = stateRaw.toUpperCase();
+  const isUs =
+    countryRaw === "us" ||
+    countryRaw === "usa" ||
+    countryRaw === "united states" ||
+    countryRaw === "united states of america" ||
+    (!countryRaw && !!stateRaw);
+  if (isUs) {
+    const code = US_STATE_TO_TZ[stateUpper] ? stateUpper : US_STATE_NAME_TO_CODE[stateUpper];
+    if (code && US_STATE_TO_TZ[code]) return US_STATE_TO_TZ[code];
+  }
+  return null;
+}
+
 const organizerCache: Record<string, { _id: string; business_name?: string }> =
   {};
 
@@ -194,14 +324,21 @@ export function EventTableColumns({
       align: "center",
       defaultSortOrder: "descend",
       render: (_: any, record: API_EVENT.Event) => {
-        if (
-          record.schedule &&
-          record.schedule.length > 0 &&
-          record.schedule[0].start_time
-        ) {
-          return dayjs(record.schedule[0].start_time).format("YYYY-MM-DD");
+        const start = (record as any)?.schedule?.[0]?.start_time;
+        const loc = (record as any)?.location;
+        if (!start) return "N/A";
+        try {
+          const tz = resolveTimezoneFromLocationFallback(loc);
+          const d = new Date(start);
+          if (tz) {
+            // Format date-only in event timezone
+            return d.toLocaleDateString(undefined, { timeZone: tz });
+          }
+          // Fallback to machine local
+          return d.toLocaleDateString();
+        } catch {
+          return new Date(start).toLocaleDateString();
         }
-        return "N/A";
       },
       sorter: (a: API_EVENT.Event, b: API_EVENT.Event) => {
         const dateA =

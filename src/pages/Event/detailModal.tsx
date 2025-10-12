@@ -29,6 +29,154 @@ export default function DetailModal({
   const formRef = useRef<ProFormInstance>();
   const [data, setData] = useState<Record<string, any>>();
 
+  // Resolve timezone based on event location (US-focused fallback)
+  const US_STATE_TO_TZ: Record<string, string> = {
+    AL: "America/Chicago",
+    AK: "America/Anchorage",
+    AZ: "America/Phoenix",
+    AR: "America/Chicago",
+    CA: "America/Los_Angeles",
+    CO: "America/Denver",
+    CT: "America/New_York",
+    DE: "America/New_York",
+    FL: "America/New_York",
+    GA: "America/New_York",
+    HI: "Pacific/Honolulu",
+    IA: "America/Chicago",
+    ID: "America/Denver",
+    IL: "America/Chicago",
+    IN: "America/New_York",
+    KS: "America/Chicago",
+    KY: "America/New_York",
+    LA: "America/Chicago",
+    ME: "America/New_York",
+    MD: "America/New_York",
+    MA: "America/New_York",
+    MI: "America/Detroit",
+    MN: "America/Chicago",
+    MS: "America/Chicago",
+    MO: "America/Chicago",
+    MT: "America/Denver",
+    NE: "America/Chicago",
+    NV: "America/Los_Angeles",
+    NH: "America/New_York",
+    NJ: "America/New_York",
+    NM: "America/Denver",
+    NY: "America/New_York",
+    NC: "America/New_York",
+    ND: "America/Chicago",
+    OH: "America/New_York",
+    OK: "America/Chicago",
+    OR: "America/Los_Angeles",
+    PA: "America/New_York",
+    RI: "America/New_York",
+    SC: "America/New_York",
+    SD: "America/Chicago",
+    TN: "America/Chicago",
+    TX: "America/Chicago",
+    UT: "America/Denver",
+    VT: "America/New_York",
+    VA: "America/New_York",
+    WA: "America/Los_Angeles",
+    WV: "America/New_York",
+    WI: "America/Chicago",
+    WY: "America/Denver",
+    DC: "America/New_York",
+  };
+
+  const US_STATE_NAME_TO_CODE: Record<string, string> = {
+    ALABAMA: "AL",
+    ALASKA: "AK",
+    ARIZONA: "AZ",
+    ARKANSAS: "AR",
+    CALIFORNIA: "CA",
+    COLORADO: "CO",
+    CONNECTICUT: "CT",
+    DELAWARE: "DE",
+    FLORIDA: "FL",
+    GEORGIA: "GA",
+    HAWAII: "HI",
+    IDAHO: "ID",
+    ILLINOIS: "IL",
+    INDIANA: "IN",
+    IOWA: "IA",
+    KANSAS: "KS",
+    KENTUCKY: "KY",
+    LOUISIANA: "LA",
+    MAINE: "ME",
+    MARYLAND: "MD",
+    MASSACHUSETTS: "MA",
+    MICHIGAN: "MI",
+    MINNESOTA: "MN",
+    MISSISSIPPI: "MS",
+    MISSOURI: "MO",
+    MONTANA: "MT",
+    NEBRASKA: "NE",
+    NEVADA: "NV",
+    "NEW HAMPSHIRE": "NH",
+    "NEW JERSEY": "NJ",
+    "NEW MEXICO": "NM",
+    "NEW YORK": "NY",
+    "NORTH CAROLINA": "NC",
+    "NORTH DAKOTA": "ND",
+    OHIO: "OH",
+    OKLAHOMA: "OK",
+    OREGON: "OR",
+    PENNSYLVANIA: "PA",
+    "RHODE ISLAND": "RI",
+    "SOUTH CAROLINA": "SC",
+    "SOUTH DAKOTA": "SD",
+    TENNESSEE: "TN",
+    TEXAS: "TX",
+    UTAH: "UT",
+    VERMONT: "VT",
+    VIRGINIA: "VA",
+    WASHINGTON: "WA",
+    "WEST VIRGINIA": "WV",
+    WISCONSIN: "WI",
+    WYOMING: "WY",
+    "DISTRICT OF COLUMBIA": "DC",
+  };
+
+  const resolveTimezoneFromLocationFallback = (location?: {
+    city?: string;
+    state?: string;
+    country?: string;
+    zip?: string;
+  } | null): string | null => {
+    if (!location) return null;
+    const countryRaw = String(location.country || "").trim().toLowerCase();
+    const stateRaw = String(location.state || "").trim();
+    const stateUpper = stateRaw.toUpperCase();
+    const isUs =
+      countryRaw === "us" ||
+      countryRaw === "usa" ||
+      countryRaw === "united states" ||
+      countryRaw === "united states of america" ||
+      (!countryRaw && !!stateRaw);
+    if (isUs) {
+      const code = US_STATE_TO_TZ[stateUpper] ? stateUpper : US_STATE_NAME_TO_CODE[stateUpper];
+      if (code && US_STATE_TO_TZ[code]) return US_STATE_TO_TZ[code];
+    }
+    return null;
+  };
+
+  const formatInEventTimezone = (iso?: string | Date | null): string => {
+    if (!iso) return "N/A";
+    const tz = resolveTimezoneFromLocationFallback((data as any)?.location);
+    try {
+      const date = typeof iso === "string" ? new Date(iso) : iso;
+      if (tz) return date.toLocaleString(undefined, { timeZone: tz });
+      return date.toLocaleString();
+    } catch {
+      try {
+        return new Date(String(iso)).toLocaleString();
+      } catch {
+        return "N/A";
+      }
+    }
+  };
+
   React.useEffect(() => {
     if (data) {
       try {
@@ -459,7 +607,7 @@ export default function DetailModal({
                   label={`Schedule ${index + 1} Start Time`}
                   initialValue={
                     scheduleItem.start_time
-                      ? new Date(scheduleItem.start_time).toLocaleString()
+                      ? formatInEventTimezone(scheduleItem.start_time)
                       : "N/A"
                   }
                   name={scheduleItem.start_time}
@@ -470,7 +618,7 @@ export default function DetailModal({
                   label={`Schedule ${index + 1} End Time`}
                   initialValue={
                     scheduleItem.end_time
-                      ? new Date(scheduleItem.end_time).toLocaleString()
+                      ? formatInEventTimezone(scheduleItem.end_time)
                       : "N/A"
                   }
                   name={scheduleItem.end_time}
@@ -486,8 +634,8 @@ export default function DetailModal({
           readonly
           proFieldProps={{
             render: () => {
-              return data?.application_deadline
-                ? new Date(data.application_deadline).toLocaleString()
+              return (data as any)?.application_deadline
+                ? formatInEventTimezone((data as any).application_deadline)
                 : "N/A";
             },
           }}
