@@ -88,7 +88,7 @@ interface CommissionEntry {
 
 export default function Index() {
   /**********************************狀態管理**********************************/
-  const [tab, setTab] = useState("tab1");
+  const [tab, setTab] = useState("dashboard");
   const { refresh: TransactionFeeDataRefresh, loading: isDashboardLoading } =
     useRequest(_getAllTransactionFee, {
       onSuccess: (res) => {
@@ -732,6 +732,7 @@ export default function Index() {
                   title: "Application total amount",
                   value: applicationFeeTotalAmount,
                   prefix: "$",
+                  precision: 2,
                 }}
               />
               <StatisticCard
@@ -740,6 +741,7 @@ export default function Index() {
                   title: "Commission total amount",
                   value: totalVendpopupsCommission,
                   prefix: "$",
+                  precision: 2,
                 }}
               />
             </ProCard>
@@ -751,6 +753,7 @@ export default function Index() {
                 title: "Total Site Earnings",
                 value: totalAmount, // This already sums applicationFeeTotalAmount and totalVendpopupsCommission
                 prefix: "$",
+                precision: 2,
                 valueStyle: { color: "#1890ff" }, // Optional: make it stand out
               }}
             />

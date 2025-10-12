@@ -363,8 +363,15 @@ export default function Index() {
                 const processApplicationData = (
                   apps: API_APPLICATION.Application[]
                 ) => {
+                  const livePattern = /^cs_live_/i;
                   apps.forEach((app: API_APPLICATION.Application) => {
-                    if (app.application_fee_status === "Paid") {
+                    // APPLICATION_FEE: include only live-mode application fee sessions
+                    if (
+                      app.application_fee_status === "Paid" &&
+                      livePattern.test(
+                        (app as any).application_fee_session_id || ""
+                      )
+                    ) {
                       combinedTransactions.push({
                         _id: `app_fee_${app._id}`,
                         transaction_type: "APPLICATION_FEE",
@@ -379,9 +386,13 @@ export default function Index() {
                         stall_payment_status: app.stall_payment_status,
                       });
                     }
+                    // STALL_PAYMENT: include only live-mode stall payment sessions
                     if (
-                      app.stall_payment_status === "Paid" ||
-                      app.stall_payment_status === "Refunded"
+                      (app.stall_payment_status === "Paid" ||
+                        app.stall_payment_status === "Refunded") &&
+                      livePattern.test(
+                        (app as any).stall_payment_session_id || ""
+                      )
                     ) {
                       combinedTransactions.push({
                         _id: `stall_pay_${app._id}`,
