@@ -29,6 +29,23 @@ export default function DetailModal({
   const formRef = useRef<ProFormInstance>();
   const [data, setData] = useState<Record<string, any>>();
 
+  React.useEffect(() => {
+    if (data) {
+      try {
+        console.log("[EventDetail] data updated", data, {
+          creator: (data as any)?.creator,
+          creatorType: typeof (data as any)?.creator,
+          creatorKeys:
+            (data as any)?.creator && typeof (data as any).creator === "object"
+              ? Object.keys((data as any).creator)
+              : null,
+        });
+      } catch (e) {
+        console.warn("[EventDetail] error logging data update", e);
+      }
+    }
+  }, [data]);
+
   /**********************************狀態管理**********************************/
   /**********************************組件初始化**********************************/
   const groupStyle: React.CSSProperties = {
@@ -59,19 +76,139 @@ export default function DetailModal({
         clearOnDestroy: true,
         onInit: async (values, form) => {
           try {
+            console.log("[EventDetail] onInit called", {
+              initData,
+              values,
+            });
             if (initData?._id) {
+              console.log(
+                "[EventDetail] fetching event by id with applications",
+                initData._id
+              );
               const res = await _getEventByIdWithApplications(initData._id);
               if (res?.data) {
-                setData(res.data);
-                form.setFieldsValue(res.data);
+                console.log("[EventDetail] fetch result", {
+                  raw: res,
+                  data: res?.data,
+                  creator: res?.data?.creator,
+                  creatorType: typeof res?.data?.creator,
+                  creatorKeys:
+                    res?.data?.creator &&
+                    typeof res?.data?.creator === "object"
+                      ? Object.keys(res.data.creator)
+                      : null,
+                });
+
+                // Hydrate organizer (creator) with full org details
+                let hydrated = res.data as any;
+                try {
+                  const creatorVal = (res.data as any)?.creator;
+                  const organizerId =
+                    typeof creatorVal === "string"
+                      ? creatorVal
+                      : creatorVal?._id;
+                  if (organizerId) {
+                    const orgRes = await _getOrgById(organizerId);
+                    if (orgRes?.data) {
+                      const org = orgRes.data as any;
+                      hydrated = {
+                        ...res.data,
+                        creator: {
+                          ...(typeof creatorVal === "object" ? creatorVal : {}),
+                          ...org,
+                          // Map display name for the form field expecting creator.name
+                          name:
+                            (org && org.business_name) ||
+                            (typeof creatorVal === "object"
+                              ? creatorVal.business_name
+                              : undefined),
+                        },
+                      };
+                      console.log("[EventDetail] hydrated creator with org", {
+                        organizerId,
+                        orgKeys: Object.keys(org || {}),
+                        creatorAfter: hydrated.creator,
+                      });
+                    }
+                  }
+                } catch (hydrateErr) {
+                  console.warn(
+                    "[EventDetail] failed to hydrate organizer from org id",
+                    hydrateErr
+                  );
+                }
+
+                setData(hydrated);
+                form.setFieldsValue(hydrated);
+                try {
+                  console.log(
+                    "[EventDetail] form fields set (from fetched data)",
+                    form.getFieldsValue()
+                  );
+                } catch (formErr) {
+                  console.warn("[EventDetail] unable to read form values", formErr);
+                }
                 return;
               }
             }
           } catch (e) {
             console.error("Failed to load full event details:", e);
           }
-          setData(initData);
-          form.setFieldsValue(initData);
+          console.warn("[EventDetail] Falling back to initData", {
+            initData,
+            creator: (initData as any)?.creator,
+            creatorType: typeof (initData as any)?.creator,
+            creatorKeys:
+              (initData as any)?.creator &&
+              typeof (initData as any).creator === "object"
+                ? Object.keys((initData as any).creator)
+                : null,
+          });
+          // Attempt to hydrate fallback data as well
+          let fallbackHydrated: any = initData;
+          try {
+            const creatorVal = (initData as any)?.creator;
+            const organizerId =
+              typeof creatorVal === "string" ? creatorVal : creatorVal?._id;
+            if (organizerId) {
+              const orgRes = await _getOrgById(organizerId);
+              if (orgRes?.data) {
+                const org = orgRes.data as any;
+                fallbackHydrated = {
+                  ...(initData as any),
+                  creator: {
+                    ...(typeof creatorVal === "object" ? creatorVal : {}),
+                    ...org,
+                    name:
+                      (org && org.business_name) ||
+                      (typeof creatorVal === "object"
+                        ? creatorVal.business_name
+                        : undefined),
+                  },
+                };
+                console.log("[EventDetail] hydrated fallback creator with org", {
+                  organizerId,
+                  orgKeys: Object.keys(org || {}),
+                  creatorAfter: fallbackHydrated.creator,
+                });
+              }
+            }
+          } catch (hydrateErr) {
+            console.warn(
+              "[EventDetail] failed to hydrate fallback organizer",
+              hydrateErr
+            );
+          }
+          setData(fallbackHydrated);
+          form.setFieldsValue(fallbackHydrated);
+          try {
+            console.log(
+              "[EventDetail] form fields set (from initData)",
+              form.getFieldsValue()
+            );
+          } catch (formErr) {
+            console.warn("[EventDetail] unable to read form values", formErr);
+          }
         },
         // onFinish: async (value) => {
         // 	console.log("original value", value);
@@ -221,11 +358,25 @@ export default function DetailModal({
           label={"Organizer Total Balance Amount"}
           name={["creator", "wallet"]}
           colProps={{ span: 12, offset: 0 }}
+          proFieldProps={{
+            render: () => {
+              const amount = Number((data as any)?.creator?.wallet ?? 0);
+              return isFinite(amount) ? amount.toFixed(2) : "0.00";
+            },
+          }}
+          readonly
         />
         <ProFormText
           label={"Organizer Withdrawable Balance Amount"}
           name={["creator", "useable_wallet"]}
           colProps={{ span: 12, offset: 0 }}
+          proFieldProps={{
+            render: () => {
+              const amount = Number((data as any)?.creator?.useable_wallet ?? 0);
+              return isFinite(amount) ? amount.toFixed(2) : "0.00";
+            },
+          }}
+          readonly
         />
         <ProFormText
           label={"Organizer Pending Balance Amount"}
@@ -233,10 +384,10 @@ export default function DetailModal({
           colProps={{ span: 12, offset: 0 }}
           proFieldProps={{
             render: () => {
-              return (
-                (Number(data?.creator?.wallet) || 0) -
-                (Number(data?.creator?.useable_wallet) || 0)
-              );
+              const total = Number((data as any)?.creator?.wallet ?? 0);
+              const usable = Number((data as any)?.creator?.useable_wallet ?? 0);
+              const pending = (isFinite(total) ? total : 0) - (isFinite(usable) ? usable : 0);
+              return (isFinite(pending) ? pending : 0).toFixed(2);
             },
           }}
           readonly
@@ -347,9 +498,10 @@ export default function DetailModal({
           readonly
           proFieldProps={{
             render: () => {
-              return data?.invoice_effective_duration
-                ? new Date(data.invoice_effective_duration).toLocaleString()
-                : "N/A";
+              const daysRaw = (data as any)?.invoice_effective_duration;
+              const daysNum = Number(daysRaw);
+              if (!isFinite(daysNum) || daysNum <= 0) return "N/A";
+              return `${daysNum} ${daysNum === 1 ? "day" : "days"}`;
             },
           }}
         />
@@ -377,7 +529,7 @@ export default function DetailModal({
                     style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
                   >
                     <div>
-                      <strong>Price:</strong> ${ticket.price}
+                      <strong>Price:</strong> ${Number(ticket.price || 0).toFixed(2)}
                     </div>
                     <div>
                       <strong>Quantity:</strong> {ticket.quantity}
@@ -418,7 +570,7 @@ export default function DetailModal({
                     style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
                   >
                     <div>
-                      <strong>Price:</strong> ${addon.price}
+                      <strong>Price:</strong> ${Number(addon.price || 0).toFixed(2)}
                     </div>
                     <div>
                       <strong>Quantity:</strong> {addon.quantity}

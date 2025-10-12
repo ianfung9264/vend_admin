@@ -69,7 +69,7 @@ declare namespace API_EVENT {
     category: string[]; // 类别的唯一标识符数组
     description?: string; // 事件描述
     tags?: string[]; // 标签数组
-    invoice_effective_duration: Date; // 发票有效期
+    invoice_effective_duration: number; // Effective invoice payment duration in days
     application_deadline: Date; // 申请截止日期
     set_up_detail: string; // 设置详情
     additional_detail?: string; // 可选附加详情
