@@ -583,6 +583,7 @@ export default function Index() {
                 width: "20%",
                 align: "center",
                 ellipsis: true,
+                sorter: (a, b) => a.event_name.localeCompare(b.event_name),
               },
               {
                 title: "Event ID",
@@ -591,11 +592,13 @@ export default function Index() {
                 align: "center",
                 ellipsis: true,
                 copyable: true,
+                sorter: (a, b) => a.event_id.localeCompare(b.event_id),
               },
               {
                 title: "Application Count",
                 dataIndex: "applications",
                 align: "center",
+                sorter: (a, b) => a.applications.length - b.applications.length,
                 render: (_, record: EventFeeSummary) =>
                   record.applications.length,
               },
@@ -627,6 +630,7 @@ export default function Index() {
                 title: "Total Fee",
                 dataIndex: "total_fee",
                 align: "center",
+                sorter: (a, b) => a.total_fee - b.total_fee,
                 render: (_, record: EventFeeSummary) =>
                   `$${record.total_fee.toFixed(2)}`,
               },
